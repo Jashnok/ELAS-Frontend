@@ -23,7 +23,7 @@ receive access to a branch and should only work on the project inside ```Project
 │   README.md
 │
 └───src
-    │   index.js
+    │   InteractiveTree.js
     │   reportWebVitals.js
     │   setupTests.js
     │

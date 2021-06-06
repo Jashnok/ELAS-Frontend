@@ -56,7 +56,7 @@ export default function App() {
               <AuthorizedRoute isAuth={isLoggedIn} path='/intogen' component={Intogen} classes={classes}/>
               <AuthorizedRoute isAuth={isLoggedIn} path='/spoa' component={Spoa} classes={classes}/>
               <AuthorizedRoute isAuth={isLoggedIn} path='/studysoon' component={StudySoon} classes={classes}/>
-                <AuthorizedRoute isAuth={isLoggedIn} path='/selectpage' component={SelectPage} classes={classes}/>
+              <AuthorizedRoute isAuth={isLoggedIn} path='/selectpage' component={SelectPage} classes={classes}/>
             </>
           )}
           <Route render={() => <Redirect to={{pathname: "/"}}/>}/>

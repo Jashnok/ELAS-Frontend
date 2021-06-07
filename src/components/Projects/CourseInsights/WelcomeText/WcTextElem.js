@@ -4,11 +4,9 @@ import {FaBars} from 'react-icons/fa'
 
 export const Box =styled.nav`
     background: #007bff;
-    height: 300px;
+    height: max-content;
     display: block;
     align-content: center;
-    padding-top:20px;
-
 `
 export const Welc = styled.nav`
     color: #fff;
@@ -17,6 +15,8 @@ export const Welc = styled.nav`
     text-align:center;
     text-decoration: none;
     height: 40%;
+    padding-bottom: 20px;
+    padding-top: 20px;
     font-size: 2.8rem;
 `
 export const Nxt = styled.nav`
@@ -26,6 +26,8 @@ export const Nxt = styled.nav`
     text-align:center;
     text-decoration: none;
     height:20%;
+    padding-bottom: 20px;
+    padding-top: 20px;
     font-size: 1.3rem;
 `
 export const Lst = styled.nav`
@@ -34,7 +36,8 @@ export const Lst = styled.nav`
     align-items: center;
     text-align:center;
     text-decoration: none;
-    padding: 0 1rem;
+    padding-bottom: 80px;
+    padding-top: 20px;
     height: 20%;
     font-size: 1rem;
 `

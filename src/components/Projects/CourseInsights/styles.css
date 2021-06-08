@@ -1,8 +1,10 @@
-#next{
-    height: 20px;
-    width: 20px;
+#back{
+    width: 100px;
+    align-items: center;
 }
 
-#block{
-    padding-bottom: 500px;
+#next{
+    width: 10px;
+    margin-right: 50px;
 }
+

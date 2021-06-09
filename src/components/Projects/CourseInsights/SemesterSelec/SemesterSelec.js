@@ -3,6 +3,8 @@ import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 
 
+
+
 export default function SemesterSelec () {
     
     const semesters = [
@@ -13,8 +15,7 @@ export default function SemesterSelec () {
         { semester: 'Wintersemester 2020/2021'},
         { semester: 'Sommersemester 2021'},
     ];
-    
-    
+
     return (
 
         <Autocomplete

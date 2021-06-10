@@ -3,7 +3,7 @@ import {NavLink as Link} from 'react-router-dom'
 import {FaBars} from 'react-icons/fa'
 
 export const Box =styled.nav`
-    background: #007bff;
+    background: #3f51b5;
     height: max-content;
     display: block;
     align-content: center;
@@ -40,4 +40,16 @@ export const Lst = styled.nav`
     padding-top: 20px;
     height: 20%;
     font-size: 1rem;
+`
+export const Selec =styled.nav`
+    height: max-content;
+    display: block;
+    align-content: center;
+
+`
+export const ButSelec =styled.nav`
+    height: max-content;
+    display: flex;
+    align-content: center;
+
 `

@@ -51,5 +51,7 @@ export const ButSelec =styled.nav`
     height: max-content;
     display: flex;
     align-content: center;
-
+`
+export const OrderSelecChart =styled.nav`
+    display: flex;
 `

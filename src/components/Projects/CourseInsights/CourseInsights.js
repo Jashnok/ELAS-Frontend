@@ -1,9 +1,11 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, useHistory} from 'react-router-dom';
 import SearchBox from './SearchBoxStart/SearchBox';
+import Barchart from './SearchBoxStart/BarChart';
 import WelcomeText from './WelcomeText/index'
-import {Selec, ButSelec} from './WelcomeText/WcTextElem'
-import {Button, Grid} from "@material-ui/core";
+import {Selec, ButSelec, OrderSelecChart} from './WelcomeText/WcTextElem'
+import {Button, Grid} from "@material-ui/core"; 
+import "./styles.css"
 import SemesterSelec from './SemesterSelec/SemesterSelec'
 
 
@@ -15,21 +17,22 @@ export default function CourseInsights(){
 
 
     return (
-      <Router>
-        
-        <WelcomeText/> 
 
+       <React.Fragment>
+        <WelcomeText/> 
+      <OrderSelecChart>
         <Selec>
 
           <div style={{paddingTop:20}}> 
             <SearchBox />   
           </div>
           <ButSelec>
-            <div style={{paddingTop:20}}>
+            <div style={{paddingTop:40}}>
             <SemesterSelec/>
             </div>
 
-           <div style={{paddingTop:55, paddingLeft:30}}>
+           <div style={{paddingTop:75, paddingLeft:30}}>  
+
               <Button id = "next" 
                 variant="contained" 
                 style={{backgroundColor: "#3f51b5",color:"#fff", width: 70 }}
@@ -38,9 +41,10 @@ export default function CourseInsights(){
               </Button>
             </div>  
           </ButSelec>
-        </Selec>
-
-      </Router>
+          </Selec>
+          <Barchart/>
+        </OrderSelecChart>
+        </React.Fragment> 
     );
   
 }

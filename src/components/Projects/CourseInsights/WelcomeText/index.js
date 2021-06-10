@@ -14,11 +14,3 @@ const WelcomeText = () => {
 }
 
 export default WelcomeText
-
-
-
-//<Box>
-//<Welc activeStyle>Welcome to CourseInsights</Welc>
-//<Nxt activeStyle>We relieve you from painful planing of your study at Uni-Due!</Nxt>
-//<Lst activeStyle>(Only for studies that are part of "Ingeneurswissenschaften" right now)</Lst>
-//</Box> 

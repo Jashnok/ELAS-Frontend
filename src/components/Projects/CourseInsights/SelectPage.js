@@ -5,7 +5,7 @@ import {BrowserRouter as Router, useHistory} from "react-router-dom";
 import {Button, Container} from "@material-ui/core";
 import TreeFilter from "./TreeFilter/TreeFilter";
 import './styles.css';
-import OSINTTree from "./OSINTTree/OSINTTree";
+
 
 
 
@@ -22,7 +22,6 @@ export default function SelectPage(){
             <Router>
                 <Step1/>
                 <TreeFilter/>
-                <OSINTTree/>
                 <br/> <br/> <br/> <br/>
                 <Container id="next">
                     <Button variant="contained"

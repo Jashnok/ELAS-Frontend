@@ -1,5 +1,10 @@
+#back{
+    width: 100px;
+    align-items: center;
+}
+
 #next{
-    height: 20px;
-    width: 20px;
+    width: 10px;
+    margin-right: 50px;
 }
 

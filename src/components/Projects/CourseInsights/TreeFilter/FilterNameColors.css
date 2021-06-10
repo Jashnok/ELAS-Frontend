@@ -1,0 +1,28 @@
+#vorlesung{
+    color: purple;
+}
+
+#uebung{
+    color: blue;
+}
+
+#praktikum{
+    color: green;
+}
+
+#vorlesung_uebung{
+    color: red;
+}
+
+#uebung_praktikum{
+    color: darkcyan;
+}
+
+#seminar{
+    color: orange;
+}
+
+#legend{
+    padding-top: 5px;
+    color: black;
+}

@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { BrowserRouter as Router, useHistory} from 'react-router-dom';
 import SearchBox from './SearchBoxStart/SearchBox';
-import Barchart from './SearchBoxStart/BarChart';
+import BarChart from './SearchBoxStart/BarChart';
 import WelcomeText from './WelcomeText/index'
 import {Selec, ButSelec, OrderSelecChart} from './WelcomeText/WcTextElem'
 import {Button, Grid} from "@material-ui/core"; 
@@ -13,7 +13,7 @@ export default function CourseInsights(){
 
   const history = useHistory();
   const isLoggedIn = !!sessionStorage.getItem('elas_userLoggedIn');
-
+  
   
   
 
@@ -42,9 +42,10 @@ export default function CourseInsights(){
             </div>  
           </ButSelec>
           </Selec>
-          <Barchart/>
+
         </OrderSelecChart>
         </React.Fragment> 
     );
   
 }
+//          <Barchart/> line 45

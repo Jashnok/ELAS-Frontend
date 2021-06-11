@@ -10,7 +10,7 @@ import BarChart from "./BarChart"
 export default function SearchBox() {
     
 
-    const [programObject, setValue] = React.useState();
+    const [programObject, setValue] = React.useState(undefined);
     const [stats, setStats] = React.useState();
 
     console.log({programObject});
@@ -29,6 +29,8 @@ export default function SearchBox() {
             style={{ width:500 }}
             renderInput={(params) => <TextField {...params} label="Search for your studyprogram here" variant="outlined"/>} 
         />
+        {programObject ? <BarChart studyprogram={programObject}/> : <></> }
+        
         </React.Fragment>
     );
 }

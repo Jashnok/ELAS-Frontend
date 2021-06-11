@@ -13,9 +13,14 @@ export default function CourseInsights(){
 
   const history = useHistory();
   const isLoggedIn = !!sessionStorage.getItem('elas_userLoggedIn');
+<<<<<<< HEAD
   
   
   
+=======
+
+
+>>>>>>> 7c444e5bad981bb47af97069ff9cdcbe0301d890
 
     return (
 
@@ -33,11 +38,12 @@ export default function CourseInsights(){
             </div>
 
            <div style={{paddingTop:75, paddingLeft:30}}>  
+
               <Button id = "next" 
                 variant="contained" 
                 style={{backgroundColor: "#3f51b5",color:"#fff", width: 70 }}
                 onClick={isLoggedIn ? () => history.push('/selectpage') : () => history.push('/login')}>
-                next 
+                next
               </Button>
             </div>  
           </ButSelec>

@@ -4,16 +4,23 @@ import SearchBox from './SearchBoxStart/SearchBox';
 import Barchart from './SearchBoxStart/BarChart';
 import WelcomeText from './WelcomeText/index'
 import {Selec, ButSelec, OrderSelecChart} from './WelcomeText/WcTextElem'
-import {Button, Grid} from "@material-ui/core"; 
+import {Button, Grid, makeStyles} from "@material-ui/core";
 import "./styles.css"
 import SemesterSelec from './SemesterSelec/SemesterSelec'
 
+
+const useStyles = makeStyles({
+    next: {
+        width: 10,
+        marginRight: 50,
+    },
+});
 
 export default function CourseInsights(){
 
   const history = useHistory();
   const isLoggedIn = !!sessionStorage.getItem('elas_userLoggedIn');
-
+  const classes = useStyles();
 
 
     return (
@@ -33,9 +40,9 @@ export default function CourseInsights(){
 
            <div style={{paddingTop:75, paddingLeft:30}}>  
 
-              <Button id = "next" 
+              <Button className={classes.next}
                 variant="contained" 
-                style={{backgroundColor: "#3f51b5",color:"#fff", width: 70 }}
+                style={{backgroundColor: "#3c56ba",color:"#fff", width: 70 }}
                 onClick={isLoggedIn ? () => history.push('/selectpage') : () => history.push('/login')}>
                 next
               </Button>

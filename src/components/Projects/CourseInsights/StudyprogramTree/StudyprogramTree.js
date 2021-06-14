@@ -4,11 +4,28 @@ import TreeView from '@material-ui/lab/TreeView';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import TreeItem from '@material-ui/lab/TreeItem';
+import {Grid} from "@material-ui/core";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles({
     root: {
         maxWidth: 400,
     },
+    root2: {
+        flexGrow: 1,
+    },
+    treebox:{
+        display: "block",
+        background: "#3591f3",
+        height:"max-content",
+        width:"max-content",
+    },
+    markedbox:{
+        display: "block",
+        background: "lightblue",
+        height:"max-content",
+        width:"max-content",
+    }
 });
 
 const select = (props) => {
@@ -54,17 +71,26 @@ function StudyprogramTree(props) {
     );
 
     return (
-        <TreeView
-            className={classes.root}
-            defaultCollapseIcon={<ExpandMoreIcon />}
-            defaultEndIcon={<ChevronRightIcon/>}
-            defaultExpanded={[props.studyprogram]}
-            defaultExpandIcon={<ChevronRightIcon />}
+       <Grid container >
+           <Grid item xs={6}>
+                <TreeView
+                    className={classes.root}
+                    defaultCollapseIcon={<ExpandMoreIcon />}
+                    defaultExpanded={[props.studyprogram]}
+                    defaultExpandIcon={<ChevronRightIcon />}
+                >
+                 <Box className={classes.treebox} >
+                    {renderTree(study)}
+                 </Box>
+                </TreeView>
+           </Grid>
+           <Grid item xs={6}>
+                <Box className={classes.markedbox}>
 
-        >
-            {renderTree(study)}
+                </Box>
+           </Grid>
+       </Grid>
 
-        </TreeView>
     );
 }
 export default StudyprogramTree;

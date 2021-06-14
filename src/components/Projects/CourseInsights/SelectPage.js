@@ -3,7 +3,7 @@ import {BrowserRouter as Router, useHistory} from "react-router-dom";
 import {Button, Container} from "@material-ui/core";
 import TreeFilter from "./TreeFilter/TreeFilter";
 import StudyprogramTree from "./StudyprogramTree/StudyprogramTree";
-import studyprogram from "./SearchBoxStart/data";
+import studyprogram from './data';
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";

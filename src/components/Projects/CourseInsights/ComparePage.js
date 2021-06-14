@@ -1,7 +1,7 @@
 import {BrowserRouter as Router, useHistory} from "react-router-dom";
 import {Button, Container, Typography} from "@material-ui/core";
 import React from "react";
-import studyprogram from "./SearchBoxStart/data";
+import studyprogram from './data';
 import {makeStyles} from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 

@@ -5,24 +5,15 @@ import {BrowserRouter as Router, useHistory} from "react-router-dom";
 import {Button, Container} from "@material-ui/core";
 /* import TreeFilter from "./TreeFilter/TreeFilter"; */
 import './styles.css';
-/* import OSINTTree from "./OSINTTree/OSINTTree"; */
-
-
-
-
 
 export default function SelectPage(){
     const history = useHistory();
     const isLoggedIn = !!sessionStorage.getItem('elas_userLoggedIn');
 
-
-
     return (
-
             <Router>
                 <Step1/>
-{/*                 <TreeFilter/>
-                <OSINTTree/> */}
+                <TreeFilter/>
                 <br/> <br/> <br/> <br/>
                 <Container id="next">
                     <Button variant="contained"
@@ -32,8 +23,6 @@ export default function SelectPage(){
                     </Button>
                 </Container>
 
-
-
                 <Container id = "back">
                     <Button variant="contained"
                             style={{backgroundColor: "#3f51b5",color:"#fff", width: 70}}
@@ -41,8 +30,6 @@ export default function SelectPage(){
                         back
                     </Button>
                 </Container>
-
-
             </Router>
     );
 

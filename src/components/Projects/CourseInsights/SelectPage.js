@@ -44,15 +44,12 @@ const useStyles = makeStyles({
     },
 });
 
-
 export default function SelectPage(){
     const history = useHistory();
     const isLoggedIn = !!sessionStorage.getItem('elas_userLoggedIn');
     const classes = useStyles();
 
-
     return (
-
             <Router>
                 <Box className = {classes.box}>
 
@@ -72,6 +69,7 @@ export default function SelectPage(){
                 </Container>
 
                 <Container className={classes.back}>
+
                     <Button variant="contained"
                             style={{backgroundColor: "#3c56ba",color:"#fff", width: 70}}
                             onClick={isLoggedIn ? () => history.push('/courseinsights') : () => history.push('/login')}>

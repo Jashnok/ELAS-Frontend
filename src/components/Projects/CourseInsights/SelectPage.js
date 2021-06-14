@@ -3,9 +3,9 @@ import Step1 from "./Step1Select/Step1";
 import InteractiveTree from "./InteractiveTree/InteractiveTree";
 import {BrowserRouter as Router, useHistory} from "react-router-dom";
 import {Button, Container} from "@material-ui/core";
-import TreeFilter from "./TreeFilter/TreeFilter";
+/* import TreeFilter from "./TreeFilter/TreeFilter"; */
 import './styles.css';
-import OSINTTree from "./OSINTTree/OSINTTree";
+/* import OSINTTree from "./OSINTTree/OSINTTree"; */
 
 
 
@@ -21,8 +21,8 @@ export default function SelectPage(){
 
             <Router>
                 <Step1/>
-                <TreeFilter/>
-                <OSINTTree/>
+{/*                 <TreeFilter/>
+                <OSINTTree/> */}
                 <br/> <br/> <br/> <br/>
                 <Container id="next">
                     <Button variant="contained"

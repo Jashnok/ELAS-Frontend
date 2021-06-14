@@ -9,8 +9,8 @@ import {
   axisRight,
   scaleBand,
   scaleOrdinal,
+  axisLeft,
 } from "d3";
-import studyprogram from "./data";
 
 function BarChart(props) {
   const [data, setData] = useState([25, 30, 45, 60, 20, 65, 75]);
@@ -38,59 +38,50 @@ function BarChart(props) {
 
   console.log(test);
 
-  test.map((value, index)=>console.log(Object.values(value)[0]));
+  test.map((value, index)=>console.log(Object.keys(value)[0]));
+
+  console.log(test.map((value, index) => Object.keys(value)[0]));
 
   useEffect(() => {
+
     const svg = select(svgRef.current);
 
-    const xScale = scaleBand()
-      .domain(random.map((value, index) => index)) //random.map((value, index) => index
-      .range([0, 600])
-      .padding(0.5);
+    const xScale =  scaleLinear()
+    .domain([0, 60])
+    .range([150, -130]);
 
-    const yScale = scaleLinear()
-                        .domain([0, 60])
-                        .range([150, -130]);
+    const yScale = scaleBand()
+    .domain(random.map((value, index) =>index )) //random.map((value, index) => index
+    .range([0, 600])
+    .padding(0.5);
 
     //add a colorscale
+    const tickLabels= test.map((value, index) => Object.keys(value)[0]);
 
-    const xAxis = axisBottom(xScale).ticks(random.length);
+    const yAxis = axisLeft(yScale).ticks(test.length).tickFormat((value,index) => tickLabels[index] );
 
-    svg.select(".x-axis").style("transform", "translateY(300px)").call(xAxis);
+    svg.select(".y-axis").style("transform", "translateX(200px) ").call(yAxis);
 
     svg
       .selectAll(".bar")
       .data(random)
       .join("rect")
       .attr("class", "bar")
-      .style("transform", "scale(1, -1)translateY(-150px)")
+      .style("transform", "translateX(350px)")
       .attr("fill", "#3f51b5")
-      .attr("x", (value, index) => xScale(index))
-      .attr("y", -150)
-      .attr("width", xScale.bandwidth())
+      .attr("height",yScale.bandwidth())
       .transition()
-      .attr("height", (value) => 150 - yScale(value));
+      .attr("x", -150)
+      .attr("y", (value,index) => yScale(index))
+      .attr("width", (value) => 150 - xScale(value));
   }, [random]);
+
   return (
     <React.Fragment>
-      <div style={{ paddingTop: 20, paddingLeft: 200 }}>
-        <svg ref={svgRef} width={800} height={400}>
-          <g className="x-axis" />
+        <svg ref={svgRef} width={800} height={700}>
           <g className="y-axis" />
         </svg>
-      </div>
     </React.Fragment>
   );
 }
 export default BarChart;
-
-//<div style={{paddingTop:20}}>
-//<button onClick={() => setData(data.map(value => value + 5))}>
-//    Update Data
-//</button>
-//</div>
-//<div style={{paddingTop:20}}>
-//<button onClick={() => setData(data.filter(value => value < 35))}>
-//    Filter Data
-//</button>
-//</div>

@@ -7,16 +7,16 @@ import studyprogram from "./data";
 import {Button,Box, Grid, Container, makeStyles} from "@material-ui/core"; 
 import "./styles.css"
 
-
-
 const useStyles = makeStyles(theme => ({
-
   site : {
     paddingLeft: 0,
     paddingRight: 0,
     marginTop: 0,
   },
-
+  next: {
+        width: 10,
+        marginRight: 50,
+    },
   ttb: {
     flexGrow: 1,
   },
@@ -27,7 +27,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     width: 'auto',
   },
-
   b1 : {
     fontSize: 36,
   },
@@ -42,7 +41,6 @@ const useStyles = makeStyles(theme => ({
     paddingLeft:30,
     paddingTop:19.5,
   }
-
 }))
 
 function Alert1() {
@@ -50,6 +48,7 @@ function Alert1() {
     <Alert severity="error">This is an error alert — check it out!</Alert>
   );
 }
+
 
 export default function CourseInsights(){
 
@@ -69,7 +68,6 @@ export default function CourseInsights(){
     ];
 
     return (
-
       <Box className={classes.site}>
         <Box color="#fff" bgcolor="#3f51b5" className={classes.Welc}>
           <div className={classes.b1}>
@@ -124,9 +122,9 @@ export default function CourseInsights(){
 
           <Grid item spacing={10} style={{width:100}} className={classes.button}>  
 
-              <Button id = "next" 
+              <Button className={classes.next}
                 variant="contained" 
-                style={{backgroundColor: "#3f51b5",color:"#fff", width: 70 }}
+                style={{backgroundColor: "#3c56ba",color:"#fff", width: 70 }}
                 onClick={isLoggedIn ? () => history.push('/selectpage') : () => history.push('/login')}>
                 next
               </Button>

@@ -1,19 +1,19 @@
 import {withStyles} from "@material-ui/core/styles";
-import {blue} from "@material-ui/core/colors";
+import {pink} from "@material-ui/core/colors";
 import {Switch} from "@material-ui/core";
 
-const BlueSwitch = withStyles({
+const DeepPinkSwitch = withStyles({
     switchBase: {
-        color: blue[300],
+        color: pink[300],
         '&$checked': {
-            color: blue[500],
+            color: pink[500],
         },
         '&$checked + $track': {
-            backgroundColor: blue[500],
+            backgroundColor: pink[500],
         },
     },
     checked: {},
     track: {},
 })(Switch);
 
-export default BlueSwitch;
+export default DeepPinkSwitch;

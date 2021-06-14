@@ -19,6 +19,7 @@ import SelectPage from "./Projects/CourseInsights/SelectPage";
 import Step1 from "./Projects/CourseInsights/Step1";
 /* import ComparePage from "./Projects/CourseInsights/ComparePage"; */
 
+
 const useStyles = makeStyles(theme => ({
   gridHeader: {
     marginTop: theme.spacing(4),
@@ -35,7 +36,7 @@ const useStyles = makeStyles(theme => ({
 export default function App() {
   const classes = useStyles();
   const isLoggedIn = !!sessionStorage.getItem('elas_userLoggedIn');
-
+  
   return (
     <>
       <NavigationBar/>
@@ -60,12 +61,12 @@ export default function App() {
               <AuthorizedRoute isAuth={isLoggedIn} path='/studysoon' component={StudySoon} classes={classes}/>
               <AuthorizedRoute isAuth={isLoggedIn} path='/selectpage' component={SelectPage} classes={classes}/>
               <AuthorizedRoute isAuth={isLoggedIn} path='/step1' component={Step1} classes={classes}/>
-{/*                 <AuthorizedRoute isAuth={isLoggedIn} path='/comparepage' component={ComparePage} classes={classes}/> */}
+           {/*<AuthorizedRoute isAuth={isLoggedIn} path='/comparepage' component={ComparePage} classes={classes}/> */}
             </>
           )}
           <Route render={() => <Redirect to={{pathname: "/"}}/>}/>
-
-
+        
+        
         </Grid>
       </Switch>
       <Footer />

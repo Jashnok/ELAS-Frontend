@@ -16,6 +16,7 @@ import Spoa from "./Projects/Spoa/Spoa";
 import StudySoon from "./Projects/StudySoon/StudySoon";
 import Footer from "./Website/Footer/Footer";
 import SelectPage from "./Projects/CourseInsights/SelectPage";
+import Step1 from "./Projects/CourseInsights/Step1";
 /* import ComparePage from "./Projects/CourseInsights/ComparePage"; */
 
 const useStyles = makeStyles(theme => ({
@@ -58,6 +59,7 @@ export default function App() {
               <AuthorizedRoute isAuth={isLoggedIn} path='/spoa' component={Spoa} classes={classes}/>
               <AuthorizedRoute isAuth={isLoggedIn} path='/studysoon' component={StudySoon} classes={classes}/>
               <AuthorizedRoute isAuth={isLoggedIn} path='/selectpage' component={SelectPage} classes={classes}/>
+              <AuthorizedRoute isAuth={isLoggedIn} path='/step1' component={Step1} classes={classes}/>
 {/*                 <AuthorizedRoute isAuth={isLoggedIn} path='/comparepage' component={ComparePage} classes={classes}/> */}
             </>
           )}

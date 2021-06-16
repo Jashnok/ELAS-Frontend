@@ -1,42 +1,17 @@
 import React, { useRef, useEffect, useState } from "react";
-import {
-  line,
-  select,
-  curveCardinal,
-  axisBottom,
-  scaleLinear,
-  schemeGnBu,
-  axisRight,
-  scaleBand,
-  scaleOrdinal,
-  axisLeft,
-} from "d3";
+import {select, scaleLinear, scaleBand, axisLeft, ticks} from "d3";
 
 function BarChart(props) {
-  const [data, setData] = useState([25, 30, 45, 60, 20, 65, 75]);
   const svgRef = useRef();
-
-/*   const random = [
-    props.studyprogram.stats.Vorlesung,
-    props.studyprogram.stats.Übung,
-    props.studyprogram.stats.Praktikum,
-    props.studyprogram.stats["Vorlesung/Übung"],
-    props.studyprogram.stats.Seminar,
-    props.studyprogram.stats["Übung/Praktikum"],
-  ]; */
 
   const random = [];
   const test = [];
 
   for (const [key, value] of Object.entries(props.studyprogram.stats)) {
-    console.log(`${value}`);
     random.push(value);
     test.push({[key]:value});
   }
 
-  console.log(props.studyprogram.stats);
-
-  console.log(test);
 
   test.map((value, index)=>console.log(Object.keys(value)[0]));
 
@@ -55,12 +30,22 @@ function BarChart(props) {
     .range([0, 600])
     .padding(0.5);
 
-    //add a colorscale
     const tickLabels= test.map((value, index) => Object.keys(value)[0]);
+    const yAxis = axisLeft(yScale).ticks(test.length).tickFormat((value,index) => tickLabels[index]);
 
-    const yAxis = axisLeft(yScale).ticks(test.length).tickFormat((value,index) => tickLabels[index] );
+    const colorscale = scaleLinear()
+        .domain(ticks(0, 150, 25, 50))
+        .range([  "#00e5ff", "#33c9dc","#2196f3", "#1668bf",
+          "#07509e", "#3f51b1", "#3f51b5"
+        ]);
 
-    svg.select(".y-axis").style("transform", "translateX(200px) ").call(yAxis);
+    svg
+        .select(".y-axis")
+        .style("transform", "translateX(350px) ")
+        .style("font-size", "20.0")
+        .style("font-variant", "small-caps")
+        .style("color","#f50057")
+        .call(yAxis);
 
     svg
       .selectAll(".bar")
@@ -68,12 +53,12 @@ function BarChart(props) {
       .join("rect")
       .attr("class", "bar")
       .style("transform", "translateX(350px)")
-      .attr("fill", "#3f51b5")
+      .attr("fill", d=>colorscale(d))
       .attr("height",yScale.bandwidth())
       .transition()
-      .attr("x", -150)
+      .attr("x", 0)
       .attr("y", (value,index) => yScale(index))
-      .attr("width", (value) => 150 - xScale(value));
+      .attr("width", (value) => 200 - xScale(value));
   }, [random]);
 
   return (

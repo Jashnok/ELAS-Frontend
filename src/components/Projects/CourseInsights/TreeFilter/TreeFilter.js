@@ -86,7 +86,7 @@ export default function TreeFilter(props){
     }
 
     return(
-      <FormControl id="filter" component="fieldset" style={{alignItems: "center"}}>
+      <FormControl id="filter" component="fieldset" style={{alignItems: "flex-start"}}>
           <FormLabel className={classes.legend} component="legend" style={{textAlign: "center"}}> Show:</FormLabel>
           <FormGroup row>
               <FormControlLabel className={classes.vorlesung} control={<PurpleSwitch checked={state.vorlesung} onChange={handleChange} name="vorlesung"/>}

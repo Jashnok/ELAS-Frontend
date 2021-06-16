@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useState} from 'react';
 import {BrowserRouter as Router, useHistory} from "react-router-dom";
 import {Button, Container} from "@material-ui/core";
 import TreeFilter from "./TreeFilter/TreeFilter";
@@ -7,6 +7,10 @@ import studyprogram from './data';
 import {makeStyles} from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
 import Box from "@material-ui/core/Box";
+import Grid from "@material-ui/core/Grid";
+import InteractiveTree from "./InteractiveTree/InteractiveTree";
+import ComparePage from "./ComparePage";
+import Step1 from "./Step1";
 
 
 const useStyles = makeStyles({
@@ -19,6 +23,7 @@ const useStyles = makeStyles({
         fontSize: 25,
         textAlign: "center",
     },
+
     selection: {
         color:"#ffffff",
         display: "block",
@@ -36,48 +41,81 @@ const useStyles = makeStyles({
     },
     next:{
         width: 10,
+        height:30,
         marginRight: 50,
     },
     back:{
-        width: 100,
+        width: 10,
+        height:30,
         alignItems: "center",
     },
+    treeborder: {
+        width: 450,
+        height: "max-content",
+        marginTop: 5,
+    }
 });
 
-export default function SelectPage(){
-    const history = useHistory();
-    const isLoggedIn = !!sessionStorage.getItem('elas_userLoggedIn');
+export default function SelectPage(props){
     const classes = useStyles();
 
-    return (
-            <Router>
-                <Box className = {classes.box}>
+    const [nextButton2Clicked, setNextButton2Clicked] = useState(false);
+    const[backButton1Clicked, setBackButton1Clicked] = useState(false);
 
-                    <Typography className = {classes.step1}> Step 2: Mark subjects of interest </Typography>
-                    <Typography className = {classes.selection}> Your selected studyprogram: {studyprogram[5].name}</Typography>
-                    <Typography className = {classes.selection}> Your selected semester: SoSe2019 </Typography>
+    const handleNextButton2Clicked = () =>{
+        setNextButton2Clicked(true);
+    }
+
+    const handleBackButton1Clicked = () => {
+        setBackButton1Clicked(true);
+    }
+
+    if (!nextButton2Clicked && !backButton1Clicked) {
+        return (
+            <Grid container direction="column">
+                <Box className={classes.box}>
+
+                    <Typography className={classes.step1}> Step 2: Mark subjects of interest </Typography>
+                    <Typography className={classes.selection}> Your selected
+                        studyprogram: {props.studyprogram.name}</Typography>
+                    <Typography className={classes.selection}> Your selected semester:  {props.semester.semester} </Typography>
 
                 </Box>
-                <TreeFilter/>
-                <StudyprogramTree studyprogram = {studyprogram[5]} semester = "SoSe2019"/>
-                <Container className={classes.next}>
-                    <Button variant="contained"
-                            style={{backgroundColor: "#3c56ba",color:"#fff", width: 70 }}
-                            onClick={isLoggedIn ? () => history.push('/comparepage') : () => history.push('/login')}>
-                        next
-                    </Button>
-                </Container>
+                <Grid container direction="row">
 
-                <Container className={classes.back}>
+                    <Grid item>
 
-                    <Button variant="contained"
-                            style={{backgroundColor: "#3c56ba",color:"#fff", width: 70}}
-                            onClick={isLoggedIn ? () => history.push('/courseinsights') : () => history.push('/login')}>
-                        back
-                    </Button>
-                </Container>
-            </Router>
-    );
+                        <TreeFilter/>
+                    </Grid>
+                    <Grid>
 
+                        <InteractiveTree/>
+
+                    </Grid>
+                </Grid>
+
+                <Button className={classes.next} variant="contained"
+                        style={{backgroundColor: "#3c56ba", color: "#fff", width: 70}}
+                        onClick={handleNextButton2Clicked}>
+                    next
+                </Button>
+
+
+                <Button className={classes.back} variant="contained"
+                        style={{backgroundColor: "#3c56ba", color: "#fff", width: 70}}
+                        onClick={handleBackButton1Clicked}>
+                    back
+                </Button>
+
+
+            </Grid>
+        );
+    }
+    if(nextButton2Clicked && !backButton1Clicked) {
+        return (<ComparePage studyprogram={props.studyprogram} semester={props.semester}/>);
+    }
+    if(backButton1Clicked) {
+        return (<Step1/>)
+    }
 }
 

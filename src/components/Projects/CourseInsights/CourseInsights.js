@@ -1,144 +1,207 @@
-import React, {Component} from 'react';
-import { BrowserRouter as Router, useHistory} from 'react-router-dom';
-import {Button,Box, Grid, Container, makeStyles} from "@material-ui/core"; 
+import React, { useState} from 'react';
+import {Button, Box, Grid, makeStyles, Card, Typography} from "@material-ui/core";
+import Step1 from "./Step1";
+
 
 const useStyles = makeStyles(theme => ({
-  
-  ttb: {
-    flexGrow: 1,
-  },
-  Welc : {
-    paddingTop:40,
-    paddingBottom:40,
-    textAlign: 'center',
-    alignItems: 'center',
-    width: 'auto',
-  },
-  AboutUs : {
-    paddingTop:40,
-    paddingBottom:40,
-    textAlign: 'left',
-    alignItems: 'center',
-    width: '25%',
-  },
-  b1 : {
-    fontSize: 36,
-  },
-  b2 : {
-    fontSize: 24,
-    paddingTop:20,
-  },
-  b3 : {
-    fontSize: 18,
-    paddingTop:20,
-  },
-  buttons2 : {
-    paddingTop:20,
-  },
-  sbCon : {
-    paddingTop: 25,
-  },
-  button:{
-    paddingLeft:30,
-    paddingTop:19.5,
-  },
-  bottom: {
-    textAlign: 'left',
-  },
-  bGrid: {
-    paddingRight: 100,
-    paddingLeft: 100,
-  },
+
+    ttb: {
+        flexGrow: 1,
+    },
+    Welc: {
+        paddingTop: 40,
+        paddingBottom: 40,
+        textAlign: 'center',
+        alignItems: 'center',
+        width: 'auto',
+    },
+    AboutUs: {
+        paddingTop: 40,
+        paddingBottom: 40,
+        textAlign: 'center',
+        alignItems: 'center',
+    },
+    b1: {
+        fontSize: 36,
+    },
+    b2: {
+        fontSize: 24,
+        paddingTop: 20,
+    },
+    b3: {
+        fontSize: 18,
+        paddingTop: 20,
+    },
+    b4: {
+        fontSize: 18,
+        paddingTop: 8,
+    },
+    buttons2: {
+        paddingTop: 20,
+    },
+    sbCon: {
+        paddingTop: 25,
+    },
+    button: {
+        paddingLeft: 30,
+        paddingTop: 19.5,
+    },
+    bottom: {
+        textAlign: 'left',
+    },
+    next: {
+        width: 50,
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center"
+    },
 }))
 
-export default function CourseInsights(){
+export default function CourseInsights(props) {
 
-  const classes = useStyles();
-  const history = useHistory();
-  const isLoggedIn = !!sessionStorage.getItem('elas_userLoggedIn');
-  
-    return (
-     <React.Fragment>
+    const[beginButtonClicked, setBeginButtonClicked] = useState(false);
 
-        <Box color="#fff" bgcolor="#3f51b5" className={classes.Welc}>
-          <div className={classes.b1}>
-            Welcome to CourseInsights
-          </div>
-          <div className={classes.b2}>
-          We relieve you from painful planing of your study at Uni-Due!
-          </div>
-          <div className={classes.b3}>
-          (Only for studies that are part of "Ingeneurswissenschaften" right now)
-          </div>
-          </Box>
-      <Grid container direction='row' justify="center"> 
-      <Grid item className={classes.bGrid}>
-      <Box className={classes.AboutUs} >
-      <div className={classes.b1}>   
-        About Course Catalog
-      </div>
-      <div className={classes.b3}>
-      It's a great place for students to view the courses that are offered by University Duisburg-Essen:
-      </div>
-      <div style={{paddingTop:10}}>
-      -Visual analysis to support decision making on the selection of the courses
-      </div>
-      <div>
-      -Based on course catalog data
-      </div>
-      <div>
-      -Planning courses according to the semesters
-      </div>
-      <div>
-      -Students can select the courses and be able to compare them based on various aspects such as recommendation,
-      </div>
-      <div>
-       understandability and so on which are done by those who have already passed the listed course
-      </div>
+    const handleBeginButtonClicked = () => {
+      setBeginButtonClicked(true);
+    };
 
-      </Box>
-      </Grid>
-          
-      <Grid item className={classes.AboutUs}>
+    const classes = useStyles();
+    if(!beginButtonClicked) {
+        return (
+            <Grid container direction="column">
+                <Grid item xs={12} alignItems="center">
+                    <Box color="#fff" bgcolor="#3f51b5" className={classes.Welc}>
+                        <Typography style={{fontVariant: "small-caps"}} className={classes.b1}>
+                            Welcome to CourseInsights
+                        </Typography>
+                        <Typography style={{fontVariant: "small-caps"}} className={classes.b2}>
+                            We relieve you from painful planing of your study at Uni-Due!
+                        </Typography>
+                        <Typography style={{fontVariant: "small-caps"}} className={classes.b3}>
+                            (Only for studies that are part of "Ingenieurswissenschaften" right now)
+                        </Typography>
+                    </Box>
+                </Grid>
+                <Grid container direction="row">
+                    <Grid item className={classes.AboutUs} xs={12} sm={6}>
+                        <Box border={3} borderColor="secondary.main">
+                            <Card style={{paddingBottom: 20}}>
+                                <Typography color={"secondary"}
+                                            style={{fontVariant: "small-caps", textDecorationLine: "underline"}}
+                                            className={classes.b1}>
+                                    About CourseInsights
+                                </Typography>
+                                <Typography style={{
+                                    textAlign: "justify",
+                                    paddingLeft: 10,
+                                    paddingRight: 10,
+                                    fontVariant: "small-caps"
+                                }}
+                                            className={classes.b4}>
+                                    This tool helps you in planning of subjects that you can take in one semester.
 
-      <Grid container direction='column' justify="center" alignItems="center">
-          <Grid item className={classes.b1} >   
-            Useful Links
-          </Grid>
-          <Grid item className={classes.buttons2} > 
-        <Button variant="outlined" style={{backgroundColor: "#fff",color:"#000", width: 210, height: 30}}>
-              About University
-        </Button>
-        </Grid>
-        <Grid item className={classes.buttons2}> 
-        <Button variant="outlined" style={{backgroundColor: "#fff",color:"#000", width: 210, height: 30 }}>
-              Study Courses
-        </Button>
-        </Grid>
-        <Grid item className={classes.buttons2} > 
-        <Button variant="outlined" style={{backgroundColor: "#fff",color:"#000",width: 210, height: 30 }}>
-              Faculties
-        </Button>
-        </Grid>
-        <Grid item  className={classes.buttons2}> 
-        <Button variant="outlined" style={{backgroundColor: "#fff",color:"#000", width: 210, height: 30 }}>
-              international Office  
-        </Button>
-        </Grid>
-        </Grid>
-      </Grid>
+                                    You will get an overview of all the courses offered by your study program in that
+                                    semester.
 
-      </Grid> 
-      <div style={{paddingTop:25}}>
-      <Button id = "next" 
-          variant="contained" 
-          style={{backgroundColor: "#3f51b5",color:"#fff", width: 70 , }}
-          onClick={isLoggedIn ? () => history.push('/step1') : () => history.push('/login')}>
-          next
-      </Button>
-      </div>
+                                    Afterwards you can select the courses you like and see their comparison based on
+                                    course
+                                    rating and time overlapping.
+                                </Typography>
+                                <Typography color={"secondary"} style={{
+                                    fontVariant: "small-caps",
+                                    textDecorationLine: "underline",
+                                    textAlign: "justify",
+                                    paddingLeft: 10
+                                }} className={classes.b4}>
+                                    This Tool Offers:
+                                </Typography>
+                                {/*It's a great place for students to view the courses that are offered by University Duisburg-Essen:*/}
+                                <Typography style={{
+                                    textAlign: "justify",
+                                    paddingLeft: 10,
+                                    paddingRight: 10,
+                                    fontVariant: "small-caps"
+                                }}>
+                                    <li style={{paddingTop: 10}}>
+                                        Visual analysis to support decision making on the selection of the courses
+                                    </li>
+                                    <li style={{paddingTop: 10}}>
+                                        Based on course catalog data
+                                    </li>
+                                    <li style={{paddingTop: 10}}>
+                                        Planning courses according to the semesters
+                                    </li>
+                                    <li style={{paddingTop: 10}}>
+                                        Students can select the courses and be able to compare them based on various
+                                        aspects
+                                        such as
+                                        recommendation, understandability and so on which are done by those who have
+                                        already
+                                        passed the listed
+                                        course
+                                    </li>
+                                </Typography>
+                            </Card>
+                        </Box>
+                    </Grid>
 
-      </React.Fragment>
-    );
-  
+                    <Grid item className={classes.AboutUs} xs={6}>
+
+                        <Grid container direction='column' justify="center" alignItems="center">
+                            <Typography color={"secondary"}
+                                        style={{fontVariant: "small-caps", textDecorationLine: "underline"}}
+                                        className={classes.b1}>
+                                Useful Links
+                            </Typography>
+                            <Grid item className={classes.buttons2}>
+                                <Button variant="outlined" color="secondary"
+                                        href="https://www.uni-due.de/en/university.php"
+                                        style={{backgroundColor: "#fff", color: "#3f51b5", width: 210, height: 30}}>
+                                    About University
+                                </Button>
+                            </Grid>
+                            <Grid item className={classes.buttons2}>
+                                <Button variant="outlined" color="secondary"
+                                        href="https://www.uni-due.de/en/study_courses.php"
+                                        style={{backgroundColor: "#fff", color: "#3f51b5", width: 210, height: 30}}>
+                                    Study Courses
+                                </Button>
+                            </Grid>
+                            <Grid item className={classes.buttons2}>
+                                <Button variant="outlined" color="secondary"
+                                        href="https://www.uni-due.de/en/faculties.php"
+                                        style={{backgroundColor: "#fff", color: "#3f51b5", width: 210, height: 30}}>
+                                    Faculties
+                                </Button>
+                            </Grid>
+                            <Grid item className={classes.buttons2}>
+                                <Button variant="outlined" color="secondary"
+                                        href="https://www.uni-due.de/international/index_en.shtml"
+                                        style={{backgroundColor: "#fff", color: "#3f51b5", width: 210, height: 30}}>
+                                    international Office
+                                </Button>
+                            </Grid>
+                        </Grid>
+                        <Grid container justify="center" alignItems="center" style={{paddingTop: 70}} xs={12}>
+                            <Button className={classes.next}
+                                    variant="contained"
+                                    style={{
+                                        backgroundColor: "#3f51b5",
+                                        color: "#fff",
+                                        height: 50,
+                                        width: 210,
+                                        alignItems: "center",
+                                        fontSize: "1.5rem"
+                                    }}
+                                    onClick={handleBeginButtonClicked}>
+                                Begin
+                            </Button>
+                        </Grid>
+
+                    </Grid>
+                </Grid>
+            </Grid>
+        );
+    }
+        return (<Step1/>);
 }

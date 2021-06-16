@@ -1,9 +1,10 @@
 import {BrowserRouter as Router, useHistory} from "react-router-dom";
 import {Button, Container, Typography} from "@material-ui/core";
-import React from "react";
+import React, {useState} from "react";
 import studyprogram from './data';
 import {makeStyles} from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
+import SelectPage from "./SelectPage";
 
 const useStyles = makeStyles({
     step2: {
@@ -43,24 +44,34 @@ const useStyles = makeStyles({
 
 export default function ComparePage(props){
     const classes = useStyles();
-    const history = useHistory();
-    const isLoggedIn = !!sessionStorage.getItem('elas_userLoggedIn');
-    return(
-        <Router>
-            <Box className={classes.box}>
 
-                <Typography className={classes.step2}> Step 3: Compare and decide which subjects you want to take  </Typography>
-                <Typography className={classes.selection}> Your selected studyprogram: {studyprogram[5].name}</Typography>
-                <Typography className={classes.selection}> Your selected semester: SoSe2019</Typography>
-            </Box>
-            <Container className={classes.back}>
-                <Button variant="contained"
-                        style={{backgroundColor: "#3c56ba",color:"#fff", width: 70 }}
-                        onClick={isLoggedIn ? () => history.push('/selectpage') : () => history.push('/login')}>
-                    back
-                </Button>
-            </Container>
-        </Router>
-    );
+    const[backButton2Clicked, setBackButton2Clicked] = useState(false);
+
+    const handleBackButton2Clicked = () => {
+        setBackButton2Clicked(true);
+    }
+    if(!backButton2Clicked) {
+        return (
+            <Router>
+                <Box className={classes.box}>
+
+                    <Typography className={classes.step2}> Step 3: Compare and decide which subjects you want to
+                        take </Typography>
+                    <Typography className={classes.selection}> Your selected
+                        studyprogram: {props.studyprogram.name}</Typography>
+                    <Typography className={classes.selection}> Your selected
+                        semester: {props.semester.semester}</Typography>
+                </Box>
+                <Container className={classes.back}>
+                    <Button variant="contained"
+                            style={{backgroundColor: "#3c56ba", color: "#fff", width: 70}}
+                            onClick={handleBackButton2Clicked}>
+                        back
+                    </Button>
+                </Container>
+            </Router>
+        );
+    }
+    return (<SelectPage studyprogram={props.studyprogram} semester={props.semester}/>);
 
 }

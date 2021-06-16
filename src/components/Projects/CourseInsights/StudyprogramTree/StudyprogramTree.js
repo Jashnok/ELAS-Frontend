@@ -16,9 +16,10 @@ const useStyles = makeStyles({
     },
     treebox:{
         display: "block",
-        background: "#3591f3",
+        backgroundColor: 'inherit',
         height:"max-content",
         width:"max-content",
+        marginTop: 50,
     },
     markedbox:{
         display: "block",
@@ -71,25 +72,22 @@ function StudyprogramTree(props) {
     );
 
     return (
-       <Grid container >
-           <Grid item xs={6}>
+
+
                 <TreeView
                     className={classes.root}
                     defaultCollapseIcon={<ExpandMoreIcon />}
                     defaultExpanded={[props.studyprogram]}
                     defaultExpandIcon={<ChevronRightIcon />}
                 >
-                 <Box className={classes.treebox} >
+                 <Box border={3} borderColor="primary.main" className={classes.treebox}  >
                     {renderTree(study)}
                  </Box>
                 </TreeView>
-           </Grid>
-           <Grid item xs={6}>
-                <Box className={classes.markedbox}>
 
-                </Box>
-           </Grid>
-       </Grid>
+
+
+
 
     );
 }

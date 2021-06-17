@@ -5,7 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import {Autocomplete, Alert} from '@material-ui/lab';
 import studyprogram from "./data";
 import {Button,Box, Grid, Container, makeStyles} from "@material-ui/core"; 
-import "./styles.css"
+/* import "./styles.css" */
 
 
 

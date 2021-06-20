@@ -67,7 +67,7 @@ export default function Step1(){
     { semester: 'Wintersemester 2020/2021'},
     { semester: 'Sommersemester 2021'},
     ];
-
+    console.log(programObject);
     return (
 
       <Box className={classes.site}>

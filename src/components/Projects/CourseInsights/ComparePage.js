@@ -160,7 +160,7 @@ const markedSubjects = [{
         "sws": "2",
         "timetable": [
             {
-                "day": "Mi.",
+                "day": "Mo.",
                 "time": { "from": "08:00", "to": "10:00" },
                 "rhythm": "wöch.",
                 "duration": "",
@@ -400,9 +400,7 @@ export default function ComparePage(props){
                 <Card>
                     <CardContent>
                 <Grid container>
-                    <Grid item xs={3} style={{paddingTop:20, paddingRight: 10}}>
-                        <HeatMapGrid subjects={subjectAndRating}/>
-                    </Grid>
+
                     <Grid item xs={9} style={{paddingTop:20, fontVariant:"small-caps"}}>
                 <TableContainer component={Paper}>
                     <Table aria-label="collapsible table">
@@ -427,6 +425,9 @@ export default function ComparePage(props){
                         </TableBody>
                     </Table>
                 </TableContainer>
+                    </Grid>
+                    <Grid item xs={3} style={{paddingTop:20, paddingLeft: 10}}>
+                        <HeatMapGrid subjects={subjectAndRating}/>
                     </Grid>
 
 

@@ -1,5 +1,5 @@
 import React, { useState} from 'react';
-import {Button, Box, Grid, makeStyles, Card, Typography} from "@material-ui/core";
+import {Button, Box, Grid, makeStyles, Card, Typography, CardContent} from "@material-ui/core";
 import Step1 from "./Step1";
 
 
@@ -82,10 +82,10 @@ export default function CourseInsights(props) {
                         </Typography>
                     </Box>
                 </Grid>
-                <Grid container direction="row">
-                    <Grid item className={classes.AboutUs} xs={12} sm={6}>
-                        <Box border={3} borderColor="secondary.main">
+                <Grid container direction="row" justify="center">
+                    <Grid item className={classes.AboutUs} xs={12} sm={6} border={3} borderColor="secondary.main">
                             <Card style={{paddingBottom: 20}}>
+                                <CardContent>
                                 <Typography color={"secondary"}
                                             style={{fontVariant: "small-caps", textDecorationLine: "underline"}}
                                             className={classes.b1}>
@@ -141,10 +141,9 @@ export default function CourseInsights(props) {
                                         course
                                     </li>
                                 </Typography>
+                                </CardContent>
                             </Card>
-                        </Box>
                     </Grid>
-
                     <Grid item className={classes.AboutUs} xs={6}>
 
                         <Grid container direction='column' justify="center" alignItems="center">
@@ -197,6 +196,7 @@ export default function CourseInsights(props) {
                                 Begin
                             </Button>
                         </Grid>
+
 
                     </Grid>
                 </Grid>

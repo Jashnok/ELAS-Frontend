@@ -3,7 +3,6 @@ import { BrowserRouter as Router, useHistory} from 'react-router-dom';
 import {Button,Box, Grid, Container, makeStyles} from "@material-ui/core"; 
 
 const useStyles = makeStyles(theme => ({
-  
   ttb: {
     flexGrow: 1,
   },
@@ -19,7 +18,6 @@ const useStyles = makeStyles(theme => ({
     paddingBottom:40,
     textAlign: 'left',
     alignItems: 'center',
-    width: '25%',
   },
   b1 : {
     fontSize: 36,
@@ -56,10 +54,10 @@ export default function CourseInsights(){
   const classes = useStyles();
   const history = useHistory();
   const isLoggedIn = !!sessionStorage.getItem('elas_userLoggedIn');
-  
+
+
     return (
      <React.Fragment>
-
         <Box color="#fff" bgcolor="#3f51b5" className={classes.Welc}>
           <div className={classes.b1}>
             Welcome to CourseInsights

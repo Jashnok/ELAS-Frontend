@@ -2,61 +2,62 @@ import React, { useState} from 'react';
 import {Button, Box, Grid, makeStyles, Card, Typography, CardContent} from "@material-ui/core";
 import Step1 from "./Step1";
 
-const useStyles = makeStyles((theme) => ({
-  ttb: {
-    flexGrow: 1,
-  },
-  Welc: {
-    paddingTop: 40,
-    paddingBottom: 40,
-    textAlign: "center",
-    alignItems: "center",
-    width: "auto",
-  },
-  AboutUs: {
-    paddingTop: 40,
-    paddingBottom: 40,
-    textAlign: "center",
-    alignItems: "center",
-  },
-  b1: {
-    fontSize: 36,
-  },
-  b2: {
-    fontSize: 24,
-    paddingTop: 20,
-  },
-  b3: {
-    fontSize: 18,
-    paddingTop: 20,
-  },
-  b4: {
-    fontSize: 18,
-    paddingTop: 8,
-  },
-  buttons2: {
-    paddingTop: 20,
-  },
-  sbCon: {
-    paddingTop: 25,
-  },
-  button: {
-    paddingLeft: 30,
-    paddingTop: 19.5,
-  },
-  bottom: {
-    textAlign: "left",
-  },
-  next: {
-    width: 50,
-    height: 50,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-}));
+
+const useStyles = makeStyles(theme => ({
+
+    ttb: {
+        flexGrow: 1,
+    },
+    Welc: {
+        paddingTop: 40,
+        paddingBottom: 40,
+        textAlign: 'center',
+        alignItems: 'center',
+        width: 'auto',
+    },
+    AboutUs: {
+        paddingTop: 40,
+        paddingBottom: 40,
+        textAlign: 'center',
+        alignItems: 'center',
+    },
+    b1: {
+        fontSize: 36,
+    },
+    b2: {
+        fontSize: 24,
+        paddingTop: 20,
+    },
+    b3: {
+        fontSize: 18,
+        paddingTop: 20,
+    },
+    b4: {
+        fontSize: 18,
+        paddingTop: 8,
+    },
+    buttons2: {
+        paddingTop: 20,
+    },
+    sbCon: {
+        paddingTop: 25,
+    },
+    button: {
+        paddingLeft: 30,
+        paddingTop: 19.5,
+    },
+    bottom: {
+        textAlign: 'left',
+    },
+    next: {
+        width: 50,
+        height: 50,
+        alignItems: "center",
+        justifyContent: "center"
+    },
+}))
 
 export default function CourseInsights(props) {
-  const [beginButtonClicked, setBeginButtonClicked] = useState(false);
 
     const[beginButtonClicked, setBeginButtonClicked] = useState(false);
 
@@ -99,71 +100,9 @@ export default function CourseInsights(props) {
                                             className={classes.b4}>
                                     This tool helps you in planning of subjects that you can take in one semester.
 
+                                    You will get an overview of all the courses offered by your study program in that
+                                    semester.
 
-  const classes = useStyles();
-  if (!beginButtonClicked) {
-    return (
-      <Grid container direction="column">
-        <Grid item xs={12} alignItems="center">
-          <Box color="#fff" bgcolor="#3f51b5" className={classes.Welc}>
-            <Typography style={{ fontVariant: "small-caps" }} className={classes.b1}>
-              Welcome to CourseInsights
-            </Typography>
-            <Typography style={{ fontVariant: "small-caps" }} className={classes.b2}>
-              We relieve you from painful planing of your study at Uni-Due!
-            </Typography>
-            <Typography style={{ fontVariant: "small-caps" }} className={classes.b3}>
-              (Only for studies that are part of "Ingenieurswissenschaften" right now)
-            </Typography>
-          </Box>
-        </Grid>
-        <Grid container direction="row">
-          <Grid item className={classes.AboutUs} xs={12} sm={6}>
-            <Box border={3} borderColor="secondary.main">
-              <Card style={{ paddingBottom: 20 }}>
-                <Typography color={"secondary"} style={{ fontVariant: "small-caps", textDecorationLine: "underline" }} className={classes.b1}>
-                  About CourseInsights
-                </Typography>
-                <Typography
-                  style={{
-                    textAlign: "justify",
-                    paddingLeft: 10,
-                    paddingRight: 10,
-                    fontVariant: "small-caps",
-                  }}
-                  className={classes.b4}
-                >
-                  This tool helps you in planning of subjects that you can take in one semester. You will get an overview of all the courses offered by your study program in that semester. Afterwards you can select the courses you like and see their comparison based on course rating and time overlapping.
-                </Typography>
-                <Typography
-                  color={"secondary"}
-                  style={{
-                    fontVariant: "small-caps",
-                    textDecorationLine: "underline",
-                    textAlign: "justify",
-                    paddingLeft: 10,
-                  }}
-                  className={classes.b4}
-                >
-                  This Tool Offers:
-                </Typography>
-                {/*It's a great place for students to view the courses that are offered by University Duisburg-Essen:*/}
-                <Typography
-                  style={{
-                    textAlign: "justify",
-                    paddingLeft: 10,
-                    paddingRight: 10,
-                    fontVariant: "small-caps",
-                  }}
-                >
-                  <li style={{ paddingTop: 10 }}>Visual analysis to support decision making on the selection of the courses</li>
-                  <li style={{ paddingTop: 10 }}>Based on course catalog data</li>
-                  <li style={{ paddingTop: 10 }}>Planning courses according to the semesters</li>
-                  <li style={{ paddingTop: 10 }}>Students can select the courses and be able to compare them based on various aspects such as recommendation, understandability and so on which are done by those who have already passed the listed course</li>
-                </Typography>
-              </Card>
-            </Box>
-          </Grid>
                                     Afterwards you can select the courses you like and see their comparison based on
                                     course
                                     rating and time overlapping.
@@ -262,10 +201,7 @@ export default function CourseInsights(props) {
                     </Grid>
                 </Grid>
             </Grid>
-          </Grid>
-        </Grid>
-      </Grid>
-    );
-  }
-  return <Step1 />;
+        );
+    }
+        return (<Step1/>);
 }

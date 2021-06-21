@@ -57,26 +57,7 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function Step1() {
-  const [programObject, setValue] = React.useState(undefined);
-  const [semesterSet, setSemesterSet] = React.useState(undefined);
-  const classes = useStyles();
-  const semesters = [{ semester: "Wintersemester 2018/2019" }, { semester: "Sommersemester 2019" }, { semester: "Wintersemester 2019/2020" }, { semester: "Sommersemester 2020" }, { semester: "Wintersemester 2020/2021" }, { semester: "Sommersemester 2021" }];
-
-  const [nextButton1Clicked, setNextButton1Clicked] = useState(false);
-  const [noObjectDefined, setNoObjectDefined] = useState(false);
-  const [noSemesterDefined, setNoSemesterDefined] = useState(false);
-
-  const handleNextButton1Clicked = () => {
-    if (programObject && semesterSet) {
-      setNextButton1Clicked(true);
-    }
-    if ((!programObject && semesterSet) || (!programObject && !semesterSet)) {
-      setNoObjectDefined(true);
-    }
-    if (!semesterSet && programObject) {
-      setNoSemesterDefined(true);
-    }
-  };
+ 
     const [programObject, setValue] = React.useState(undefined);
     const [semesterSet, setSemesterSet] = React.useState(undefined);
     const classes = useStyles();

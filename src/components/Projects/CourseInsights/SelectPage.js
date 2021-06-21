@@ -71,7 +71,7 @@ export default function SelectPage(){
 
     const history = useHistory();
 
-    const pstudyprogram = studyprogram[3];
+    const pstudyprogram = studyprogram[0];
     
     
     const [category1, setCategory1] = React.useState(undefined);

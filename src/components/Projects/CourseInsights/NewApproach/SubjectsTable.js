@@ -223,6 +223,7 @@ export default function SubjectsTable(props) {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
   const [subjects, setSubjects] = React.useState(props.test.subjects);
   console.log(subjects);
+  console.log(selected);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === 'asc';

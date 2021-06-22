@@ -256,15 +256,6 @@ function calculateOverlapping(subject){
     const data = [];
     for (let subjects of markedSubjects){
         if(subjects.name !== subject.name){
-            /*if(!checkForOverlapping(subjects.timetable[0], subject.timetable[0])){
-                data.push({
-                    overlappingsubject: undefined,
-                    overlappingday: undefined,
-                    overlappingfrom: undefined,
-                    overlappingto: undefined,
-                    time: "no overlapping"
-                })
-            }*/
             if(checkForOverlapping(subject.timetable[0], subjects.timetable[0]) === "edge"){
                 data.push({
                     overlappingsubject: subjects.name,
@@ -296,45 +287,18 @@ function createSubjectAndRating(markedSubjects, subjectsrating) {
     for (const [key, value] of Object.entries(markedSubjects)) {
         console.log(value.timetable);
         console.log(value);
-        //for (const [key3, value3] of Object.entries(markedSubjects)) {
-         //   if (value.name !== value3.name) {
-           //     console.log(value3);
-                for (const [key2, value2] of Object.entries(subjectsrating)) {
-                    console.log(value2);
-                    if (value.name === value2.name) {
-             //           if (!(checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0]))) {
-               //             console.log(checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0]));
-                            subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, calculateOverlapping(value)));
-                        }
-                 //       if ((checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0])) === "edge") {
-                    //         subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, markedSubjects[key3], markedSubjects[key].timetable[0].day, markedSubjects[key].timetable[0].time.from, markedSubjects[key].timetable[0].time.to, "no time between subjects"));
-                      //  }
-                        //if ((checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0])) === "critical") {
-                          //  subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, markedSubjects[key3], markedSubjects[key].timetable[0].day, markedSubjects[key].timetable[0].time.from, markedSubjects[key].timetable[0].time.to, "OVERLAPPING"));
-                        //}
-                  //  }
-                    if (value.name !== value2.name) {
-                    //    if (!(checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0]))) {
-                      //      console.log(checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0]));
-                            subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, calculateOverlapping(value)));
-                        }
-                        //if ((checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0])) === "edge") {
-                         //   subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, markedSubjects[key3], markedSubjects[key].timetable[0].day, markedSubjects[key].timetable[0].time.from, markedSubjects[key].timetable[0].time.to, "no time between subjects"));
-                        //}
-                        //if ((checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0])) === "critical") {
-                        //    subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, markedSubjects[key3], markedSubjects[key].timetable[0].day, markedSubjects[key].timetable[0].time.from, markedSubjects[key].timetable[0].time.to, "OVERLAPPING"));
-                        //}
 
-                    //}
-
-                }
+        for (const [key2, value2] of Object.entries(subjectsrating)) {
+            console.log(value2);
+            if (value.name === value2.name) {
+                subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, calculateOverlapping(value)));
             }
-       //     console.log(markedSubjects[key]);
-     //       console.log(value);
+            if (value.name !== value2.name) {
+                subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, calculateOverlapping(value)));
+            }
+        }
+    }
 
-        //}
-
-    //}
     return subjectAndRating;
 }
 

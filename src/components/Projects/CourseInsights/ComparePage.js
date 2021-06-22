@@ -68,7 +68,7 @@ const useStyles = makeStyles({
 
 
 
-function createData(name, sws, fairness, support, material, fun, understandability, node_effort, recommendation, overlappingsubject, overlappingday, overlappingfrom, overlappingto, time ){
+function createData(name, sws, fairness, support, material, fun, understandability, node_effort, recommendation, overlapping ){
     return{
         name,
         sws,
@@ -79,9 +79,7 @@ function createData(name, sws, fairness, support, material, fun, understandabili
         understandability,
         node_effort,
         recommendation,
-        overlapping: [
-            {overlappingsubject, overlappingday, overlappingfrom, overlappingto , time}
-        ]
+        overlapping,
     };
 }
 
@@ -160,7 +158,7 @@ const markedSubjects = [{
         "sws": "2",
         "timetable": [
             {
-                "day": "Mo.",
+                "day": "Mi.",
                 "time": { "from": "08:00", "to": "10:00" },
                 "rhythm": "wöch.",
                 "duration": "",
@@ -169,7 +167,7 @@ const markedSubjects = [{
                 "comment": " "
             }
         ],
-  }/*, {
+  }, {
         "name": "Übung zu \"Berechenbarkeit und Komplexität\"",
         "url": "https://campus.uni-due.de/lsf/rds?state=verpublish&status=init&vmfile=no&publishid=310232&moduleCall=webInfo&publishConfFile=webInfo&publishSubDir=veranstaltung",
         "subject_type": "Übung",
@@ -179,14 +177,14 @@ const markedSubjects = [{
         "timetable": [
             {
                 "day": "Mi.",
-                "time": {"from": "08:00", "to": "10:00"},
+                "time": {"from": "10:00", "to": "12:00"},
                 "rhythm": "wöch.",
                 "duration": "",
                 "room": "",
                 "status": " ",
                 "comment": " "
             }]
-    }*/
+    }
 ]
 
 function checkForOverlapping(subjectA, subjectB){
@@ -254,7 +252,41 @@ function generateTimeoverlapChartData(selectedSubjects) {
 }
 
 
-
+function calculateOverlapping(subject){
+    const data = [];
+    for (let subjects of markedSubjects){
+        if(subjects.name !== subject.name){
+            /*if(!checkForOverlapping(subjects.timetable[0], subject.timetable[0])){
+                data.push({
+                    overlappingsubject: undefined,
+                    overlappingday: undefined,
+                    overlappingfrom: undefined,
+                    overlappingto: undefined,
+                    time: "no overlapping"
+                })
+            }*/
+            if(checkForOverlapping(subject.timetable[0], subjects.timetable[0]) === "edge"){
+                data.push({
+                    overlappingsubject: subjects.name,
+                    overlappingday: subject.timetable[0].day,
+                    overlappingfrom: subject.timetable[0].time.from,
+                    overlappingto: subject.timetable[0].time.to,
+                    time: "no time between subjects"
+                })
+            }
+            if(checkForOverlapping(subject.timetable[0], subjects.timetable[0]) === "critical"){
+                data.push({
+                    overlappingsubject: subjects.name,
+                    overlappingday: subject.timetable[0].day,
+                    overlappingfrom: subject.timetable[0].time.from,
+                    overlappingto: subject.timetable[0].time.to,
+                    time: "OVERLAPPING"
+                })
+            }
+        }
+    }
+    return data;
+}
 
 
 
@@ -264,45 +296,45 @@ function createSubjectAndRating(markedSubjects, subjectsrating) {
     for (const [key, value] of Object.entries(markedSubjects)) {
         console.log(value.timetable);
         console.log(value);
-        for (const [key3, value3] of Object.entries(markedSubjects)) {
-            if (value.name !== value3.name) {
-                console.log(value3);
+        //for (const [key3, value3] of Object.entries(markedSubjects)) {
+         //   if (value.name !== value3.name) {
+           //     console.log(value3);
                 for (const [key2, value2] of Object.entries(subjectsrating)) {
                     console.log(value2);
                     if (value.name === value2.name) {
-                        if (!(checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0]))) {
-                            console.log(checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0]));
-                            subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, undefined, undefined, undefined, undefined, "no overlapping"));
+             //           if (!(checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0]))) {
+               //             console.log(checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0]));
+                            subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, calculateOverlapping(value)));
                         }
-                        if ((checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0])) === "edge") {
-                            subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, markedSubjects[key3], markedSubjects[key].timetable[0].day, markedSubjects[key].timetable[0].time.from, markedSubjects[key].timetable[0].time.to, "no time between subjects"));
-                        }
-                        if ((checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0])) === "critical") {
-                            subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, markedSubjects[key3], markedSubjects[key].timetable[0].day, markedSubjects[key].timetable[0].time.from, markedSubjects[key].timetable[0].time.to, "OVERLAPPING"));
-                        }
-                    }
+                 //       if ((checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0])) === "edge") {
+                    //         subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, markedSubjects[key3], markedSubjects[key].timetable[0].day, markedSubjects[key].timetable[0].time.from, markedSubjects[key].timetable[0].time.to, "no time between subjects"));
+                      //  }
+                        //if ((checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0])) === "critical") {
+                          //  subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, markedSubjects[key3], markedSubjects[key].timetable[0].day, markedSubjects[key].timetable[0].time.from, markedSubjects[key].timetable[0].time.to, "OVERLAPPING"));
+                        //}
+                  //  }
                     if (value.name !== value2.name) {
-                        if (!(checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0]))) {
-                            console.log(checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0]));
-                            subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, undefined, "no overlapping"));
+                    //    if (!(checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0]))) {
+                      //      console.log(checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0]));
+                            subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, calculateOverlapping(value)));
                         }
-                        if ((checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0])) === "edge") {
-                            subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, markedSubjects[key3], markedSubjects[key].timetable[0].day, markedSubjects[key].timetable[0].time.from, markedSubjects[key].timetable[0].time.to, "no time between subjects"));
-                        }
-                        if ((checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0])) === "critical") {
-                            subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, markedSubjects[key3], markedSubjects[key].timetable[0].day, markedSubjects[key].timetable[0].time.from, markedSubjects[key].timetable[0].time.to, "OVERLAPPING"));
-                        }
+                        //if ((checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0])) === "edge") {
+                         //   subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, markedSubjects[key3], markedSubjects[key].timetable[0].day, markedSubjects[key].timetable[0].time.from, markedSubjects[key].timetable[0].time.to, "no time between subjects"));
+                        //}
+                        //if ((checkForOverlapping(markedSubjects[key].timetable[0], markedSubjects[key3].timetable[0])) === "critical") {
+                        //    subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, markedSubjects[key3], markedSubjects[key].timetable[0].day, markedSubjects[key].timetable[0].time.from, markedSubjects[key].timetable[0].time.to, "OVERLAPPING"));
+                        //}
 
-                    }
+                    //}
 
                 }
             }
-            console.log(markedSubjects[key]);
-            console.log(value);
+       //     console.log(markedSubjects[key]);
+     //       console.log(value);
 
-        }
+        //}
 
-    }
+    //}
     return subjectAndRating;
 }
 
@@ -312,14 +344,13 @@ function Row(props) {
     const [open, setOpen] = React.useState(false);
     const classes = useRowStyles();
 
-    console.log(row.overlapping[0].overlappingsubject)
 
     return (
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
                     <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-                        {open ? <KeyboardArrowUpIcon /> : row.overlapping[0].overlappingsubject ? <Badge variant="dot" color="secondary" > <KeyboardArrowDownIcon /> </Badge> : <KeyboardArrowDownIcon/>}
+                        {open ? <KeyboardArrowUpIcon /> : row.overlapping.length !== 0 ? <Badge variant="dot" color="secondary" > <KeyboardArrowDownIcon /> </Badge> : <KeyboardArrowDownIcon/>}
                     </IconButton>
                 </TableCell>
                 <TableCell component="th" scope="row">
@@ -355,12 +386,12 @@ function Row(props) {
                                     {row.overlapping.map((overlappingRow) => (
                                         <TableRow key={overlappingRow.overlapping}>
                                         <TableCell component="th" scope="row">
-                                            {overlappingRow.overlappingsubject ? <Typography color="secondary"> {overlappingRow.overlappingsubject.name} </Typography> : < Typography style={{color:"#00FF00"}}> No overlapping with this subject </Typography>}
+                                            {overlappingRow.overlappingsubject ? <Typography color="secondary"> {overlappingRow.overlappingsubject} </Typography> : <> </>}
                                         </TableCell>
                                         <TableCell>{overlappingRow.overlappingday ? overlappingRow.overlappingday : <> </>}</TableCell>
                                         <TableCell>{overlappingRow.overlappingfrom ? overlappingRow.overlappingfrom : <> </>}</TableCell>
                                             <TableCell>{overlappingRow.overlappingto ? overlappingRow.overlappingto : <> </>}</TableCell>
-                                            <TableCell> <Typography color="secondary">{overlappingRow.time ? overlappingRow.time : <> </>} </Typography></TableCell>
+                                            <TableCell> <Typography color="secondary">{overlappingRow.time !== "no overlapping" ? overlappingRow.time : <> </>} </Typography></TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -382,6 +413,7 @@ export default function ComparePage(props){
         setBackButton2Clicked(true);
     }
     const subjectAndRating = createSubjectAndRating(markedSubjects, subjectsrating);
+    console.log(subjectAndRating);
 
     if(!backButton2Clicked) {
         return (
@@ -399,7 +431,10 @@ export default function ComparePage(props){
                 <Typography className={classes.sws} style={{fontVariant:"small-caps"}}> Your total SWS: {calculateSWS(markedSubjects)} </Typography>
                 <Card>
                     <CardContent>
-                <Grid container>
+                <Grid container direction="column">
+                    <Grid item style={{paddingTop:20, paddingLeft: 10}}>
+                        <HeatMapGrid subjects={subjectAndRating}/>
+                    </Grid>
 
                     <Grid item xs={9} style={{paddingTop:20, fontVariant:"small-caps"}}>
                 <TableContainer component={Paper}>
@@ -426,9 +461,7 @@ export default function ComparePage(props){
                     </Table>
                 </TableContainer>
                     </Grid>
-                    <Grid item xs={3} style={{paddingTop:20, paddingLeft: 10}}>
-                        <HeatMapGrid subjects={subjectAndRating}/>
-                    </Grid>
+
 
 
                 </Grid>

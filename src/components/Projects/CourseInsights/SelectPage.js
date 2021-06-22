@@ -17,7 +17,8 @@ const useStyles = makeStyles({
 	root: {
 		minWidth: 275,
 		marginTop: 20,
-		
+		width:"75%",
+		alignSelf:"center"
 	},
 	bullet: {
 		display: 'inline-block',
@@ -131,14 +132,11 @@ export default function SelectPage(props) {
 					<Typography className={classes.selection}> Your selected semester: {props.semester.semester} </Typography>
 				
 				</Box>
-				<Card className={classes.root} variant="outlined">
-					
-					<CardContent>
-						<Grid container alignItems="flex-start">
-							<Grid item>
-								<Grid container direction="column">
-									<Grid item>
-										
+				<Card className={classes.root} variant="outlined">				
+					<CardContent style={{alignContent:"center"}} >
+						<Grid container direction="column" alignItems="center" justify="center"> 
+
+										<Grid item style={{width:"100%"}}>								
 										<Autocomplete
 											value={category1}
 											autoHighlight="true"
@@ -155,11 +153,12 @@ export default function SelectPage(props) {
 											id="search-category"
 											options={pstudyprogram.categories}
 											getOptionLabel={(option) => option.name}
-											style={{width: "auto", minWidth: 750, marginTop: 30, fontVariant: "small-caps"}}
+											style={{width:"75%", marginTop: 30, fontVariant: "small-caps"}}
 											renderInput={(params) => <TextField {...params} label="Select a category here" variant="outlined"
-											                                    color="secondary"/>}/>
-									</Grid>
-									<Grid item>
+												                                    color="secondary"/>}/>
+										</Grid>	
+
+										<Grid item style={{width:"100%"}}>	
 										{category1 && category1.categories.length > 0 ?
 											<Autocomplete
 												value={category2}
@@ -174,14 +173,13 @@ export default function SelectPage(props) {
 												id="search-category"
 												options={category1.categories}
 												getOptionLabel={(option) => option.name}
-												style={{width: "auto", marginTop: 30}}
+												style={{width: "75%", marginTop: 30}}
 												renderInput={(params) => <TextField {...params} label="Select a category here"
 												                                    variant="outlined"/>}/>
 											
 											: <></>}
-									</Grid>
-									
-									<Grid item>
+										</Grid>
+										<Grid item style={{width:"100%"}}>	
 										{category2 && category2.categories.length > 0 ?
 											<Autocomplete
 												value={category3}
@@ -196,51 +194,26 @@ export default function SelectPage(props) {
 												id="search-category"
 												options={category2.categories}
 												getOptionLabel={(option) => option.name}
-												style={{width: "auto", marginTop: 30}}
+												style={{width: "75%", marginTop: 30}}
 												renderInput={(params) => <TextField {...params} label="Select a category here"
 												                                    variant="outlined"/>}/>
 											
 											: <></>}
-									
-									</Grid>
-									
-									<Grid item>
-										
-										<div style={{width: "100%", paddingTop: 50}}>
+										</Grid>
+										<Grid item style={{width:"100%"}}>	
+										<div style={{width: "75%", paddingTop: 50}}>
 											{category3 && category2 && category1 ? <SubjectsTable test={category3}/> : <></>}
 											{!category3 && category2 && category1 ? <SubjectsTable test={category2}/> : <></>}
 											{!category3 && !category2 && category1 ? <SubjectsTable test={category1}/> : <></>}
 										</div>
-									
-									</Grid>
-								
-								</Grid>
-							</Grid>
-						
-						</Grid>
-					
-					
-					</CardContent>
-				</Card>
+										</Grid>
+
+
+					</Grid>				
+				</CardContent>
+			</Card>
 				
-				<Grid container style={{width:"100%"}} justify="space-between">
-					<Grid item>
-						<Button variant="contained"
-						        className={classes.buttons}
-						        onClick={handleBackButton1Clicked}>
-							back
-						</Button>
-					
-					</Grid>
-					
-					<Grid item>
-						<Button variant="contained"
-						        className={classes.buttons}
-						        onClick={handleNextButton2Clicked}>
-							next
-						</Button>
-					</Grid>
-				</Grid>
+				
 				
 			</Router>
 		);
@@ -252,3 +225,22 @@ export default function SelectPage(props) {
 		return (<Step1/>)
 	}
 }
+{/* <Grid container style={{width:"100%"}} justify="space-evenly">
+
+<Grid item>
+	<Button variant="contained"
+			className={classes.buttons}
+			onClick={handleBackButton1Clicked}>
+		back
+	</Button>
+
+</Grid>
+
+<Grid item>
+	<Button variant="contained"
+			className={classes.buttons}
+			onClick={handleNextButton2Clicked}>
+		next
+	</Button>
+</Grid>
+</Grid>	 */}

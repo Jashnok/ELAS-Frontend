@@ -1,7 +1,14 @@
-import {BrowserRouter as Router, useHistory} from "react-router-dom";
-import {Badge, Button, Card, CardContent, Container, Typography} from "@material-ui/core";
+import {BrowserRouter as Router} from "react-router-dom";
+import {
+    AppBar,
+    Badge,
+    Button,
+    Card,
+    CardContent,
+    Tab,
+    Typography
+} from "@material-ui/core";
 import React, {useState} from "react";
-import studyprogram from './data';
 import {makeStyles} from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
 import SelectPage from "./SelectPage";
@@ -19,7 +26,11 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import CloseIcon from '@material-ui/icons/Close';
 import Grid from "@material-ui/core/Grid";
 import HeatMap from "./Heatmaps/HeatMap";
-import HeatMapGrid from "./Heatmaps/HeatMapGrid";
+import TablePagination from "@material-ui/core/TablePagination";
+import DeleteIcon from '@material-ui/icons/Delete';
+import {TabContext, TabList, TabPanel} from "@material-ui/lab";
+import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
+import subjectsrating from './subjectsrating.js';
 
 const useStyles = makeStyles({
     step2: {
@@ -30,24 +41,55 @@ const useStyles = makeStyles({
         marginTop: 10,
         fontSize: 25,
         textAlign: "center",
+        fontVariant: "small-caps",
+    },
+    courseinsights: {
+        color: "#ffffff",
+        display: "block",
+        justify: "center",
+        marginBottom: 10,
+        marginTop: 10,
+        fontSize: 30,
+        textAlign: "center",
+        fontVariant: "small-caps",
     },
     selection: {
-        color:"#ffffff",
+        color: "#ffffff",
         display: "block",
         justify: "center",
         textAlign: "center",
         marginTop: 10,
-        marginBottom: 10,
         fontSize: 20,
     },
-    sws: {
-        color:"#f50057",
+    lilcaptions: {
+        color: "#f50057",
         display: "block",
         justify: "center",
-        textAlign: "center",
+        textAlign: "justify",
         marginTop: 10,
         marginBottom: 10,
         fontSize: 20,
+        fontVariant: "small-caps",
+        textDecoration: "underline",
+    },
+    caption: {
+        color: "#f50057",
+        display: "block",
+        justify: "center",
+        textAlign: "center",
+        marginBottom: 10,
+        fontSize: 25,
+        fontVariant: "small-caps",
+        textDecoration: "underline",
+    },
+    content: {
+        color: "#000",
+        display: "block",
+        justify: "center",
+        textAlign: "justify",
+        marginTop: 10,
+        fontSize: 20,
+        fontVariant: "small-caps",
     },
     box: {
         background: "#3c56ba",
@@ -56,20 +98,24 @@ const useStyles = makeStyles({
         alignContent: "center",
         paddingBottom: 20,
     },
-    next:{
+    next: {
         width: 10,
         marginRight: 50,
     },
-    back:{
+    back: {
         marginTop: 50,
         width: 100,
+    },
+    root: {
+        '& > *': {
+            borderBottom: 'unset',
+        },
     },
 });
 
 
-
-function createData(name, sws, fairness, support, material, fun, understandability, node_effort, recommendation, overlapping ){
-    return{
+function createData(name, sws, fairness, support, material, fun, understandability, node_effort, recommendation, overlapping) {
+    return {
         name,
         sws,
         fairness,
@@ -83,55 +129,15 @@ function createData(name, sws, fairness, support, material, fun, understandabili
     };
 }
 
-function calculateSWS(markedSubjects){
-    let totalSws=0;
-    for (const[key,value] of Object.entries(markedSubjects)){
+function calculateSWS(markedSubjects) {
+    let totalSws = 0;
+    for (const [key, value] of Object.entries(markedSubjects)) {
         totalSws += parseInt(value.sws);
     }
     return totalSws;
 }
 
-
-const useRowStyles = makeStyles({
-    root: {
-        '& > *': {
-            borderBottom: 'unset',
-        },
-    },
-});
-
-const subjectsrating =
-    [
-        {
-            "url": "https://www.meinprof.de/uni/kurs/21400",
-            "name": "Betriebssysteme",
-            "prof": "Dr. Otten, Werner",
-            "ratings": [
-                {
-                    "semester": "WS 04/05",
-                    "recommendation": "Ja",
-                    "node_effort": 4,
-                    "fairness": 4,
-                    "support": 5,
-                    "material": 4,
-                    "understandability": 5,
-                    "fun": 3,
-                    "interest": 4
-                }
-            ],
-            "fairness": 80.0,
-            "support": 100.0,
-            "material": 80.0,
-            "fun": 60.0,
-            "understandability": 100.0,
-            "interest": 80.0,
-            "node_effort": 80.0,
-            "recommendation": 100.0
-
-
-        }]
-
-const markedSubjects = [{
+const markedSubjects2 = [{
     "name": "Betriebssysteme",
     "url": "https://campus.uni-due.de/lsf/rds?state=verpublish&status=init&vmfile=no&publishid=309996&moduleCall=webInfo&publishConfFile=webInfo&publishSubDir=veranstaltung",
     "subject_type": "Vorlesung",
@@ -140,8 +146,8 @@ const markedSubjects = [{
     "sws": "3",
     "timetable": [
         {
-            "day": "Mo.",
-            "time": { "from": "09:00", "to": "12:00" },
+            "day": "Mi.",
+            "time": {"from": "13:00", "to": "15:00"},
             "rhythm": "wöch.",
             "duration": "",
             "room": "",
@@ -149,8 +155,9 @@ const markedSubjects = [{
             "comment": " "
         }
     ],
-    },
-    {"name": "Mechanics I2",
+},
+    {
+        "name": "Mechanics I2",
         "url": "https://campus.uni-due.de/lsf/rds?state=verpublish&status=init&vmfile=no&publishid=316856&moduleCall=webInfo&publishConfFile=webInfo&publishSubDir=veranstaltung",
         "subject_type": "Vorlesung",
         "shorttext": " ",
@@ -159,7 +166,7 @@ const markedSubjects = [{
         "timetable": [
             {
                 "day": "Mi.",
-                "time": { "from": "08:00", "to": "10:00" },
+                "time": {"from": "09:00", "to": "10:00"},
                 "rhythm": "wöch.",
                 "duration": "",
                 "room": "",
@@ -167,7 +174,7 @@ const markedSubjects = [{
                 "comment": " "
             }
         ],
-  }, {
+    }, {
         "name": "Übung zu \"Berechenbarkeit und Komplexität\"",
         "url": "https://campus.uni-due.de/lsf/rds?state=verpublish&status=init&vmfile=no&publishid=310232&moduleCall=webInfo&publishConfFile=webInfo&publishSubDir=veranstaltung",
         "subject_type": "Übung",
@@ -184,19 +191,91 @@ const markedSubjects = [{
                 "status": " ",
                 "comment": " "
             }]
+    },
+    {
+        "name": "Objektorientierte Programmierung Praktikum",
+        "url": "https://campus.uni-due.de/lsf/rds?state=verpublish&status=init&vmfile=no&publishid=309878&moduleCall=webInfo&publishConfFile=webInfo&publishSubDir=veranstaltung",
+        "subject_type": "Praktikum",
+        "shorttext": "OOPP",
+        "longtext": " ",
+        "sws": "1",
+        "persons": [
+            {
+                "name": "Petersen, Jörg , Dr.-Ing. Dipl.-Inform.",
+                "url": "https://campus.uni-due.de/lsf/rds?state=verpublish&status=init&vmfile=no&moduleCall=webInfo&publishConfFile=webInfoPerson&publishSubDir=personal&keep=y&personal.pid=2874"
+            },
+            {
+                "name": "Wiss. Mitarb., ",
+                "url": "https://campus.uni-due.de/lsf/rds?state=verpublish&status=init&vmfile=no&moduleCall=webInfo&publishConfFile=webInfoPerson&publishSubDir=personal&keep=y&personal.pid=10168"
+            }
+        ],
+        "timetable": [
+            {
+                "day": "Fr.",
+                "time": {"from": "13:00", "to": "16:00"},
+                "rhythm": "wöch.",
+                "duration": {"from": "19.10.2018", "to": "07.12.2018"},
+                "room": "",
+                "status": " ",
+                "comment": " "
+            }]
+    },
+    {
+        "name": "Übungen zu 'Wahrscheinlichkeitsrechnung und Statistik für Informatiker'",
+        "url": "https://campus.uni-due.de/lsf/rds?state=verpublish&status=init&vmfile=no&publishid=310285&moduleCall=webInfo&publishConfFile=webInfo&publishSubDir=veranstaltung",
+        "subject_type": "Übung",
+        "shorttext": " ",
+        "longtext": " ",
+        "sws": "1",
+        "persons": [
+            {
+                "name": "Simon, René , Dr.",
+                "url": "https://campus.uni-due.de/lsf/rds?state=verpublish&status=init&vmfile=no&moduleCall=webInfo&publishConfFile=webInfoPerson&publishSubDir=personal&keep=y&personal.pid=50250"
+            }
+        ],
+        "timetable": [
+            {
+                "day": "Do.",
+                "time": {"from": "16:00", "to": "18:00"},
+                "rhythm": "wöch.",
+                "duration": "",
+                "room": "",
+                "status": " ",
+                "comment": " "
+            }
+        ]
+    },
+    {
+        "name": "Rechnernetze und Kommunikationssysteme",
+        "url": "https://campus.uni-due.de/lsf/rds?state=verpublish&status=init&vmfile=no&publishid=309926&moduleCall=webInfo&publishConfFile=webInfo&publishSubDir=veranstaltung",
+        "subject_type": "Vorlesung",
+        "shorttext": "B-RSI",
+        "longtext": " ",
+        "sws": "2",
+        "timetable": [
+            {
+                "day": "Mi.",
+                "time": {"from": "12:00", "to": "14:00"},
+                "rhythm": "wöch.",
+                "duration": "",
+                "room": "",
+                "status": " ",
+                "comment": " "
+            }
+        ]
     }
 ]
 
-function checkForOverlapping(subjectA, subjectB){
+function checkForOverlapping(subjectA, subjectB) {
     const durationA = subjectA.duration;
     const durationB = subjectB.duration;
 
-        if ((durationB.from < durationA.from && durationB.to < durationA.from) ||
-            (durationB.from > durationA.to && durationB.to > durationA.to)) {
-            return false;
-        }
+    if ((durationB.from < durationA.from && durationB.to < durationA.from) ||
+        (durationB.from > durationA.to && durationB.to > durationA.to)) {
+        return false;
+    }
 
-    if(subjectB.day !== subjectA.day){
+    if (subjectB.day !== subjectA.day) {
         return false;
     }
     const timeA = subjectA.time;
@@ -252,11 +331,11 @@ function generateTimeoverlapChartData(selectedSubjects) {
 }
 
 
-function calculateOverlapping(subject){
+function calculateOverlapping(subject) {
     const data = [];
-    for (let subjects of markedSubjects){
-        if(subjects.name !== subject.name){
-            if(checkForOverlapping(subject.timetable[0], subjects.timetable[0]) === "edge"){
+    for (let subjects of markedSubjects2) {
+        if (subjects.name !== subject.name) {
+            if (checkForOverlapping(subject.timetable[0], subjects.timetable[0]) === "edge") {
                 data.push({
                     overlappingsubject: subjects.name,
                     overlappingday: subject.timetable[0].day,
@@ -265,7 +344,7 @@ function calculateOverlapping(subject){
                     time: "no time between subjects"
                 })
             }
-            if(checkForOverlapping(subject.timetable[0], subjects.timetable[0]) === "critical"){
+            if (checkForOverlapping(subject.timetable[0], subjects.timetable[0]) === "critical") {
                 data.push({
                     overlappingsubject: subjects.name,
                     overlappingday: subject.timetable[0].day,
@@ -280,57 +359,57 @@ function calculateOverlapping(subject){
 }
 
 
-
-
 function createSubjectAndRating(markedSubjects, subjectsrating) {
     const subjectAndRating = [];
+    const subjectnames = [];
     for (const [key, value] of Object.entries(markedSubjects)) {
-        console.log(value.timetable);
-        console.log(value);
-
         for (const [key2, value2] of Object.entries(subjectsrating)) {
-            console.log(value2);
             if (value.name === value2.name) {
                 subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, calculateOverlapping(value)));
-            }
-            if (value.name !== value2.name) {
-                subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, calculateOverlapping(value)));
+                subjectnames.push(value.name);
             }
         }
-    }
+        if (!subjectnames.includes(value.name)) {
+            subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, calculateOverlapping(value)));
+        }
 
+    }
     return subjectAndRating;
 }
 
-
 function Row(props) {
-    const { row } = props;
+    let {row} = props;
     const [open, setOpen] = React.useState(false);
-    const classes = useRowStyles();
-
+    const classes = useStyles();
 
     return (
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
                     <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-                        {open ? <KeyboardArrowUpIcon /> : row.overlapping.length !== 0 ? <Badge variant="dot" color="secondary" > <KeyboardArrowDownIcon /> </Badge> : <KeyboardArrowDownIcon/>}
+                        {open ? <KeyboardArrowUpIcon/> : row.overlapping.length !== 0 ?
+                            <Badge variant="dot" color="secondary"> <KeyboardArrowDownIcon/> </Badge> :
+                            <KeyboardArrowDownIcon/>}
                     </IconButton>
                 </TableCell>
                 <TableCell component="th" scope="row">
                     {row.name}
                 </TableCell>
                 <TableCell align="center">{row.sws ? row.sws : <CloseIcon color="secondary"/>}</TableCell>
-                 <TableCell align="center">{row.fairness ? row.fairness : <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.fairness ? row.fairness : <CloseIcon color="secondary"/>}</TableCell>
                 <TableCell align="center">{row.support ? row.fairness : <CloseIcon color="secondary"/>}</TableCell>
                 <TableCell align="center">{row.material ? row.material : <CloseIcon color="secondary"/>}</TableCell>
                 <TableCell align="center">{row.fun ? row.fun : <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.understandability ? row.understandability : <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.node_effort ? row.node_effort : <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.recommendation ? row.recommendation : <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.understandability ? row.understandability :
+                    <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.node_effort ? row.node_effort :
+                    <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.recommendation ? row.recommendation :
+                    <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="left"><DeleteIcon onClick={() => props.deleteRow(row)}/></TableCell>
             </TableRow>
             <TableRow>
-                <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={10}>
+                <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={11}>
                     <Collapse in={open} timeout="auto" unmountOnExit>
                         <Box margin={1}>
                             <Typography variant="h6" gutterBottom component="div">
@@ -349,13 +428,15 @@ function Row(props) {
                                 <TableBody>
                                     {row.overlapping.map((overlappingRow) => (
                                         <TableRow key={overlappingRow.overlapping}>
-                                        <TableCell component="th" scope="row">
-                                            {overlappingRow.overlappingsubject ? <Typography color="secondary"> {overlappingRow.overlappingsubject} </Typography> : <> </>}
-                                        </TableCell>
-                                        <TableCell>{overlappingRow.overlappingday ? overlappingRow.overlappingday : <> </>}</TableCell>
-                                        <TableCell>{overlappingRow.overlappingfrom ? overlappingRow.overlappingfrom : <> </>}</TableCell>
+                                            <TableCell component="th" scope="row">
+                                                {overlappingRow.overlappingsubject ? <Typography
+                                                    color="secondary"> {overlappingRow.overlappingsubject} </Typography> : <> </>}
+                                            </TableCell>
+                                            <TableCell>{overlappingRow.overlappingday ? overlappingRow.overlappingday : <> </>}</TableCell>
+                                            <TableCell>{overlappingRow.overlappingfrom ? overlappingRow.overlappingfrom : <> </>}</TableCell>
                                             <TableCell>{overlappingRow.overlappingto ? overlappingRow.overlappingto : <> </>}</TableCell>
-                                            <TableCell> <Typography color="secondary">{overlappingRow.time !== "no overlapping" ? overlappingRow.time : <> </>} </Typography></TableCell>
+                                            <TableCell> <Typography
+                                                color="secondary">{overlappingRow.time !== "no overlapping" ? overlappingRow.time : <> </>} </Typography></TableCell>
                                         </TableRow>
                                     ))}
                                 </TableBody>
@@ -368,80 +449,282 @@ function Row(props) {
     );
 }
 
-export default function ComparePage(props){
+function Row2(props) {
+    let {row} = props;
     const classes = useStyles();
+    return (
+        <React.Fragment>
+            <TableRow className={classes.root}>
+                <TableCell/>
+                <TableCell component="th" scope="row">
+                    {row.name}
+                </TableCell>
+                <TableCell align="center">{row.sws ? row.sws : <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.fairness ? row.fairness : <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.support ? row.fairness : <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.material ? row.material : <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.fun ? row.fun : <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.understandability ? row.understandability :
+                    <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.node_effort ? row.node_effort :
+                    <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.recommendation ? row.recommendation :
+                    <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="left"><RestoreFromTrashIcon onClick={() => props.recoverRow(row)}/></TableCell>
+            </TableRow>
+        </React.Fragment>
+    );
+}
 
-    const[backButton2Clicked, setBackButton2Clicked] = useState(false);
+
+export default function ComparePage(props) {
+    const classes = useStyles();
+    const [markedSubjects, setMarkedSubjects] = useState(markedSubjects2);
+    const [removedMarkedSubjects, setRemovedMarkedSubjects] = useState([]);
+    const [backButton2Clicked, setBackButton2Clicked] = useState(false);
+    const [removedSubjects, setRemovedSubjects] = useState([]);
+    const [heatMapData, setHeatMapData] = useState(generateTimeoverlapChartData(markedSubjects));
+    const [subjectAndRating, setSubjectAndRating] = React.useState(createSubjectAndRating(markedSubjects, subjectsrating));
 
     const handleBackButton2Clicked = () => {
         setBackButton2Clicked(true);
     }
-    const subjectAndRating = createSubjectAndRating(markedSubjects, subjectsrating);
-    console.log(subjectAndRating);
 
-    if(!backButton2Clicked) {
+    const handleRecover = (row) => {
+
+        const filterTable = (num) => {
+            return num.name !== row.name;
+        }
+
+        for (let subject of removedMarkedSubjects) {
+            if (subject.name === row.name) {
+                setMarkedSubjects(markedSubjects.concat(subject));
+                setHeatMapData(generateTimeoverlapChartData(markedSubjects.concat(subject)));
+            }
+        }
+        const newRemovedMarkedSubjects = removedMarkedSubjects.filter(filterTable);
+        setRemovedMarkedSubjects(newRemovedMarkedSubjects);
+
+        const newRemovedSubjects = removedSubjects.filter(filterTable);
+        setRemovedSubjects(newRemovedSubjects);
+
+        const recoveredSubjectAndRating = subjectAndRating.concat(row);
+        setSubjectAndRating(recoveredSubjectAndRating);
+    }
+
+    const handleDelete = (row) => {
+
+        const filterData = (num) => {
+            return num.subjectA.name !== row.name && num.subjectB.name !== row.name;
+        }
+
+        const filterTable = (num) => {
+            return num.name !== row.name;
+        }
+
+        for (let subject of markedSubjects) {
+            if (subject.name === row.name) {
+                setRemovedMarkedSubjects(removedMarkedSubjects.concat(subject));
+            }
+        }
+
+        const newMarkedSubjects = markedSubjects.filter(filterTable);
+        setMarkedSubjects(newMarkedSubjects);
+
+        let filteredSubjectAndRating = subjectAndRating.filter(filterTable);
+        setSubjectAndRating(filteredSubjectAndRating);
+
+        let filteredData = heatMapData.filter(filterData);
+        setHeatMapData(filteredData);
+
+        const newRemovedSubjects = removedSubjects.concat(row);
+        setRemovedSubjects(newRemovedSubjects);
+
+    }
+
+
+    const [page, setPage] = React.useState(0);
+    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+    const handleChangePage = (event, newPage) => {
+        setPage(newPage);
+    };
+
+    const handleChangeRowsPerPage = (event) => {
+        setRowsPerPage(+event.target.value);
+        setPage(0);
+    };
+    const [value, setValue] = React.useState('1');
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
+
+    if (!backButton2Clicked) {
         return (
             <Router>
-                <Box className={classes.box}>
-
-                    <Typography className={classes.step2} style={{fontVariant:"small-caps"}}> Step 3: Compare and decide which subjects you want to
-                        take </Typography>
-                    <Typography className={classes.selection} style={{fontVariant:"small-caps"}}> Your selected
-                        studyprogram: {props.studyprogram.name}</Typography>
-                    <Typography className={classes.selection} style={{fontVariant:"small-caps"}}> Your selected
-                        semester: {props.semester.semester}</Typography>
-
-                </Box>
-                <Typography className={classes.sws} style={{fontVariant:"small-caps"}}> Your total SWS: {calculateSWS(markedSubjects)} </Typography>
-                <Card>
-                    <CardContent>
                 <Grid container direction="column">
-                    <Grid item style={{paddingTop:20, paddingLeft: 10}}>
-                        <HeatMapGrid subjects={subjectAndRating}/>
+                    <Grid item>
+                        <Box className={classes.box}>
+                            <Typography className={classes.courseinsights}>CourseInsights</Typography>
+
+                            <Typography className={classes.step2}> Step 3: Compare and decide which subjects you want to
+                                take </Typography>
+                        </Box>
                     </Grid>
-
-                    <Grid item xs={9} style={{paddingTop:20, fontVariant:"small-caps"}}>
-                <TableContainer component={Paper}>
-                    <Table aria-label="collapsible table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell />
-                                <TableCell>Subject name</TableCell>
-                                <TableCell align="center">SWS</TableCell>
-                                <TableCell align="center">Fairness</TableCell>
-                                <TableCell align="center">Support</TableCell>
-                                <TableCell align="center">Material</TableCell>
-                                <TableCell align="center">Fun</TableCell>
-                                <TableCell align="center">Understandability</TableCell>
-                                <TableCell align="center">Node_Effort</TableCell>
-                                <TableCell align="center">Recommendation</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {subjectAndRating.map((row) => (
-                                <Row key={row.name} row={row} />
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                    <Grid item style={{paddingTop: 25, alignSelf: "center"}}>
+                        <Card style={{alignSelf: "center"}}>
+                            <CardContent>
+                                <Grid container direction="column">
+                                    <Grid container>
+                                        <Grid item xs={5} style={{paddingTop: 25}}>
+                                            <Card>
+                                                <CardContent>
+                                                    <Typography className={classes.caption}> Your
+                                                        selection:</Typography>
+                                                    <Typography className={classes.lilcaptions}> Your
+                                                        selected studyprogram: </Typography>
+                                                    <Typography
+                                                        className={classes.content}>{props.studyprogram.name}</Typography>
+                                                    <Typography className={classes.lilcaptions}> Your selected
+                                                        semester: </Typography>
+                                                    <Typography
+                                                        className={classes.content}>{props.semester.semester}</Typography>
+                                                    <Typography className={classes.lilcaptions}> Your total
+                                                        SWS: </Typography>
+                                                    <Typography
+                                                        className={classes.content}>{calculateSWS(markedSubjects)} </Typography>
+                                                </CardContent>
+                                            </Card>
+                                        </Grid>
+                                        <Grid item xs={7}
+                                              style={{paddingTop: 20, paddingLeft: 100, fontVariant: "small-caps"}}>
+                                            <HeatMap data={heatMapData}/>
+                                        </Grid>
+                                    </Grid>
+                                    <Grid item style={{
+                                        fontVariant: "small-caps",
+                                        alignSelf: "center",
+                                        width: 1100,
+                                        paddingTop: 20
+                                    }}>
+                                        <TabContext value={value}>
+                                            <AppBar position='static'>
+                                                <TabList onChange={handleChange} aria-label="simple tabs example">
+                                                    <Tab label="marked subjects" value="1"/>
+                                                    {removedSubjects.length === 0 ?
+                                                        <Tab label="removed subjects" disabled value="2"/> :
+                                                        <Tab label="removed subjects" value="2"
+                                                             style={{color: '#f50057'}}/>}
+                                                </TabList>
+                                            </AppBar>
+                                            <TabPanel value="1">
+                                                <TableContainer component={Paper}>
+                                                    <Table stickyHeader aria-label="collapsible table" cellSpacing="2">
+                                                        <TableHead>
+                                                            <TableRow>
+                                                                <TableCell/>
+                                                                <TableCell>Subject name</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>SWS</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>Fairness</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>Support</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>Material</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>Fun</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>Understandability</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>Effort</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>Recommendation</TableCell>
+                                                                <TableCell/>
+                                                            </TableRow>
+                                                        </TableHead>
+                                                        <TableBody>
+                                                            {subjectAndRating.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                                                                return (
+                                                                    <Row key={row.name} row={row}
+                                                                         deleteRow={handleDelete}/>
+                                                                );
+                                                            })
+                                                            }
+                                                        </TableBody>
+                                                    </Table>
+                                                </TableContainer>
+                                                <TablePagination
+                                                    rowsPerPageOptions={[5, 10, 20, 30]}
+                                                    component="div"
+                                                    count={subjectAndRating.length}
+                                                    rowsPerPage={rowsPerPage}
+                                                    page={page}
+                                                    onChangePage={handleChangePage}
+                                                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                                                />
+                                            </TabPanel>
+                                            <TabPanel value="2">
+                                                <TableContainer component={Paper}>
+                                                    <Table stickyHeader aria-label="collapsible table" cellSpacing="2">
+                                                        <TableHead>
+                                                            <TableRow>
+                                                                <TableCell/>
+                                                                <TableCell>Subject name</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>SWS</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>Fairness</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>Support</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>Material</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>Fun</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>Understandability</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>Effort</TableCell>
+                                                                <TableCell align="center"
+                                                                           style={{width: 20}}>Recommendation</TableCell>
+                                                                <TableCell/>
+                                                            </TableRow>
+                                                        </TableHead>
+                                                        <TableBody>
+                                                            {removedSubjects.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                                                                return (
+                                                                    <Row2 key={row.name} row={row}
+                                                                          recoverRow={handleRecover}/>
+                                                                );
+                                                            })
+                                                            }
+                                                        </TableBody>
+                                                    </Table>
+                                                </TableContainer>
+                                                <TablePagination
+                                                    rowsPerPageOptions={[5, 10, 20, 30]}
+                                                    component="div"
+                                                    count={removedSubjects.length}
+                                                    rowsPerPage={rowsPerPage}
+                                                    page={page}
+                                                    onChangePage={handleChangePage}
+                                                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                                                />
+                                            </TabPanel>
+                                        </TabContext>
+                                    </Grid>
+                                </Grid>
+                                <Grid item className={classes.back}>
+                                    <Button variant="contained"
+                                            style={{backgroundColor: "#3c56ba", color: "#fff", width: 70}}
+                                            onClick={handleBackButton2Clicked}>
+                                        back
+                                    </Button>
+                                </Grid>
+                            </CardContent>
+                        </Card>
                     </Grid>
-
-
-
                 </Grid>
-
-
-
-
-                <Grid item className={classes.back}>
-                    <Button variant="contained"
-                            style={{backgroundColor: "#3c56ba", color: "#fff", width: 70}}
-                            onClick={handleBackButton2Clicked}>
-                        back
-                    </Button>
-                </Grid>
-                    </CardContent>
-                </Card>
             </Router>
         );
     }

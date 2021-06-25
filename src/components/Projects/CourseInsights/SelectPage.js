@@ -1,7 +1,8 @@
 import React, {/*Component, */useState} from 'react';
 import {BrowserRouter as Router/*, useHistory*/} from "react-router-dom";
 import {Button/*, Container*/} from "@material-ui/core";
-// import studyprogram from './data';
+import studyprogram from './data';
+import SelectedTable from './NewApproach/SelectedTable';
 import {Autocomplete} from '@material-ui/lab';
 import {makeStyles} from "@material-ui/core/styles";
 import TextField from '@material-ui/core/TextField';
@@ -12,12 +13,21 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import ComparePage from "./ComparePage";
 import Step1 from "./Step1";
+import { TrendingUp } from '@material-ui/icons';
+import SelectedChart from "./NewApproach/SelectedChart";
 
 const useStyles = makeStyles({
 	root: {
 		minWidth: 275,
-		marginTop: 20,
+		marginTop: 25,
 		width:"75%",
+		alignSelf:"center"
+	},
+	root2: {
+		minWidth: 275,
+		marginTop: 25,
+		marginLeft:25,
+		width:"80%",
 		alignSelf:"center"
 	},
 	bullet: {
@@ -35,26 +45,36 @@ const useStyles = makeStyles({
 		color: "#ffffff",
 		display: "block",
 		justify: "center",
-		marginBottom: 10,
-		marginTop: 10,
-		fontSize: 25,
+		marginTop:40,
+		marginBottom: 40,
 		textAlign: "center",
 		fontVariant: "small-caps",
 	},
 	
 	selection: {
-		color: "#ffffff",
+		color: "#f50057",
 		display: "block",
 		justify: "center",
-		textAlign: "center",
-		marginTop: 10,
-		marginBottom: 10,
+		textAlign: "left",
+		width:"50%",
+		marginLeft:25,
+		fontSize: 24,
+		fontVariant: "small-caps",
+		textDecoration:"underline",
+	},
+	selection2: {
+		color: "#000000",
+		display: "block",
+		justify: "center",
+		textAlign: "left",
+		width:"50%",
+		marginLeft:25,
 		fontSize: 20,
 		fontVariant: "small-caps",
 	},
 	box: {
 		background: "#3c56ba",
-		height: "max-content",
+		height: "250px",
 		display: "block",
 		alignContent: "center",
 	},
@@ -67,13 +87,13 @@ const useStyles = makeStyles({
 		width: 10,
 		height: 30,
 		alignItems: "center",
-		buttons: {
+	buttons: {
 			marginTop: 10,
 			width: 50,
 			background: "#3c56ba",
 			color: "#ffffff",
 			fontVariant: "small-caps"
-		},
+	},
 		treeborder: {
 			width: 450,
 			height: "max-content",
@@ -83,7 +103,7 @@ const useStyles = makeStyles({
 	buttons:{
 		marginTop:10,
 		width: 50,
-		background: "#3c56ba",
+		background: "#f50057",
 		color:"#ffffff",
 		fontVariant:"small-caps"
 	},
@@ -99,17 +119,13 @@ export default function SelectPage(props) {
 	const [category1, setCategory1] = React.useState(undefined);
 	const [category2, setCategory2] = React.useState(undefined);
 	const [category3, setCategory3] = React.useState(undefined);
-	// const [index, setIndex] = React.useState(undefined);
-	// const isLoggedIn = !!sessionStorage.getItem('elas_userLoggedIn');
+	const [current, setCurrent] = React.useState([]);
+	const [selectedSubjects, setSelectedSubjects] = React.useState([]);
+
+	const [select,setSelect]=React.useState(false);
 	const classes = useStyles();
-	// const [isChanged, setIsChanged] = React.useState(false);
-	// const [depth, setDepth] = React.useState(undefined);
 	
-	console.log(pstudyprogram);
-	console.log(category1);
-	console.log(category2);
-	console.log(category3);
-	
+
 	const [nextButton2Clicked, setNextButton2Clicked] = useState(false);
 	const [backButton1Clicked, setBackButton1Clicked] = useState(false);
 	
@@ -120,23 +136,67 @@ export default function SelectPage(props) {
 	const handleBackButton1Clicked = () => {
 		setBackButton1Clicked(true);
 	}
+
+	const handleAppend = (item) => {
+
+		const newSelected = selectedSubjects.concat(item);
+		setSelectedSubjects(newSelected);
+	}
+
+	const handleDelete = (row) => {
+		const filterData = (num) => {
+            return num.name !== row.name;
+        }
+		
+		const newSelected = selectedSubjects.filter(filterData);
+		setSelectedSubjects(newSelected);
+		
+	}
+	const handleDelete2 = (row) => {
+		const filterData = (num) => {
+			if(num.name !== row.name){
+				console.log(row);
+				return num.name !== row.name;
+			}
+            
+        }
+		
+		const newSelected = selectedSubjects.filter(filterData);
+		setSelectedSubjects(newSelected);
+		
+	}
+
+	console.log(current);
+
+
+
+	
 	
 	if (!nextButton2Clicked && !backButton1Clicked) {
 		return (
 			<Router>
 				<Box className={classes.box}>
 					
-					<Typography className={classes.step1}> Step 2: Mark subjects of interest </Typography>
-					<Typography className={classes.selection}> Your selected
-						studyprogram: {props.studyprogram.name}</Typography>
-					<Typography className={classes.selection}> Your selected semester: {props.semester.semester} </Typography>
+					<Typography className={classes.step1} style={{fontSize:40}}> CourseInsights </Typography>
+					<Typography className={classes.step1} style={{fontSize:35}}> Step 2: Mark subjects of interest </Typography>
 				
 				</Box>
 				<Card className={classes.root} variant="outlined">				
 					<CardContent style={{alignContent:"center"}} >
-						<Grid container direction="column" alignItems="center" justify="center"> 
 
-										<Grid item style={{width:"100%"}}>								
+								<Grid container>
+										<Grid item style={{width:"50%"}}>
+
+											<Card className={classes.root2} variant="outlined">
+												<CardContent style={{alignContent:"center"}} >
+													<Typography className={classes.selection} style={{marginTop:50}}> Your selected studyprogram: </Typography>
+													<Typography className={classes.selection2}style={{marginTop:10}}>  {props.studyprogram.name}	  </Typography>			
+													<Typography className={classes.selection}style={{marginTop:20}}> Your selected semester: 	  </Typography>
+													<Typography className={classes.selection2}style={{marginTop:10}}>{props.semester.semester}     </Typography>
+												</CardContent>
+											</Card>		
+
+
 										<Autocomplete
 											value={category1}
 											autoHighlight="true"
@@ -153,12 +213,10 @@ export default function SelectPage(props) {
 											id="search-category"
 											options={pstudyprogram.categories}
 											getOptionLabel={(option) => option.name}
-											style={{width:"75%", marginTop: 30, fontVariant: "small-caps"}}
+											style={{width:"80%", marginTop: 25, marginLeft:25, fontVariant: "small-caps"}}
 											renderInput={(params) => <TextField {...params} label="Select a category here" variant="outlined"
 												                                    color="secondary"/>}/>
-										</Grid>	
 
-										<Grid item style={{width:"100%"}}>	
 										{category1 && category1.categories.length > 0 ?
 											<Autocomplete
 												value={category2}
@@ -173,13 +231,12 @@ export default function SelectPage(props) {
 												id="search-category"
 												options={category1.categories}
 												getOptionLabel={(option) => option.name}
-												style={{width: "75%", marginTop: 30}}
+												style={{width:"80%", marginTop: 25, marginLeft:25, fontVariant: "small-caps"}}
 												renderInput={(params) => <TextField {...params} label="Select a category here"
 												                                    variant="outlined"/>}/>
 											
 											: <></>}
-										</Grid>
-										<Grid item style={{width:"100%"}}>	
+
 										{category2 && category2.categories.length > 0 ?
 											<Autocomplete
 												value={category3}
@@ -194,22 +251,57 @@ export default function SelectPage(props) {
 												id="search-category"
 												options={category2.categories}
 												getOptionLabel={(option) => option.name}
-												style={{width: "75%", marginTop: 30}}
+												style={{width:"80%", marginTop: 25, marginLeft:25, fontVariant: "small-caps"}}
 												renderInput={(params) => <TextField {...params} label="Select a category here"
 												                                    variant="outlined"/>}/>
 											
 											: <></>}
-										</Grid>
-										<Grid item style={{width:"100%"}}>	
-										<div style={{width: "75%", paddingTop: 50}}>
-											{category3 && category2 && category1 ? <SubjectsTable test={category3}/> : <></>}
-											{!category3 && category2 && category1 ? <SubjectsTable test={category2}/> : <></>}
-											{!category3 && !category2 && category1 ? <SubjectsTable test={category1}/> : <></>}
+
+										<div style={{width:"80%", marginTop: 25, marginLeft:25, fontVariant: "small-caps"}}>
+											{category3 && category2 && category1 ? <SubjectsTable test={category3} 	 append={handleAppend} delete={handleDelete}  current={current} setCurrent={setCurrent}/> : <></>}
+											{!category3 && category2 && category1 ? <SubjectsTable test={category2}  append={handleAppend} delete={handleDelete}  current={current} setCurrent={setCurrent}/> : <></>}
+											{!category3 && !category2 && category1 ? <SubjectsTable test={category1} append={handleAppend} delete={handleDelete}  current={current} setCurrent={setCurrent}/> : <></>}
 										</div>
 										</Grid>
+										<Grid item style={{width:"50%"}}>	
 
 
-					</Grid>				
+										<SelectedChart subjects={selectedSubjects}/>
+
+
+
+										<div style={{width:"80%", marginTop: 25, marginLeft:25, fontVariant: "small-caps"}}>
+
+											{selectedSubjects && selectedSubjects.length > 0 ? <SelectedTable subjects={selectedSubjects} delete={handleDelete2}/> : <></>}
+											
+										</div>		
+									</Grid>
+								</Grid>
+
+
+										<Grid container style={{width:"100%"}} justify="space-evenly">
+
+											<Grid item>
+												<Button 
+														variant="contained"
+														className={classes.buttons}
+														onClick={handleBackButton1Clicked}>
+													back
+												</Button>
+											</Grid>
+
+											<Grid item>
+												<Button 
+														variant="contained"
+														className={classes.buttons}
+														onClick={handleNextButton2Clicked}>
+													next
+												</Button>
+											</Grid>
+
+										</Grid>
+
+			
 				</CardContent>
 			</Card>
 				
@@ -219,28 +311,9 @@ export default function SelectPage(props) {
 		);
 	}
 	if (nextButton2Clicked && !backButton1Clicked) {
-		return (<ComparePage studyprogram={props.studyprogram} semester={props.semester}/>);
+		return (<ComparePage studyprogram={props.studyprogram} semester={props.semester} selected={selectedSubjects}/>);
 	}
 	if (backButton1Clicked) {
 		return (<Step1/>)
 	}
 }
-{/* <Grid container style={{width:"100%"}} justify="space-evenly">
-
-<Grid item>
-	<Button variant="contained"
-			className={classes.buttons}
-			onClick={handleBackButton1Clicked}>
-		back
-	</Button>
-
-</Grid>
-
-<Grid item>
-	<Button variant="contained"
-			className={classes.buttons}
-			onClick={handleNextButton2Clicked}>
-		next
-	</Button>
-</Grid>
-</Grid>	 */}

@@ -166,6 +166,9 @@ export default function HeatMap(props) {
             title: {
                 text: 'Your Overlappings'
             },
+            noData:{
+                text: 'You have no selected subjects'
+            }
         },
     };
     return (

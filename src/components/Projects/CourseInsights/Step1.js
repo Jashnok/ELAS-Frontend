@@ -6,6 +6,7 @@ import studyprogram from "./data";
 import {Button, Box, Grid, makeStyles, Typography, Snackbar, CardContent, Card} from "@material-ui/core";
 import "./styles.css"
 import SelectPage from "./SelectPage";
+import BarChartApex from "./StartpageComp/BarChartApex";
 
 
 const useStyles = makeStyles(theme => ({
@@ -157,9 +158,10 @@ export default function Step1() {
 
                                 </Grid>
 
-                    <Grid item style={{paddingTop:25}}>
+                    <Grid item style={{paddingTop:25, color:'#f50057', fontVariant:"small-caps"}}>
 
-                        {programObject ? <BarChart studyprogram={programObject}/> :<></>}
+                        {/*{programObject ? <BarChart studyprogram={programObject}/> :<></>}*/}
+                        <BarChartApex studyprogram={programObject}/>
                     </Grid>
                             <Grid item style={{ paddingBottom:25, paddingRight:60}} >
                             <Grid container direction="row-reverse" alignItems="flex-start">

@@ -6,9 +6,21 @@ import studyprogram from "./data";
 import {Button, Box, Grid, makeStyles, Typography, Snackbar, CardContent, Card} from "@material-ui/core";
 import "./styles.css"
 import SelectPage from "./SelectPage";
+import BarChartApex from "./StartpageComp/BarChartApex";
+import NewSelectPage from "./NewSelectPage";
 
 
 const useStyles = makeStyles(theme => ({
+    step2: {
+        color: "#ffffff",
+        display: "block",
+        justify: "center",
+        marginBottom: 10,
+        marginTop: 10,
+        fontSize: 25,
+        textAlign: "center",
+        fontVariant: "small-caps",
+    },
 
     site: {
         paddingLeft: 0,
@@ -17,7 +29,8 @@ const useStyles = makeStyles(theme => ({
     },
     card:{
         paddingTop: 25,
-        width:"auto",
+        width:"75%",
+        alignSelf: "center",
         display:"block",
         textAlign: 'center',
         alignItems: 'center',
@@ -25,6 +38,16 @@ const useStyles = makeStyles(theme => ({
         marginLeft: "-moz-initial",
 
 
+    },
+    courseinsights: {
+        color: "#ffffff",
+        display: "block",
+        justify: "center",
+        marginBottom: 10,
+        marginTop: 10,
+        fontSize: 30,
+        textAlign: "center",
+        fontVariant: "small-caps",
     },
 
     ttb: {
@@ -42,8 +65,11 @@ const useStyles = makeStyles(theme => ({
         fontSize: 36,
     },
     b2: {
-        fontSize: 18,
+        fontSize: 16,
         paddingTop: 20,
+        display: "block",
+        justify: "center",
+        textAlign: "center",
     },
     sbCon: {
         paddingTop: 25,
@@ -52,6 +78,13 @@ const useStyles = makeStyles(theme => ({
         paddingTop: 10,
         width: 10,
         height: 30,
+    },
+    box: {
+        background: "#3c56ba",
+        height: "max-content",
+        display: "block",
+        alignContent: "center",
+        paddingBottom: 20,
     },
 
 }))
@@ -62,12 +95,12 @@ export default function Step1() {
     const [semesterSet, setSemesterSet] = React.useState(undefined);
     const classes = useStyles();
     const semesters = [
-        {semester: 'Wintersemester 2018/2019'},
-        {semester: 'Sommersemester 2019'},
-        {semester: 'Wintersemester 2019/2020'},
+        {semester: 'WiSe 2018/19'},
+        {semester: 'SoSe 2019'},
+        /*{semester: 'Wintersemester 2019/2020'},
         {semester: 'Sommersemester 2020'},
         {semester: 'Wintersemester 2020/2021'},
-        {semester: 'Sommersemester 2021'},
+        {semester: 'Sommersemester 2021'},*/
     ];
 
     const[nextButton1Clicked, setNextButton1Clicked] = useState(false);
@@ -100,8 +133,9 @@ export default function Step1() {
         return (
             <Grid container direction="column" justify="center" className={classes.site}>
                 <Grid item>
-                <Box color="#fff" bgcolor="#3f51b5" className={classes.Welc}>
-                    <Typography style={{fontVariant: "small-caps"}} className={classes.b1}>
+                <Box color="#fff" bgcolor="#3f51b5" className={classes.box}>
+                    <Typography className={classes.courseinsights}>CourseInsights</Typography>
+                    <Typography style={{fontVariant: "small-caps"}} className={classes.step2}>
                         Step 1: Your studyprogram
                     </Typography>
                     <Typography style={{fontVariant: "small-caps"}} className={classes.b2}>
@@ -117,7 +151,7 @@ export default function Step1() {
                 </Grid>
 
 
-                <Grid xs={12} container direction="column" justify="center"  className={classes.card} >
+                <Grid xs={12} container direction="column" justify="center" className={classes.card} >
                     <Grid item>
                     <Card >
                         <CardContent>
@@ -128,7 +162,7 @@ export default function Step1() {
                                     onChange={(event, newValue) => {
                                         setValue(newValue);
                                     }}
-                                    style={{fontVariant: "small-caps"}}
+                                    style={{fontVariant: "small-caps", width: "75%"}}
                                     id="search-box"
 
                                     options={studyprogram}
@@ -147,7 +181,7 @@ export default function Step1() {
                                         onChange={(event, newValue) => {
                                             setSemesterSet(newValue);
                                         }}
-                                        style={{fontVariant: "small-caps"}}
+                                        style={{fontVariant: "small-caps", width: "75%"}}
                                         id="semester-selection"
                                         options={semesters}
                                         getOptionLabel={(option) => option.semester}
@@ -157,9 +191,10 @@ export default function Step1() {
 
                                 </Grid>
 
-                    <Grid item style={{paddingTop:25}}>
+                    <Grid item style={{paddingTop:25, color:'#f50057', fontVariant:"small-caps"}}>
 
-                        {programObject ? <BarChart studyprogram={programObject}/> :<></>}
+                        {/*{programObject ? <BarChart studyprogram={programObject}/> :<></>}*/}
+                        <BarChartApex studyprogram={programObject}/>
                     </Grid>
                             <Grid item style={{ paddingBottom:25, paddingRight:60}} >
                             <Grid container direction="row-reverse" alignItems="flex-start">
@@ -201,6 +236,7 @@ export default function Step1() {
 
 
     if(nextButton1Clicked) {
-        return (<SelectPage studyprogram={programObject} semester={semesterSet}/>);
+        // return (<SelectPage studyprogram={programObject} semester={semesterSet}/>);
+        return (<NewSelectPage studyprogram={programObject} semester={semesterSet}/>);
     }
 }

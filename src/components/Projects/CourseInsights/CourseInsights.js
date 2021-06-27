@@ -55,6 +55,10 @@ const useStyles = makeStyles(theme => ({
         alignItems: "center",
         justifyContent: "center"
     },
+    CourseInsight: {
+        width: "50%",
+        alignSelf: "center"
+    }
 }))
 
 export default function CourseInsights(props) {
@@ -82,7 +86,7 @@ export default function CourseInsights(props) {
                         </Typography>
                     </Box>
                 </Grid>
-                <Grid container direction="row" justify="center">
+                <Grid container direction="row" justify="center" className={classes.CourseInsight}>
                     <Grid item className={classes.AboutUs} xs={12} sm={6} border={3} borderColor="secondary.main">
                             <Card style={{paddingBottom: 20}}>
                                 <CardContent>

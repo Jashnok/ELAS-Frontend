@@ -1,8 +1,7 @@
 import React from "react";
 import HeatMap from "react-heatmap-grid";
 
-const xLabels = [];
-const yLabels = [];
+
 const data = [[0,50], [50,0]]
 
 
@@ -40,6 +39,8 @@ function color(value){
 
 export default function HeatMapGrid(props) {
     const heatMapData = [];
+    const xLabels = [];
+    const yLabels = [];
 
     for(const [key,value] of Object.entries(props.subjects)){
         console.log(value);

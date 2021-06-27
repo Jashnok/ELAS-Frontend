@@ -31,6 +31,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import {TabContext, TabList, TabPanel} from "@material-ui/lab";
 import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
 import subjectsrating from './subjectsrating.js';
+import NewSelectPage from "./NewSelectPage";
 
 const useStyles = makeStyles({
     step2: {
@@ -331,9 +332,9 @@ function generateTimeoverlapChartData(selectedSubjects) {
 }
 
 
-function calculateOverlapping(subject) {
+function calculateOverlapping(subject, markedSubjects) {
     const data = [];
-    for (let subjects of markedSubjects2) {
+    for (let subjects of markedSubjects) {
         if (subjects.name !== subject.name) {
             if (checkForOverlapping(subject.timetable[0], subjects.timetable[0]) === "edge") {
                 data.push({
@@ -365,12 +366,12 @@ function createSubjectAndRating(markedSubjects, subjectsrating) {
     for (const [key, value] of Object.entries(markedSubjects)) {
         for (const [key2, value2] of Object.entries(subjectsrating)) {
             if (value.name === value2.name) {
-                subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, calculateOverlapping(value)));
+                subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, calculateOverlapping(value, markedSubjects)));
                 subjectnames.push(value.name);
             }
         }
         if (!subjectnames.includes(value.name)) {
-            subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, calculateOverlapping(value)));
+            subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, calculateOverlapping(value, markedSubjects)));
         }
 
     }
@@ -479,7 +480,7 @@ function Row2(props) {
 
 export default function ComparePage(props) {
     const classes = useStyles();
-    const [markedSubjects, setMarkedSubjects] = useState(markedSubjects2);
+    const [markedSubjects, setMarkedSubjects] = useState(props.selected);
     const [removedMarkedSubjects, setRemovedMarkedSubjects] = useState([]);
     const [backButton2Clicked, setBackButton2Clicked] = useState(false);
     const [removedSubjects, setRemovedSubjects] = useState([]);
@@ -571,7 +572,7 @@ export default function ComparePage(props) {
                                 take </Typography>
                         </Box>
                     </Grid>
-                    <Grid item style={{paddingTop: 25, alignSelf: "center"}}>
+                    <Grid item style={{paddingTop: 25, alignSelf: "center", width:1100}}>
                         <Card style={{alignSelf: "center"}}>
                             <CardContent>
                                 <Grid container direction="column">
@@ -608,7 +609,7 @@ export default function ComparePage(props) {
                                         paddingTop: 20
                                     }}>
                                         <TabContext value={value}>
-                                            <AppBar position='static'>
+
                                                 <TabList onChange={handleChange} aria-label="simple tabs example">
                                                     <Tab label="marked subjects" value="1"/>
                                                     {removedSubjects.length === 0 ?
@@ -616,7 +617,7 @@ export default function ComparePage(props) {
                                                         <Tab label="removed subjects" value="2"
                                                              style={{color: '#f50057'}}/>}
                                                 </TabList>
-                                            </AppBar>
+
                                             <TabPanel value="1">
                                                 <TableContainer component={Paper}>
                                                     <Table stickyHeader aria-label="collapsible table" cellSpacing="2">
@@ -725,9 +726,11 @@ export default function ComparePage(props) {
                         </Card>
                     </Grid>
                 </Grid>
+                {/*<NewSelectPage studyprogram={props.studyprogram} semester={props.semester}/>*/}
             </Router>
         );
     }
-    return (<SelectPage studyprogram={props.studyprogram} semester={props.semester}/>);
+    // return (<SelectPage studyprogram={props.studyprogram} semester={props.semester}/>);
+    return (<NewSelectPage studyprogram={props.studyprogram} semester={props.semester}/>);
 
 }

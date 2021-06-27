@@ -131,7 +131,7 @@ const markedSubjects2 = [{
 ]
 
 export default function ApexColumnChart(props) {
-    const markedSubjects = markedSubjects2;
+    const markedSubjects = props.selected;
 
 
     const generateXAxis = (markedsubjects) => {

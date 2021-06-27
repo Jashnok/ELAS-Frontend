@@ -17,7 +17,8 @@ const useStyles = makeStyles(theme => ({
     },
     card:{
         paddingTop: 25,
-        width:"auto",
+        width:"50%",
+        alignSelf: "center",
         display:"block",
         textAlign: 'center',
         alignItems: 'center',

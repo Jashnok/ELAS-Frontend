@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     },
     card:{
         paddingTop: 25,
-        width:"50%",
+        width:"75%",
         alignSelf: "center",
         display:"block",
         textAlign: 'center',
@@ -151,7 +151,7 @@ export default function Step1() {
                 </Grid>
 
 
-                <Grid xs={12} container direction="column" justify="center"  className={classes.card} >
+                <Grid xs={12} container direction="column" justify="center" className={classes.card} >
                     <Grid item>
                     <Card >
                         <CardContent>
@@ -162,7 +162,7 @@ export default function Step1() {
                                     onChange={(event, newValue) => {
                                         setValue(newValue);
                                     }}
-                                    style={{fontVariant: "small-caps"}}
+                                    style={{fontVariant: "small-caps", width: "75%"}}
                                     id="search-box"
 
                                     options={studyprogram}
@@ -181,7 +181,7 @@ export default function Step1() {
                                         onChange={(event, newValue) => {
                                             setSemesterSet(newValue);
                                         }}
-                                        style={{fontVariant: "small-caps"}}
+                                        style={{fontVariant: "small-caps", width: "75%"}}
                                         id="semester-selection"
                                         options={semesters}
                                         getOptionLabel={(option) => option.semester}

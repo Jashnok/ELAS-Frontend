@@ -59,6 +59,7 @@
     ]
   },
   "devDependencies": {
+    "@material-ui/data-grid": "^4.0.0-alpha.32",
     "react-d3-tree": "^2.0.2",
     "use-resize-observer": "^7.0.0"
   }

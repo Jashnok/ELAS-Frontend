@@ -131,8 +131,8 @@ export default function Step1() {
 
     if(!nextButton1Clicked ) {
         return (
-            <Grid container direction="column" justify="center" className={classes.site}>
-                <Grid item>
+          <Grid container direction="column" justify="flex-start">
+            <Grid item>
                 <Box color="#fff" bgcolor="#3f51b5" className={classes.box}>
                     <Typography className={classes.courseinsights}>CourseInsights</Typography>
                     <Typography style={{fontVariant: "small-caps"}} className={classes.step2}>
@@ -150,19 +150,17 @@ export default function Step1() {
                 </Box>
                 </Grid>
 
-
-                <Grid xs={12} container direction="column" justify="center" className={classes.card} >
-                    <Grid item>
-                    <Card >
+                <Grid item style={{width:"75%", marginTop:25, alignSelf:"center"}}>
+                    <Card  variant="outlined">
                         <CardContent>
-
-                            <Grid item>
+                            <Grid container direction="column" alignItems="center" justify="center" style={{margin:50}}>
+                              <Grid item style={{width:"75%", marginBottom:25}}>
                                 <Autocomplete
                                     value={programObject}
                                     onChange={(event, newValue) => {
                                         setValue(newValue);
                                     }}
-                                    style={{fontVariant: "small-caps", width: "75%"}}
+                                    style={{fontVariant: "small-caps", width: "100%"}}
                                     id="search-box"
 
                                     options={studyprogram}
@@ -171,17 +169,15 @@ export default function Step1() {
                                                                         label="Search for your studyprogram here"
                                                                         variant="outlined" color="secondary"/>}
                                 />
+                                </Grid>
+  
 
-                            </Grid>
-
-
-                                <Grid item style={{paddingTop: 25}}>
-
+                                <Grid item style={{width:"75%", marginBottom:25}}>
                                     <Autocomplete
                                         onChange={(event, newValue) => {
                                             setSemesterSet(newValue);
                                         }}
-                                        style={{fontVariant: "small-caps", width: "75%"}}
+                                        style={{fontVariant: "small-caps", width: "100%"}}
                                         id="semester-selection"
                                         options={semesters}
                                         getOptionLabel={(option) => option.semester}
@@ -191,14 +187,13 @@ export default function Step1() {
 
                                 </Grid>
 
-                    <Grid item style={{paddingTop:25, color:'#f50057', fontVariant:"small-caps"}}>
 
-                        {/*{programObject ? <BarChart studyprogram={programObject}/> :<></>}*/}
-                        <BarChartApex studyprogram={programObject}/>
-                    </Grid>
-                            <Grid item style={{ paddingBottom:25, paddingRight:60}} >
-                            <Grid container direction="row-reverse" alignItems="flex-start">
-                                <Grid item className={classes.button}>
+                           {/*{programObject ? <BarChart studyprogram={programObject}/> :<></>}*/}
+
+                           <Grid item>
+                            <BarChartApex studyprogram={programObject}/>
+                            </Grid>
+                            <Grid item style={{marginTop:25}}>
                                 <Button
                                     variant="contained"
                                     style={{backgroundColor: "#3f51b5", color: "#fff"}}
@@ -221,16 +216,12 @@ export default function Step1() {
                                         You have to select your semester
                                     </Alert>
                                 </Snackbar>
-                            </Grid>
-                            </Grid>
-                            </Grid>
+                                </Grid>
+                              </Grid>
                         </CardContent>
                     </Card>
-                </Grid>
-
-
-            </Grid>
-            </Grid>
+                  </Grid>
+                </Grid>                        
                 );
     };
 

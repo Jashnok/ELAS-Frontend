@@ -78,15 +78,13 @@ const useStyles = makeStyles({
         alignContent: "center",
         paddingBottom: 20,
     },
-    next: {
-        width: 10,
-        marginRight: 50,
-        color: '#3c56ba'
-    },
-    back: {
-        marginTop: 50,
-        width: 100,
-        color: '#3c56ba'
+
+    buttons: {
+        marginTop:10,
+		width: 50,
+		background: "#f50057",
+		color:"#ffffff",
+		fontVariant:"small-caps"
     },
 
 });
@@ -207,8 +205,9 @@ export default function NewSelectPage(props) {
 
     if (!nextButton2Clicked && !backButton1Clicked) {
     return (
-        <Router>
+
             <Grid container direction="column">
+
                 <Grid item>
                     <Box className={classes.box}>
                         <Typography className={classes.courseinsights}>CourseInsights</Typography>
@@ -216,13 +215,17 @@ export default function NewSelectPage(props) {
                         <Typography className={classes.step2}> Step 2: Mark subjects of interest </Typography>
                     </Box>
                 </Grid>
-                <Grid item style={{paddingTop: 25, alignSelf: "center"}}>
-                    <Card style={{alignSelf: "center", width: 1100}}>
-                        <CardContent>
-                            <Grid container direction="column">
-                                <Grid container>
-                                    <Grid item xs={6} style={{paddingTop: 25}}>
-                                        <Card>
+
+
+                <Grid item style={{marginTop: 25, alignSelf: "center", width:"80%"}}>
+
+                    <Card style={{alignSelf: "center"}} variant="outlined">
+                        <CardContent style={{margin:50, padding:0}}>
+                            
+                               
+                                <Grid container justify="space-between">
+                                    <Grid item  style={{width:"45%"}}>
+                                        <Card variant="outlined">
                                             <CardContent>
                                                 <Typography className={classes.caption}> Your
                                                     selection:</Typography>
@@ -237,29 +240,37 @@ export default function NewSelectPage(props) {
                                             </CardContent>
                                         </Card>
                                     </Grid>
-                                    <Grid item xs={6} style={{paddingTop: 25, paddingLeft: 100}}>
+                                    <Grid item style={{width:"45%", marginTop:20}}>
                                         <ApexColumnChart selected={selectedSubjects}/>
                                     </Grid>
                                 </Grid>
-                                <Grid container>
-                                    <Grid item xs={6} style={{paddingTop: 25}}>
-                                        <div style={{height: 400, width: '95%', color: '#f50057'}}>
+
+                              
+                                    
+                                <Grid container justify="space-between" >
+
+                                    <Grid item style={{marginTop: 25, width:"45%",}}>
+                                            
                                             <DataGrid rows={rows} columns={columns} checkboxSelection={true}
                                                       onRowSelected={handleselection}
-                                                      onColumnHeaderClick={handleColumnHeaderClick}/>
-                                        </div>
+                                                      onColumnHeaderClick={handleColumnHeaderClick}
+                                                      style={{ color: '#f50057'}}/>
+                                            
                                     </Grid>
-                                    <Grid item xs={6} style={{paddingTop: 25}}>
-                                        <div style={{height: 400, width: '95%', color: '#f50057'}}>
-                                            <DataGrid rows={selctionRows} columns={columns} />
-                                        </div>
+                                    <Grid item  style={{marginTop: 25, width:"45%",}}>
+                                            <div style={{height:400}}>   
+                                            <DataGrid rows={selctionRows} columns={columns} style={{ color: '#f50057'}}/>
+                                            </div> 
                                     </Grid>
                                 </Grid>
-                            </Grid>
-                            <Grid container style={{width: "100%"}} justify="space-between">
+                                
+
+                              
+
+                            <Grid container  justify="space-evenly">
                                 <Grid item>
                                     <Button variant="contained"
-                                            className={classes.back}
+                                            className={classes.buttons}
                                             onClick={handleBackButton1Clicked}>
                                         back
                                     </Button>
@@ -268,19 +279,18 @@ export default function NewSelectPage(props) {
 
                                 <Grid item>
                                     <Button variant="contained"
-                                            className={classes.next}
+                                            className={classes.buttons}
                                             onClick={handleNextButton2Clicked}>
                                         next
                                     </Button>
                                 </Grid>
                             </Grid>
+                            
                         </CardContent>
                     </Card>
                 </Grid>
             </Grid>
 
-
-        </Router>
     );
 }
     if (nextButton2Clicked && !backButton1Clicked) {

@@ -17,9 +17,7 @@ const useStyles = makeStyles({
         color: "#ffffff",
         display: "block",
         justify: "center",
-        marginBottom: 10,
-        marginTop: 10,
-        fontSize: 25,
+        fontSize: 30,
         textAlign: "center",
         fontVariant: "small-caps",
     },
@@ -27,9 +25,7 @@ const useStyles = makeStyles({
         color: "#ffffff",
         display: "block",
         justify: "center",
-        marginBottom: 10,
-        marginTop: 10,
-        fontSize: 30,
+        fontSize: 36,
         textAlign: "center",
         fontVariant: "small-caps",
     },
@@ -73,10 +69,9 @@ const useStyles = makeStyles({
     },
     box: {
         background: "#3c56ba",
-        height: "max-content",
+        height: "220px",
         display: "block",
         alignContent: "center",
-        paddingBottom: 20,
     },
 
     buttons: {
@@ -210,9 +205,18 @@ export default function NewSelectPage(props) {
 
                 <Grid item>
                     <Box className={classes.box}>
-                        <Typography className={classes.courseinsights}>CourseInsights</Typography>
+                        <Grid container direction="column" alignItems="center" justify="space-evenly" style={{height:"100%"}}>
+                            <Grid item>
+                                <Typography className={classes.courseinsights}>CourseInsights</Typography>
+                            </Grid>
+                            <Grid item>
+                                
+                                 <Typography className={classes.step2}> Step 2: Mark subjects of interest </Typography>
 
-                        <Typography className={classes.step2}> Step 2: Mark subjects of interest </Typography>
+                            </Grid>
+
+                        </Grid>
+                        
                     </Box>
                 </Grid>
 

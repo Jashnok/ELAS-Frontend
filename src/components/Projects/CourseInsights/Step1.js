@@ -8,6 +8,7 @@ import "./styles.css"
 import SelectPage from "./SelectPage";
 import BarChartApex from "./StartpageComp/BarChartApex";
 import NewSelectPage from "./NewSelectPage";
+import CourseInsights from "./CourseInsights";
 
 
 const useStyles = makeStyles(theme => ({
@@ -15,9 +16,8 @@ const useStyles = makeStyles(theme => ({
         color: "#ffffff",
         display: "block",
         justify: "center",
-        marginBottom: 10,
-        marginTop: 10,
-        fontSize: 25,
+
+        fontSize: 30,
         textAlign: "center",
         fontVariant: "small-caps",
     },
@@ -43,9 +43,7 @@ const useStyles = makeStyles(theme => ({
         color: "#ffffff",
         display: "block",
         justify: "center",
-        marginBottom: 10,
-        marginTop: 10,
-        fontSize: 30,
+        fontSize: 36,
         textAlign: "center",
         fontVariant: "small-caps",
     },
@@ -65,8 +63,7 @@ const useStyles = makeStyles(theme => ({
         fontSize: 36,
     },
     b2: {
-        fontSize: 16,
-        paddingTop: 20,
+        fontSize: 20,
         display: "block",
         justify: "center",
         textAlign: "center",
@@ -81,10 +78,17 @@ const useStyles = makeStyles(theme => ({
     },
     box: {
         background: "#3c56ba",
-        height: "max-content",
+        height: "220px",
         display: "block",
         alignContent: "center",
         paddingBottom: 20,
+    },
+    buttons:{
+      marginTop:10,
+      width: 50,
+      background: "#f50057",
+      color:"#ffffff",
+      fontVariant:"small-caps"
     },
 
 }))
@@ -93,6 +97,7 @@ export default function Step1() {
  
     const [programObject, setValue] = React.useState(undefined);
     const [semesterSet, setSemesterSet] = React.useState(undefined);
+    const [backButton1Clicked, setBackButton1Clicked] = useState(false);
     const classes = useStyles();
     const semesters = [
         {semester: 'WiSe 2018/19'},
@@ -118,6 +123,10 @@ export default function Step1() {
             setNoSemesterDefined(true);
         }
     };
+    const handleBackButton1Clicked = () => {
+        setBackButton1Clicked(true);
+    }
+
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -129,24 +138,33 @@ export default function Step1() {
     };
 
 
-    if(!nextButton1Clicked ) {
+    if(!nextButton1Clicked && !backButton1Clicked ) {
         return (
           <Grid container direction="column" justify="flex-start">
             <Grid item>
-                <Box color="#fff" bgcolor="#3f51b5" className={classes.box}>
-                    <Typography className={classes.courseinsights}>CourseInsights</Typography>
-                    <Typography style={{fontVariant: "small-caps"}} className={classes.step2}>
+                <Box color="#fff" bgcolor="#3f51b5" className={classes.box} style={{fontVariant:"small-caps"}}>
+                    <Grid container direction="column"alignItems="center" justify="space-evenly" style={{height:"100%"}}>
+                      <Grid item>
+                         <Typography className={classes.courseinsights}>CourseInsights</Typography>
+                      </Grid>
+                   
+                      <Grid item>
+                        <Typography className={classes.step2}>
                         Step 1: Your studyprogram
                     </Typography>
-                    <Typography style={{fontVariant: "small-caps"}} className={classes.b2}>
+                        </Grid>
+                        <Grid item>
+                         <Typography className={classes.b2}>
                         1.1 Select your studyprogram
                     </Typography>
-                    <Typography style={{fontVariant: "small-caps"}} className={classes.b2}>
+                      </Grid>
+                      <Grid item>
+                        <Typography className={classes.b2}>
                         1.2 Select your current semester
                     </Typography>
-                    <Typography style={{fontVariant: "small-caps"}} className={classes.b2}>
-                        1.3 Get an Overview about the amount of subjects!
-                    </Typography>
+                        </Grid>
+
+                </Grid>
                 </Box>
                 </Grid>
 
@@ -193,13 +211,23 @@ export default function Step1() {
                            <Grid item>
                             <BarChartApex studyprogram={programObject}/>
                             </Grid>
-                            <Grid item style={{marginTop:25}}>
-                                <Button
+                            <Grid item style={{marginTop:25, width:"100%"}}>
+                                <Grid container justify="space-evenly">
+                                    <Button
                                     variant="contained"
-                                    style={{backgroundColor: "#3f51b5", color: "#fff"}}
+                                    className={classes.buttons}
+                                    onClick={handleBackButton1Clicked}>
+                                    back
+                                  </Button>
+
+                                  <Button
+                                    variant="contained"
+                                    className={classes.buttons}
                                     onClick={handleNextButton1Clicked}>
                                     next
                                 </Button>
+                                </Grid>
+                                
                                 <Snackbar anchorOrigin={{vertical: 'top', horizontal: 'center'}}
                                           open={noObjectDefined}
                                           autoHideDuration={6000}
@@ -224,10 +252,10 @@ export default function Step1() {
                 </Grid>                        
                 );
     };
-
-
-    if(nextButton1Clicked) {
-        // return (<SelectPage studyprogram={programObject} semester={semesterSet}/>);
+    if (nextButton1Clicked && !backButton1Clicked) {
         return (<NewSelectPage studyprogram={programObject} semester={semesterSet}/>);
+    }
+    if(backButton1Clicked) {
+        return (<CourseInsights/>)
     }
 }

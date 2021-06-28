@@ -9,8 +9,7 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
     },
     Welc: {
-        paddingTop: 40,
-        paddingBottom: 40,
+        height:"220px",
         textAlign: 'center',
         alignItems: 'center',
         width: 'auto',
@@ -78,15 +77,31 @@ export default function CourseInsights(props) {
             <React.Fragment>
 
                     <Box color="#fff" bgcolor="#3f51b5" className={classes.Welc}>
-                        <Typography style={{fontVariant: "small-caps"}} className={classes.b1}>
-                            Welcome to CourseInsights
-                        </Typography>
-                        <Typography style={{fontVariant: "small-caps"}} className={classes.b2}>
-                            We relieve you from painful planing of your study at Uni-Due!
-                        </Typography>
-                        <Typography style={{fontVariant: "small-caps"}} className={classes.b3}>
-                            (Only for studies that are part of "Ingenieurswissenschaften" right now)
-                        </Typography>
+                        <Grid container direction="column"alignItems="center" justify="space-evenly" style={{height:"100%"}}>
+
+                            <Grid item>
+                                <Typography style={{fontVariant: "small-caps"}} className={classes.b1}>
+                                    Welcome to CourseInsights
+                                </Typography>
+                            </Grid>
+                                   
+                            <Grid item>
+                                 <Typography style={{fontVariant: "small-caps"}} className={classes.b2}>
+                                    We relieve you from painful planing of your study at Uni-Due!
+                                </Typography>
+                            </Grid>
+
+                            <Grid item>
+                                <Typography style={{fontVariant: "small-caps"}} className={classes.b3}>
+                                    (Only for studies that are part of "Ingenieurswissenschaften" right now)
+                                </Typography>
+                            </Grid>
+
+                        
+
+                        </Grid>
+                 
+
                     </Box>
 
 

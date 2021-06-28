@@ -251,7 +251,7 @@ export default function NewSelectPage(props) {
 
                               
                                     
-                                <Grid container justify="space-between" >
+                                <Grid container justify="space-between" style={{marginTop:25}}>
 
                                     <Grid item style={{marginTop: 25, width:"45%",}}>
                                             

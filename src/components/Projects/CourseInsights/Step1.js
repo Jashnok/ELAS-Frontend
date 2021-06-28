@@ -168,7 +168,7 @@ export default function Step1() {
                 </Box>
                 </Grid>
 
-                <Grid item style={{width:"75%", marginTop:25, alignSelf:"center"}}>
+                <Grid item style={{width:"80%", marginTop:25, alignSelf:"center"}}>
                     <Card  variant="outlined">
                         <CardContent>
                             <Grid container direction="column" alignItems="center" justify="center" style={{margin:50}}>

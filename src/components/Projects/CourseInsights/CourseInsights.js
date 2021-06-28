@@ -106,7 +106,7 @@ export default function CourseInsights(props) {
 
 
 
-                    <Card style={{marginBottom: 100, marginTop:25, width:"75%", alignSelf:"center"}} variant="outlined">
+                    <Card style={{marginBottom: 100, marginTop:25, width:"80%", alignSelf:"center"}} variant="outlined">
                         <CardContent style={{alignItems:"center", margin:50, padding:0}}>
                             <Grid container justify="space-around"  >
                                 <Grid item className={classes.leftA}style={{width:"60%"}}>

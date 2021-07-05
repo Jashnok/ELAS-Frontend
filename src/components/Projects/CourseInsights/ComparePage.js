@@ -11,7 +11,6 @@ import {
 import React, {useState} from "react";
 import {makeStyles} from "@material-ui/core/styles";
 import Box from "@material-ui/core/Box";
-import SelectPage from "./SelectPage";
 import Collapse from '@material-ui/core/Collapse';
 import IconButton from '@material-ui/core/IconButton';
 import Table from '@material-ui/core/Table';

@@ -12,8 +12,7 @@ export default function BarChartApex(props){
             xAxis.push(key);
             yValues.push(value);
         }
-        console.log(xAxis);
-        console.log(yValues);
+
     }
 
 

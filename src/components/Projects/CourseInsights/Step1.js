@@ -6,6 +6,7 @@ import {Button, Box, Grid, makeStyles, Typography, Snackbar, CardContent, Card, 
 import BarChartApex from "./StartpageComp/BarChartApex";
 import NewSelectPage from "./NewSelectPage";
 import CourseInsights from "./CourseInsights";
+import {ThemeProvider} from "styled-components";
 
 const theme = createMuiTheme({   
     palette: {      
@@ -259,7 +260,8 @@ export default function Step1() {
                 </Grid>     
                 </ThemeProvider>                   
                 );
-    };
+
+    }
     if (nextButton1Clicked && !backButton1Clicked) {
         return (<NewSelectPage studyprogram={programObject} semester={semesterSet}/>);
     }

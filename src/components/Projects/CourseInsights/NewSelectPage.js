@@ -134,8 +134,8 @@ const useStyles = makeStyles({
 
     buttons: {
         marginTop:10,
-		width: 50,
-		fontVariant:"small-caps"
+        width: 50,
+        fontVariant:"small-caps"
     },
     legend:{
         paddingTop: 5,
@@ -393,29 +393,23 @@ export default function NewSelectPage(props) {
 
         for (let subject of studyprogram.categories) {
             
-            for (let sub of subject.subjects) {
-                
+            for (let sub of subject.subjects) {       
                 if (sub.semesters.includes(props.semester.semester) && !subjectnames.includes(sub.name) ) {
-
                         subjectslist.push(sub);
                         subjectnames.push(sub.name);
                     }
-
-
                 }
             
             for (let cat of subject.categories) {
                 
                 for (let sub2 of cat.subjects) {
-                    
                     if(sub2.semesters.includes(props.semester.semester && !subjectnames.includes(sub2.name))) {
                             subjectslist.push(sub2);
                             subjectnames.push(sub2.name);
                         }
                     
                 }
-
-            
+    
             for(let cats of cat.categories){
                 for(let sub3 of cats.subjects){
                   if(sub3.semesters.includes(props.semester.semester) && !subjectnames.includes(sub3.name)){
@@ -480,7 +474,6 @@ export default function NewSelectPage(props) {
         selected.slice(selectedIndex + 1),
       );
     }
-
     setSelected(newSelected);
   };
 
@@ -588,21 +581,21 @@ export default function NewSelectPage(props) {
     return (
         <ThemeProvider theme={theme}>
             <Grid container direction="column" className={classes.all}>
-
                 <Grid item>
                     <Box className={classes.box}>
-                        <Grid container direction="column" alignItems="center" justify="space-evenly" style={{height:"100%"}}>
+                        <Grid container direction="column" alignItems="center" justify="space-evenly"
+                              style={{height: "100%"}}>
                             <Grid item>
                                 <Typography className={classes.courseinsights}>CourseInsights</Typography>
                             </Grid>
                             <Grid item>
-                                
-                                 <Typography className={classes.step2}> Step 2: Mark subjects of interest </Typography>
+
+                                <Typography className={classes.step2}> Step 2: Mark subjects of interest </Typography>
 
                             </Grid>
 
                         </Grid>
-                        
+
                     </Box>
                 </Grid>
 
@@ -633,7 +626,10 @@ export default function NewSelectPage(props) {
                                          <ApexColumnChart selected={selected}/> 
                                     </Grid>
                                 </Grid>
+                            </Grid>
 
+
+                            <Grid container justify="space-between" style={{marginTop: 25}}>
                                 <div style={{marginTop:25}}>
                                 <FormControl id="filter" component="fieldset" style={{alignItems: "flex-start"}}>
                                     <FormLabel className={classes.legend} component="legend" style={{textAlign: "center", marginBottom:15}}> Filter:</FormLabel>
@@ -899,11 +895,10 @@ export default function NewSelectPage(props) {
 
                                     </Grid>
                                 </Grid>
-                                
+                            </Grid>
 
-                              
 
-                            <Grid container  justify="space-evenly">
+                            <Grid container justify="space-evenly">
                                 <Grid item>
                                     <Button variant="outlined"
                                             className={classes.buttons}
@@ -926,7 +921,7 @@ export default function NewSelectPage(props) {
 
                                 </Grid>
                             </Grid>
-                            
+
                         </CardContent>
                     </Card>
                 </Grid>

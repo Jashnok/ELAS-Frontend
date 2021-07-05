@@ -73,7 +73,8 @@ export default function BarChartApex(props){
                 offsetY: -20,
                 style: {
                     fontSize: '12px',
-                    colors: ["#f50057"]
+                    fontFamily: 'small-caps',
+                    colors: ["#000"]
                 }
             },
 
@@ -93,7 +94,8 @@ export default function BarChartApex(props){
                     trim: true,
                     hideOverlappingLabels: false,
                     style: {
-                        colors: "#f50057"
+                        //colors: "#f50057"
+                        fontFamily: 'small-caps',
                     }
                 },
                 crosshairs: {
@@ -133,7 +135,10 @@ export default function BarChartApex(props){
                 show: true,
             },
             noData: {
-                text: 'Please select your studyprogram'
+                text: 'Please select your studyprogram',
+                style: {
+                    fontFamily: 'small-caps'
+                }
             }
         },
 

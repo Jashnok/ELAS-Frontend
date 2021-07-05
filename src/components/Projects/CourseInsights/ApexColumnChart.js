@@ -155,22 +155,27 @@ export default function ApexColumnChart(props) {
                 if (marked.sws === '1') {
                     data.push({
                         x: x,
-                        y: 10,
+                        y: 1,
                     })
                 } else if (marked.sws === '2') {
                     data.push({
                         x: x,
-                        y: 20,
+                        y: 2,
                     })
                 } else if (marked.sws === '3') {
                     data.push({
                         x: x,
-                        y: 30,
+                        y: 3,
                     })
+                }else if(marked.sws === ' '){
+                   data.push({
+                       x: x,
+                       y: 1,
+                   })
                 } else {
                     data.push({
                         x: x,
-                        y: 40,
+                        y: 4,
                     })
                 }
             } else {
@@ -233,7 +238,7 @@ export default function ApexColumnChart(props) {
                 categories: xAxis,
                 labels: {
                     style: {
-                        colors: '#f50057'
+                        fontFamily: 'small-caps'
                     }
                 }
             },
@@ -256,15 +261,32 @@ export default function ApexColumnChart(props) {
                 }
             },
             yaxis: {
-                show: false,
+                show: true,
                 labels: {
-                    show: false,
+                    show: true,
+                    style: {
+                        fontFamily: 'small-caps'
+                    }
+                },
+                title: {
+                    text: 'SWS',
+                    rotate: -0,
+                    offsetY: -80,
+                    style: {
+                        fontFamily: "small-caps"
+                    }
                 }
             },
             colors: ['#00e5ff', '#33c9dc', '#2196f3', '#0262f3',
                 '#07509e', '#3f51b1'],
             grid: {
                 show: true,
+            },
+            noData: {
+                text: 'You have to select at least one subject',
+                style: {
+                    fontFamily: 'small-caps',
+                }
             }
         }
     }

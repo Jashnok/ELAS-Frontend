@@ -1,27 +1,23 @@
 import React, { useState } from "react";
-import BarChart from "./StartpageComp/BarChart";
 import TextField from "@material-ui/core/TextField";
-import { Autocomplete, Alert } from "@material-ui/lab";
+import { Autocomplete} from "@material-ui/lab";
 import studyprogram from "./data";
-import {
-    Button,
-    Box,
-    Grid,
-    makeStyles,
-    Typography,
-    Snackbar,
-    CardContent,
-    Card,
-    createMuiTheme
-} from "@material-ui/core";
-import "./styles.css"
-import SelectPage from "./SelectPage";
+import {Button, Box, Grid, makeStyles, Typography, Snackbar, CardContent, Card, createMuiTheme, ThemeProvider} from "@material-ui/core";
 import BarChartApex from "./StartpageComp/BarChartApex";
 import NewSelectPage from "./NewSelectPage";
 import CourseInsights from "./CourseInsights";
 import {ThemeProvider} from "styled-components";
 
-
+const theme = createMuiTheme({   
+    palette: {      
+        primary: {         
+            main: "#3f51b5"        
+        },     
+        secondary: {         
+            main: "#ef6c00"                 
+        }            
+    },
+});
 const useStyles = makeStyles(theme => ({
     step2: {
         color: "#ffffff",
@@ -38,17 +34,11 @@ const useStyles = makeStyles(theme => ({
         paddingRight: 0,
         marginTop: 0,
     },
-    card:{
-        paddingTop: 25,
-        width:"75%",
-        alignSelf: "center",
-        display:"block",
-        textAlign: 'center',
-        alignItems: 'center',
-        marginRight: "-moz-initial",
-        marginLeft: "-moz-initial",
-
-
+    card: {
+        borderRadius: 15,
+/*      backgroundColor: theme.palette.primary.light,
+        color: theme.palette.primary.contrastText,
+        boxShadow: "none" */
     },
     courseinsights: {
         color: "#ffffff",
@@ -97,10 +87,12 @@ const useStyles = makeStyles(theme => ({
     buttons:{
       marginTop:10,
       width: 50,
-      background: "#f50057",
-      color:"#ffffff",
       fontVariant:"small-caps"
-    },
+    },    
+    p:{
+        marginTop:10,
+        width: 64,
+      },
 
 }))
 
@@ -122,6 +114,8 @@ export default function Step1() {
     const[nextButton1Clicked, setNextButton1Clicked] = useState(false);
     const [noObjectDefined, setNoObjectDefined] = useState(false);
     const [noSemesterDefined, setNoSemesterDefined] = useState(false);
+    const[sem,setSem] = useState(false);
+    const[prog,setProg] = useState(false);
 
     const handleNextButton1Clicked = () => {
         if(programObject && semesterSet){
@@ -148,9 +142,29 @@ export default function Step1() {
 
     };
 
+     const handleSemesterSet = (newValue) => {
+        setSemesterSet(newValue);
+        if(newValue){
+            setSem(true);
+        }
+        else{
+            setSem(false);
+        }
+    } 
+
+    const handleProgSet = (newValue) => {
+        setValue(newValue);
+        if(newValue){
+            setProg(true);
+        }
+        else{
+            setProg(false);
+        } 
+    }
 
     if(!nextButton1Clicked && !backButton1Clicked ) {
         return (
+            <ThemeProvider theme={theme}>
           <Grid container direction="column" justify="flex-start">
             <Grid item>
                 <Box color="#fff" bgcolor="#3f51b5" className={classes.box} style={{fontVariant:"small-caps"}}>
@@ -180,18 +194,17 @@ export default function Step1() {
                 </Grid>
 
                 <Grid item style={{width:"80%", marginTop:25, alignSelf:"center"}}>
-                    <Card  variant="outlined">
+                    <Card  classes={{root: classes.card}}  variant="outlined">
                         <CardContent>
                             <Grid container direction="column" alignItems="center" justify="center" style={{margin:50}}>
                               <Grid item style={{width:"75%", marginBottom:25}}>
                                 <Autocomplete
                                     value={programObject}
                                     onChange={(event, newValue) => {
-                                        setValue(newValue);
+                                        handleProgSet(newValue);
                                     }}
                                     style={{fontVariant: "small-caps", width: "100%"}}
                                     id="search-box"
-
                                     options={studyprogram}
                                     getOptionLabel={(option) => option.name}
                                     renderInput={(params) => <TextField {...params}
@@ -204,7 +217,7 @@ export default function Step1() {
                                 <Grid item style={{width:"75%", marginBottom:25}}>
                                     <Autocomplete
                                         onChange={(event, newValue) => {
-                                            setSemesterSet(newValue);
+                                            handleSemesterSet(newValue);
                                         }}
                                         style={{fontVariant: "small-caps", width: "100%"}}
                                         id="semester-selection"
@@ -215,52 +228,37 @@ export default function Step1() {
                                     />
 
                                 </Grid>
-
-
-                           {/*{programObject ? <BarChart studyprogram={programObject}/> :<></>}*/}
-
-                           <Grid item style={{fontVariant:"small-caps"}}>
+                           <Grid item>
                             <BarChartApex studyprogram={programObject}/>
                             </Grid>
                             <Grid item style={{marginTop:25, width:"100%"}}>
                                 <Grid container justify="space-evenly">
                                     <Button
-                                    variant="contained"
+                                    variant="outlined"
+                                    color="primary"
                                     className={classes.buttons}
                                     onClick={handleBackButton1Clicked}>
                                     back
                                   </Button>
+                                    {prog===true && sem===true ?
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            className={classes.buttons}
+                                            onClick={handleNextButton1Clicked}>
+                                            next
+                                        </Button>
+                                    :  <div className={classes.p}>
+                                        </div>}
+                                </Grid> 
 
-                                  <Button
-                                    variant="contained"
-                                    className={classes.buttons}
-                                    onClick={handleNextButton1Clicked}>
-                                    next
-                                </Button>
-                                </Grid>
-                                
-                                <Snackbar anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                                          open={noObjectDefined}
-                                          autoHideDuration={6000}
-                                          onClose={handleClose}>
-                                    <Alert variant="filled" onClose={handleClose} severity="error">
-                                        You have to select your studyprogram
-                                    </Alert>
-                                </Snackbar>
-                                <Snackbar anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                                          open={noSemesterDefined}
-                                          autoHideDuration={6000}
-                                          onClose={handleClose}>
-                                    <Alert variant="filled" onClose={handleClose} severity="error">
-                                        You have to select your semester
-                                    </Alert>
-                                </Snackbar>
                                 </Grid>
                               </Grid>
                         </CardContent>
                     </Card>
                   </Grid>
-                </Grid>
+                </Grid>     
+                </ThemeProvider>                   
                 );
 
     }

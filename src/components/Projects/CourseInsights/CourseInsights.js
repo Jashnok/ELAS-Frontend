@@ -1,7 +1,17 @@
 import React, { useState} from 'react';
-import {Button, Box, Grid, makeStyles, Card, Typography, CardContent} from "@material-ui/core";
+import {Button, Box, Grid, makeStyles, Card, Typography, CardContent, createMuiTheme, ThemeProvider} from "@material-ui/core";
 import Step1 from "./Step1";
 
+const theme = createMuiTheme({   
+    palette: {      
+        primary: {         
+            main: "#3f51b5"              
+        },     
+        secondary: {         
+            main: "#ef6c00"                
+        }            
+    },
+});
 
 const useStyles = makeStyles(theme => ({
 
@@ -14,6 +24,12 @@ const useStyles = makeStyles(theme => ({
         alignItems: 'center',
         width: 'auto',
     },
+    card: {
+        borderRadius: 15,
+/*         backgroundColor: theme.palette.primary.light,
+        color: theme.palette.primary.contrastText,
+        boxShadow: "none" */
+       },
     AboutUs: {
         paddingTop: 40,
         paddingBottom: 40,
@@ -74,13 +90,13 @@ export default function CourseInsights(props) {
     const classes = useStyles();
     if(!beginButtonClicked) {
         return (
-            <React.Fragment>
+            <ThemeProvider theme={theme}>
 
-                    <Box color="#fff" bgcolor="#3f51b5" className={classes.Welc}>
+                    <Box color="#fff" bgcolor="primary.main" className={classes.Welc}>
                         <Grid container direction="column"alignItems="center" justify="space-evenly" style={{height:"100%"}}>
 
                             <Grid item>
-                                <Typography style={{fontVariant: "small-caps"}} className={classes.b1}>
+                                <Typography  style={{fontVariant: "small-caps"}} className={classes.b1}>
                                     Welcome to CourseInsights
                                 </Typography>
                             </Grid>
@@ -106,12 +122,12 @@ export default function CourseInsights(props) {
 
 
 
-                    <Card style={{marginBottom: 100, marginTop:25, width:"80%", alignSelf:"center"}} variant="outlined">
+                    <Card classes={{root: classes.card}} style={{marginBottom: 100, marginTop:25, width:"80%", alignSelf:"center"}} variant="outlined">
                         <CardContent style={{alignItems:"center", margin:50, padding:0}}>
                             <Grid container justify="space-around"  >
                                 <Grid item className={classes.leftA}style={{width:"60%"}}>
                                 <Box >
-                                    <Typography color={"secondary"}
+                                    <Typography color="secondary"
                                                 style={{fontVariant: "small-caps", textDecorationLine: "underline"}}
                                                 className={classes.b1}>
                                         About CourseInsights
@@ -132,7 +148,8 @@ export default function CourseInsights(props) {
                                         course
                                         rating and time overlapping.
                                     </Typography>
-                                    <Typography color={"secondary"} style={{
+                                    <Typography color="secondary"
+                                        style={{
                                         fontVariant: "small-caps",
                                         textDecorationLine: "underline",
                                         textAlign: "justify",
@@ -173,7 +190,8 @@ export default function CourseInsights(props) {
                                 <Grid container direction='column' alignItems="center" style={{height:"100%"}}>
                                         
                                         <Grid item style={{height:"15%"}}>
-                                        <Typography color={"secondary"}
+                                        <Typography 
+                                                    color="secondary"
                                                     style={{fontVariant: "small-caps", textDecorationLine: "underline"}}
                                                     className={classes.b1}>
                                             Useful Links
@@ -216,6 +234,7 @@ export default function CourseInsights(props) {
                                     <Grid item className={classes.buttons2}style={{height:"20%"}}>
                                         <Button className={classes.next}
                                                 variant="contained"
+                                
                                                 style={{
                                                     backgroundColor: "#3f51b5",
                                                     color: "#fff",
@@ -233,7 +252,7 @@ export default function CourseInsights(props) {
                             </Grid>
                         </CardContent>
                     </Card>
-                    </React.Fragment>
+                    </ThemeProvider>
         );
     }
         return (<Step1/>);

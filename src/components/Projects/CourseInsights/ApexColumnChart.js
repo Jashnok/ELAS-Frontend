@@ -141,12 +141,12 @@ export default function ApexColumnChart(props) {
                 xAxis.push(marked.subject_type);
             }
         }
-        console.log(xAxis);
+
         return xAxis;
     }
 
     const xAxis = generateXAxis(markedSubjects);
-    console.log(xAxis);
+
 
     const generateXYData = (marked, xAxis) => {
         const data = [];
@@ -200,7 +200,7 @@ export default function ApexColumnChart(props) {
     }
 
     const chartdata = generateData(markedSubjects, xAxis);
-    console.log(chartdata);
+
 
     const state = {
         series: chartdata,

@@ -3,12 +3,23 @@ import BarChart from "./StartpageComp/BarChart";
 import TextField from "@material-ui/core/TextField";
 import { Autocomplete, Alert } from "@material-ui/lab";
 import studyprogram from "./data";
-import {Button, Box, Grid, makeStyles, Typography, Snackbar, CardContent, Card} from "@material-ui/core";
+import {
+    Button,
+    Box,
+    Grid,
+    makeStyles,
+    Typography,
+    Snackbar,
+    CardContent,
+    Card,
+    createMuiTheme
+} from "@material-ui/core";
 import "./styles.css"
 import SelectPage from "./SelectPage";
 import BarChartApex from "./StartpageComp/BarChartApex";
 import NewSelectPage from "./NewSelectPage";
 import CourseInsights from "./CourseInsights";
+import {ThemeProvider} from "styled-components";
 
 
 const useStyles = makeStyles(theme => ({
@@ -208,7 +219,7 @@ export default function Step1() {
 
                            {/*{programObject ? <BarChart studyprogram={programObject}/> :<></>}*/}
 
-                           <Grid item>
+                           <Grid item style={{fontVariant:"small-caps"}}>
                             <BarChartApex studyprogram={programObject}/>
                             </Grid>
                             <Grid item style={{marginTop:25, width:"100%"}}>
@@ -249,9 +260,10 @@ export default function Step1() {
                         </CardContent>
                     </Card>
                   </Grid>
-                </Grid>                        
+                </Grid>
                 );
-    };
+
+    }
     if (nextButton1Clicked && !backButton1Clicked) {
         return (<NewSelectPage studyprogram={programObject} semester={semesterSet}/>);
     }

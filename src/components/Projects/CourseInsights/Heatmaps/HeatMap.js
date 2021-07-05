@@ -5,13 +5,13 @@ function generateHeatMapData(subjectsAndOverlapping) {
     let data = [];
     let subjectX = "";
     for (let subject of subjectsAndOverlapping) {
+        console.log(subject);
         if (subjectX !== subject.subjectA.name) {
             subjectX = subject.subjectA.name;
             data.push({
                     name: subjectX,
                     data: generateData(subjectX, subjectsAndOverlapping)
-                }
-            )
+                })
         }
     }
     return data;
@@ -19,7 +19,9 @@ function generateHeatMapData(subjectsAndOverlapping) {
 
 function generateData(subject, subjectsAndOverlapping) {
     let xydata = [];
+    console.log(subjectsAndOverlapping);
     for (let sub of subjectsAndOverlapping) {
+        console.log(sub);
         if (subject === sub.subjectA.name) {
             if (sub.overlaps.length === 0) {
                 if (sub.subjectA.name === sub.subjectB.name) {
@@ -34,18 +36,27 @@ function generateData(subject, subjectsAndOverlapping) {
                     })
                 }
             } else {
-                for (let overlap of sub.overlaps)
-                    if (overlap.severity === "edge") {
-
+                const severities = [];
+                for(let overlapseverity of sub.overlaps){
+                    severities.push(overlapseverity.severity);
+                }
+                console.log(severities);
+                if(severities.includes("critical")){
+                    for(let overlap of sub.overlaps){
+                        if(overlap.severity === "critical"){
+                            xydata.push({
+                                x: sub.subjectB.name,
+                                y: 100
+                            })
+                            break;
+                        }
+                    }
+                } else {
                         xydata.push({
                             x: sub.subjectB.name,
                             y: 50
                         })
-                    } else {
-                        xydata.push({
-                            x: sub.subjectB.name,
-                            y: 100
-                        })
+
                     }
             }
         }
@@ -55,6 +66,8 @@ function generateData(subject, subjectsAndOverlapping) {
 
 export default function HeatMap(props) {
     const heatMapData = generateHeatMapData(props.data);
+    console.log(props.data);
+    console.log(heatMapData);
 
     const state = {
         series: heatMapData,
@@ -72,19 +85,19 @@ export default function HeatMap(props) {
                             from: 1,
                             to: 20,
                             name: 'no overlapping',
-                            color: '#7de4f6'
+                            color: '#03f60f'
                         },
                             {
                                 from: 22,
                                 to: 50,
                                 name: 'no time between subjects',
-                                color: '#0273fc'
+                                color: '#ffa500'
                             },
                             {
                                 from: 52,
                                 to: 100,
                                 name: 'overlapping',
-                                color: '#031787'
+                                color: '#fa0404'
                             }
                         ]
                     }
@@ -123,7 +136,7 @@ export default function HeatMap(props) {
                     hideOverlappingLabels: false,
                     maxHeight: 80,
                     style: {
-                        colors: '#f50057',
+                        colors: '#000',
                         fontSize: '11px',
                         fontFamily: "small-caps"
                     },
@@ -140,14 +153,14 @@ export default function HeatMap(props) {
                     align: 'left',
                     style: {
                         fontSize: '11px',
-                        colors: '#f50057',
+                        colors: '#000',
                         fontFamily: 'small-caps'
                     },
                 }
             },
             grid: {
                 show: true,
-                borderColor: "#f50057",
+                borderColor: "#000",
                 position: 'front',
                 xaxis: {
                     lines: {

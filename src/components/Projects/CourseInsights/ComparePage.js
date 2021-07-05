@@ -4,7 +4,7 @@ import {
     Badge,
     Button,
     Card,
-    CardContent,
+    CardContent, createMuiTheme,
     Tab,
     Typography
 } from "@material-ui/core";
@@ -29,9 +29,10 @@ import HeatMap from "./Heatmaps/HeatMap";
 import TablePagination from "@material-ui/core/TablePagination";
 import DeleteIcon from '@material-ui/icons/Delete';
 import {TabContext, TabList, TabPanel} from "@material-ui/lab";
-import RestoreFromTrashIcon from '@material-ui/icons/RestoreFromTrash';
+import RestoreIcon from '@material-ui/icons/Restore';
 import subjectsrating from './subjectsrating.js';
 import NewSelectPage from "./NewSelectPage";
+import {ThemeProvider} from "styled-components";
 
 const useStyles = makeStyles({
     step2: {
@@ -63,7 +64,7 @@ const useStyles = makeStyles({
         fontSize: 20,
     },
     lilcaptions: {
-        color: "#f50057",
+        color: "#ef6c00",
         display: "block",
         justify: "center",
         textAlign: "justify",
@@ -74,7 +75,7 @@ const useStyles = makeStyles({
         textDecoration: "underline",
     },
     caption: {
-        color: "#f50057",
+        color: "#ef6c00",
         display: "block",
         justify: "center",
         textAlign: "center",
@@ -114,6 +115,17 @@ const useStyles = makeStyles({
     },
 });
 
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: "#3f51b5",
+        },
+        secondary: {
+            main: "#ef6c00",
+        }
+    },
+});
+
 
 function createData(name, sws, fairness, support, material, fun, understandability, node_effort, recommendation, overlapping) {
     return {
@@ -133,7 +145,10 @@ function createData(name, sws, fairness, support, material, fun, understandabili
 function calculateSWS(markedSubjects) {
     let totalSws = 0;
     for (const [key, value] of Object.entries(markedSubjects)) {
-        totalSws += parseInt(value.sws);
+        if(value.sws !== " "){
+            totalSws += parseInt(value.sws);
+        }
+        console.log(value.sws);
     }
     return totalSws;
 }
@@ -268,17 +283,19 @@ const markedSubjects2 = [{
 ]
 
 function checkForOverlapping(subjectA, subjectB) {
-    const durationA = subjectA.duration;
-    const durationB = subjectB.duration;
+            const durationA = subjectA.duration;
+            const durationB = subjectB.duration;
 
-    if ((durationB.from < durationA.from && durationB.to < durationA.from) ||
-        (durationB.from > durationA.to && durationB.to > durationA.to)) {
-        return false;
-    }
+            if ((durationB.from < durationA.from && durationB.to < durationA.from) ||
+                (durationB.from > durationA.to && durationB.to > durationA.to)) {
+                return false;
+            }
 
-    if (subjectB.day !== subjectA.day) {
-        return false;
-    }
+
+            if (subjectB.day !== subjectA.day) {
+                return false;
+            }
+
     const timeA = subjectA.time;
     const timeB = subjectB.time;
 
@@ -294,18 +311,19 @@ function checkForOverlapping(subjectA, subjectB) {
 
 function calculateTimeoverlaps(timetableA, timetableB) {
     const overlappings = [];
-    for (let entryA of timetableA) {
-        for (let entryB of timetableB) {
-            let result = checkForOverlapping(entryA, entryB);
-            if (result !== false) {
-                overlappings.push({
-                    severity: result,
-                    from: entryB,
-                    with: entryA
-                })
+        for (let entryA of timetableA) {
+            for (let entryB of timetableB) {
+                let result = checkForOverlapping(entryA, entryB);
+                if (result !== false) {
+                    overlappings.push({
+                        severity: result,
+                        from: entryB,
+                        with: entryA
+                    })
+                }
             }
         }
-    }
+
     return overlappings;
 }
 
@@ -336,24 +354,34 @@ function calculateOverlapping(subject, markedSubjects) {
     const data = [];
     for (let subjects of markedSubjects) {
         if (subjects.name !== subject.name) {
-            if (checkForOverlapping(subject.timetable[0], subjects.timetable[0]) === "edge") {
-                data.push({
-                    overlappingsubject: subjects.name,
-                    overlappingday: subject.timetable[0].day,
-                    overlappingfrom: subject.timetable[0].time.from,
-                    overlappingto: subject.timetable[0].time.to,
-                    time: "no time between subjects"
-                })
+            console.log(checkForOverlapping(subject.timetable[0], subjects.timetable[0]))
+            for(let timetableA of subject.timetable){
+                for(let timetableB of subjects.timetable){
+                    if (checkForOverlapping(timetableA, timetableB) === "edge") {
+                        data.push({
+                            overlappingsubject: subjects.name,
+                            overlappingday: timetableA.day,
+                            subjectstimefrom: timetableA.time.from,
+                            subjectstimeto: timetableA.time.to,
+                            overlappingfrom: timetableB.time.from,
+                            overlappingto: timetableB.time.to,
+                            time: "no time between subjects"
+                        })
+                    }
+                    if (checkForOverlapping(timetableA, timetableB) === "critical") {
+                        data.push({
+                            overlappingsubject: subjects.name,
+                            overlappingday: timetableA.day,
+                            subjectstimefrom: timetableA.time.from,
+                            subjectstimeto: timetableA.time.to,
+                            overlappingfrom: timetableB.time.from,
+                            overlappingto: timetableB.time.to,
+                            time: "OVERLAPPING"
+                        })
+                    }
+                }
             }
-            if (checkForOverlapping(subject.timetable[0], subjects.timetable[0]) === "critical") {
-                data.push({
-                    overlappingsubject: subjects.name,
-                    overlappingday: subject.timetable[0].day,
-                    overlappingfrom: subject.timetable[0].time.from,
-                    overlappingto: subject.timetable[0].time.to,
-                    time: "OVERLAPPING"
-                })
-            }
+
         }
     }
     return data;
@@ -365,13 +393,15 @@ function createSubjectAndRating(markedSubjects, subjectsrating) {
     const subjectnames = [];
     for (const [key, value] of Object.entries(markedSubjects)) {
         for (const [key2, value2] of Object.entries(subjectsrating)) {
-            if (value.name === value2.name) {
-                subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, calculateOverlapping(value, markedSubjects)));
-                subjectnames.push(value.name);
+            if (value.name === value2.name /*&& !subjectnames.includes(value.name)*/) {
+                    subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, calculateOverlapping(value, markedSubjects)));
+                    subjectnames.push(value.name);
             }
         }
         if (!subjectnames.includes(value.name)) {
-            subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, calculateOverlapping(value, markedSubjects)));
+
+                subjectAndRating.push(createData(value.name, value.sws, undefined, undefined, undefined, undefined, undefined, undefined, undefined, calculateOverlapping(value, markedSubjects)));
+
         }
 
     }
@@ -382,8 +412,9 @@ function Row(props) {
     let {row} = props;
     const [open, setOpen] = React.useState(false);
     const classes = useStyles();
-
+    console.log(row);
     return (
+        <ThemeProvider theme={theme}>
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
@@ -397,15 +428,15 @@ function Row(props) {
                     {row.name}
                 </TableCell>
                 <TableCell align="center">{row.sws ? row.sws : <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.fairness ? row.fairness : <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.support ? row.fairness : <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.material ? row.material : <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.fun ? row.fun : <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.understandability ? row.understandability :
+                <TableCell align="center">{row.fairness ? Math.round(row.fairness) : <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.support ? Math.round(row.fairness) : <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.material ? Math.round(row.material) : <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.fun ? Math.round(row.fun) : <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.understandability ? Math.round(row.understandability) :
                     <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.node_effort ? row.node_effort :
+                <TableCell align="center">{row.node_effort ? Math.round(row.node_effort) :
                     <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.recommendation ? row.recommendation :
+                <TableCell align="center">{row.recommendation ? Math.round(row.recommendation) :
                     <CloseIcon color="secondary"/>}</TableCell>
                 <TableCell align="left"><DeleteIcon onClick={() => props.deleteRow(row)}/></TableCell>
             </TableRow>
@@ -421,8 +452,10 @@ function Row(props) {
                                     <TableRow>
                                         <TableCell>Overlapping with</TableCell>
                                         <TableCell>Day</TableCell>
-                                        <TableCell>Start Time</TableCell>
-                                        <TableCell>End Time</TableCell>
+                                        <TableCell>Start Time of selected subject</TableCell>
+                                        <TableCell>End Time of selected subject</TableCell>
+                                        <TableCell>Start Time of overlapping subject</TableCell>
+                                        <TableCell>End Time of overlapping subject</TableCell>
                                         <TableCell>Comment</TableCell>
                                     </TableRow>
                                 </TableHead>
@@ -434,6 +467,8 @@ function Row(props) {
                                                     color="secondary"> {overlappingRow.overlappingsubject} </Typography> : <> </>}
                                             </TableCell>
                                             <TableCell>{overlappingRow.overlappingday ? overlappingRow.overlappingday : <> </>}</TableCell>
+                                            <TableCell>{overlappingRow.subjectstimefrom ? overlappingRow.subjectstimefrom : <> </>}</TableCell>
+                                            <TableCell>{overlappingRow.subjectstimeto ? overlappingRow.subjectstimeto : <> </>}</TableCell>
                                             <TableCell>{overlappingRow.overlappingfrom ? overlappingRow.overlappingfrom : <> </>}</TableCell>
                                             <TableCell>{overlappingRow.overlappingto ? overlappingRow.overlappingto : <> </>}</TableCell>
                                             <TableCell> <Typography
@@ -447,6 +482,7 @@ function Row(props) {
                 </TableCell>
             </TableRow>
         </React.Fragment>
+        </ThemeProvider>
     );
 }
 
@@ -454,6 +490,7 @@ function Row2(props) {
     let {row} = props;
     const classes = useStyles();
     return (
+        <ThemeProvider theme={theme}>
         <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell/>
@@ -461,19 +498,20 @@ function Row2(props) {
                     {row.name}
                 </TableCell>
                 <TableCell align="center">{row.sws ? row.sws : <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.fairness ? row.fairness : <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.support ? row.fairness : <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.material ? row.material : <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.fun ? row.fun : <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.understandability ? row.understandability :
+                <TableCell align="center">{row.fairness ? Math.round(row.fairness) : <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.support ? Math.round(row.support): <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.material ? Math.round(row.material) : <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.fun ? Math.round(row.fun) : <CloseIcon color="secondary"/>}</TableCell>
+                <TableCell align="center">{row.understandability ? Math.round(row.understandability) :
                     <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.node_effort ? row.node_effort :
+                <TableCell align="center">{row.node_effort ? Math.round(row.node_effort) :
                     <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="center">{row.recommendation ? row.recommendation :
+                <TableCell align="center">{row.recommendation ? Math.round(row.recommendation) :
                     <CloseIcon color="secondary"/>}</TableCell>
-                <TableCell align="left"><RestoreFromTrashIcon onClick={() => props.recoverRow(row)}/></TableCell>
+                <TableCell align="left"><RestoreIcon onClick={() => props.recoverRow(row)}/></TableCell>
             </TableRow>
         </React.Fragment>
+        </ThemeProvider>
     );
 }
 
@@ -486,6 +524,8 @@ export default function ComparePage(props) {
     const [removedSubjects, setRemovedSubjects] = useState([]);
     const [heatMapData, setHeatMapData] = useState(generateTimeoverlapChartData(markedSubjects));
     const [subjectAndRating, setSubjectAndRating] = React.useState(createSubjectAndRating(markedSubjects, subjectsrating));
+    console.log(heatMapData);
+    console.log(subjectAndRating);
 
     const handleBackButton2Clicked = () => {
         setBackButton2Clicked(true);
@@ -562,6 +602,7 @@ export default function ComparePage(props) {
 
     if (!backButton2Clicked) {
         return (
+            <ThemeProvider theme={theme}>
             <Router>
                 <Grid container direction="column">
                     <Grid item>
@@ -606,11 +647,11 @@ export default function ComparePage(props) {
                                         fontVariant: "small-caps",
                                         alignSelf: "center",
                                         width: 1100,
-                                        paddingTop: 20
+                                        paddingTop: 20,
                                     }}>
                                         <TabContext value={value}>
 
-                                                <TabList onChange={handleChange} aria-label="simple tabs example">
+                                                <TabList onChange={handleChange} aria-label="simple tabs example" color={"secondary"}>
                                                     <Tab label="marked subjects" value="1"/>
                                                     {removedSubjects.length === 0 ?
                                                         <Tab label="removed subjects" disabled value="2"/> :
@@ -621,6 +662,7 @@ export default function ComparePage(props) {
                                             <TabPanel value="1">
                                                 <TableContainer component={Paper}>
                                                     <Table stickyHeader aria-label="collapsible table" cellSpacing="2">
+                                                        <caption> Ratings: 0-100% <CloseIcon color="secondary"/>:No Rating</caption>
                                                         <TableHead>
                                                             <TableRow>
                                                                 <TableCell/>
@@ -716,9 +758,9 @@ export default function ComparePage(props) {
                                     </Grid>
                                 </Grid>
                                 <Grid item className={classes.back}>
-                                    <Button variant="contained"
-                                            style={{backgroundColor: "#3c56ba", color: "#fff", width: 70}}
-                                            onClick={handleBackButton2Clicked}>
+                                    <Button variant="outlined"
+                                            // style={{backgroundColor: "#3c56ba", color: "#fff", width: 70}}
+                                            onClick={handleBackButton2Clicked} color='primary'>
                                         back
                                     </Button>
                                 </Grid>
@@ -728,9 +770,10 @@ export default function ComparePage(props) {
                 </Grid>
                 {/*<NewSelectPage studyprogram={props.studyprogram} semester={props.semester}/>*/}
             </Router>
+            </ThemeProvider>
         );
     }
     // return (<SelectPage studyprogram={props.studyprogram} semester={props.semester}/>);
-    return (<NewSelectPage studyprogram={props.studyprogram} semester={props.semester}/>);
+    return (<NewSelectPage studyprogram={props.studyprogram} semester={props.semester} />);
 
 }

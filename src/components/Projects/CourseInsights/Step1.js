@@ -6,7 +6,6 @@ import {Button, Box, Grid, makeStyles, Typography, Snackbar, CardContent, Card, 
 import BarChartApex from "./StartpageComp/BarChartApex";
 import NewSelectPage from "./NewSelectPage";
 import CourseInsights from "./CourseInsights";
-import {ThemeProvider} from "styled-components";
 
 const theme = createMuiTheme({   
     palette: {      
@@ -28,7 +27,9 @@ const useStyles = makeStyles(theme => ({
         textAlign: "center",
         fontVariant: "small-caps",
     },
-
+    all: {
+        fontVariant:"small-caps",
+    },
     site: {
         paddingLeft: 0,
         paddingRight: 0,
@@ -165,7 +166,7 @@ export default function Step1() {
     if(!nextButton1Clicked && !backButton1Clicked ) {
         return (
             <ThemeProvider theme={theme}>
-          <Grid container direction="column" justify="flex-start">
+          <Grid container direction="column" justify="flex-start" className={classes.all}>
             <Grid item>
                 <Box color="#fff" bgcolor="#3f51b5" className={classes.box} style={{fontVariant:"small-caps"}}>
                     <Grid container direction="column"alignItems="center" justify="space-evenly" style={{height:"100%"}}>

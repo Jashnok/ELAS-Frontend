@@ -292,7 +292,7 @@ export default function ApexColumnChart(props) {
     }
     return (
         <div id="chart">
-            <ReactApexChart options={state.options} series={state.series} type='bar' height={200} width={700}/>
+            <ReactApexChart options={state.options} series={state.series} type='bar' height={300} width={700}/>
         </div>
     );
 }

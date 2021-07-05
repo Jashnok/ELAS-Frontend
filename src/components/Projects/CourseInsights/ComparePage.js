@@ -62,6 +62,9 @@ const useStyles = makeStyles({
         marginTop: 10,
         fontSize: 20,
     },
+    all: {
+        fontVariant:"small-caps",
+    },
     lilcaptions: {
         color: "#ef6c00",
         display: "block",
@@ -414,7 +417,6 @@ function Row(props) {
     console.log(row);
     return (
         <ThemeProvider theme={theme}>
-        <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell>
                     <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
@@ -480,7 +482,6 @@ function Row(props) {
                     </Collapse>
                 </TableCell>
             </TableRow>
-        </React.Fragment>
         </ThemeProvider>
     );
 }
@@ -490,7 +491,6 @@ function Row2(props) {
     const classes = useStyles();
     return (
         <ThemeProvider theme={theme}>
-        <React.Fragment>
             <TableRow className={classes.root}>
                 <TableCell/>
                 <TableCell component="th" scope="row">
@@ -509,7 +509,6 @@ function Row2(props) {
                     <CloseIcon color="secondary"/>}</TableCell>
                 <TableCell align="left"><RestoreIcon onClick={() => props.recoverRow(row)}/></TableCell>
             </TableRow>
-        </React.Fragment>
         </ThemeProvider>
     );
 }
@@ -602,8 +601,7 @@ export default function ComparePage(props) {
     if (!backButton2Clicked) {
         return (
             <ThemeProvider theme={theme}>
-            <Router>
-                <Grid container direction="column">
+                <Grid container direction="column" className={classes.all}>
                     <Grid item>
                         <Box className={classes.box}>
                             <Typography className={classes.courseinsights}>CourseInsights</Typography>
@@ -612,11 +610,11 @@ export default function ComparePage(props) {
                                 take </Typography>
                         </Box>
                     </Grid>
-                    <Grid item style={{paddingTop: 25, alignSelf: "center", width:1100}}>
+                    <Grid item style={{paddingTop: 25, alignSelf: "center", width:"80%"}}>
                         <Card style={{alignSelf: "center"}}>
-                            <CardContent>
+                            <CardContent style={{margin:25}}>
                                 <Grid container direction="column">
-                                    <Grid container>
+                                    <Grid container alignItems="center" justify="space-evenly">
                                         <Grid item xs={5} style={{paddingTop: 25}}>
                                             <Card>
                                                 <CardContent>
@@ -637,20 +635,20 @@ export default function ComparePage(props) {
                                                 </CardContent>
                                             </Card>
                                         </Grid>
-                                        <Grid item xs={7}
-                                              style={{paddingTop: 20, paddingLeft: 100, fontVariant: "small-caps"}}>
-                                            <HeatMap data={heatMapData}/>
+                                        <Grid item style={{width:"25%",height:"25%"}}
+                                              >
+                                            <HeatMap data={heatMapData} />
                                         </Grid>
                                     </Grid>
                                     <Grid item style={{
                                         fontVariant: "small-caps",
                                         alignSelf: "center",
-                                        width: 1100,
-                                        paddingTop: 20,
-                                    }}>
-                                        <TabContext value={value}>
+                                        width: "75%",
+                                        paddingTop: 50,
+                                    }}> 
+                                        <TabContext value={value} >
 
-                                                <TabList onChange={handleChange} aria-label="simple tabs example" color={"secondary"}>
+                                                <TabList onChange={handleChange} aria-label="simple tabs example">
                                                     <Tab label="marked subjects" value="1"/>
                                                     {removedSubjects.length === 0 ?
                                                         <Tab label="removed subjects" disabled value="2"/> :
@@ -768,7 +766,6 @@ export default function ComparePage(props) {
                     </Grid>
                 </Grid>
                 {/*<NewSelectPage studyprogram={props.studyprogram} semester={props.semester}/>*/}
-            </Router>
             </ThemeProvider>
         );
     }

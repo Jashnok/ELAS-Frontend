@@ -185,9 +185,7 @@ export default function HeatMap(props) {
         },
     };
     return (
-        <div id="chart">
-            <ReactApexChart options={state.options} series={state.series} type="heatmap" height={370} width={370}/>
-        </div>
+            <ReactApexChart options={state.options} series={state.series} type="heatmap"width={400} height={400}/>
     );
 }
 

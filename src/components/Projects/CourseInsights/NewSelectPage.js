@@ -388,41 +388,44 @@ export default function NewSelectPage(props) {
     const [backButton1Clicked, setBackButton1Clicked] = useState(false);
 
     const generateSubjects = (studyprogram) => {
-        const subjectslist = [];
-        const subjectnames = [];
-
-        for (let subject of studyprogram.categories) {
-            
-            for (let sub of subject.subjects) {       
-                if (sub.semesters.includes(props.semester.semester) && !subjectnames.includes(sub.name) ) {
-                        subjectslist.push(sub);
-                        subjectnames.push(sub.name);
-                    }
-                }
-            
-            for (let cat of subject.categories) {
-                
-                for (let sub2 of cat.subjects) {
-                    if(sub2.semesters.includes(props.semester.semester && !subjectnames.includes(sub2.name))) {
-                            subjectslist.push(sub2);
-                            subjectnames.push(sub2.name);
-                        }
-                    
-                }
-    
-            for(let cats of cat.categories){
-                for(let sub3 of cats.subjects){
-                  if(sub3.semesters.includes(props.semester.semester) && !subjectnames.includes(sub3.name)){
-                    subjectslist.push(sub3);
-                    subjectnames.push(sub3.name);
+      const subjectslist = [];
+      const subjectnames = [];
+      for (let subject of studyprogram.categories) {
+          console.log(subject);
+          for (let sub of subject.subjects) {
+              console.log(sub);
+              console.log(props.semester.semester);
+              if (sub.semesters.includes(props.semester.semester)) {
+                  if(!subjectnames.includes(sub.name)) {
+                      subjectslist.push(sub);
+                      subjectnames.push(sub.name);
                   }
-                }
-            }
-            }
-        }
-        
-        return subjectslist;
-    }
+              }
+          }
+          for (let cat of subject.categories) {
+              console.log(cat);
+              for (let sub2 of cat.subjects) {
+                  console.log(sub2);
+                  if (sub2.semesters.includes(props.semester.semester)) {
+                      if(!subjectnames.includes(sub2.name)){
+                          subjectslist.push(sub2);
+                          subjectnames.push(sub2.name);
+                      }
+
+                  }
+              }
+              for (let cats of cat.categories){
+                  for(let sub3 of cats.subjects){
+                      if(sub3.semesters.includes(props.semester.semester) && !subjectnames.includes(sub3.name)){
+                          subjectslist.push(sub3);
+                          subjectnames.push(sub3.name);
+                      }
+                  }
+              }
+          }
+      }
+      return subjectslist;
+  }
     const[subjects,setSubjects] = React.useState(generateSubjects(props.studyprogram));
     console.log(subjects.filter( el => el.subject_type ==="Übung"));
     const [counts,setCounts] = React.useState({
@@ -626,7 +629,6 @@ export default function NewSelectPage(props) {
                                          <ApexColumnChart selected={selected}/> 
                                     </Grid>
                                 </Grid>
-                            </Grid>
 
 
                             <Grid container justify="space-between" style={{marginTop: 25}}>

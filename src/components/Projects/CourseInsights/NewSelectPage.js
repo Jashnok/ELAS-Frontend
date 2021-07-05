@@ -35,7 +35,7 @@ const theme = createMuiTheme({
             main: "#3f51b5",                 
         },     
         secondary: {         
-            main: "#ef6c00"                
+            main: "#ef6c00",                   
         }       
     },
 });
@@ -865,7 +865,7 @@ export default function NewSelectPage(props) {
                                                             </TableCell>
                                                             <TableCell>
                                                             <Tooltip title="Delete">
-                                                                    <IconButton aria-label="delete" onClick={(event) => handleDelete(event, row)} >
+                                                                    <IconButton aria-label="delete" style={{padding:0}} onClick={(event) => handleDelete(event, row)} >
                                                                     < DeleteIcon />
                                                                     </IconButton>
                                                                 </Tooltip>

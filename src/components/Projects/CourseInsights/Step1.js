@@ -1,23 +1,29 @@
 import React, { useState } from "react";
-import BarChart from "./StartpageComp/BarChart";
 import TextField from "@material-ui/core/TextField";
-import { Autocomplete, Alert } from "@material-ui/lab";
+import { Autocomplete} from "@material-ui/lab";
 import studyprogram from "./data";
-import {Button, Box, Grid, makeStyles, Typography, Snackbar, CardContent, Card} from "@material-ui/core";
-import "./styles.css"
-import SelectPage from "./SelectPage";
+import {Button, Box, Grid, makeStyles, Typography, Snackbar, CardContent, Card, createMuiTheme, ThemeProvider} from "@material-ui/core";
 import BarChartApex from "./StartpageComp/BarChartApex";
 import NewSelectPage from "./NewSelectPage";
+import CourseInsights from "./CourseInsights";
 
-
+const theme = createMuiTheme({   
+    palette: {      
+        primary: {         
+            main: "#3f51b5"        
+        },     
+        secondary: {         
+            main: "#ef6c00"                 
+        }            
+    },
+});
 const useStyles = makeStyles(theme => ({
     step2: {
         color: "#ffffff",
         display: "block",
         justify: "center",
-        marginBottom: 10,
-        marginTop: 10,
-        fontSize: 25,
+
+        fontSize: 30,
         textAlign: "center",
         fontVariant: "small-caps",
     },
@@ -27,25 +33,17 @@ const useStyles = makeStyles(theme => ({
         paddingRight: 0,
         marginTop: 0,
     },
-    card:{
-        paddingTop: 25,
-        width:"75%",
-        alignSelf: "center",
-        display:"block",
-        textAlign: 'center',
-        alignItems: 'center',
-        marginRight: "-moz-initial",
-        marginLeft: "-moz-initial",
-
-
+    card: {
+        borderRadius: 15,
+/*      backgroundColor: theme.palette.primary.light,
+        color: theme.palette.primary.contrastText,
+        boxShadow: "none" */
     },
     courseinsights: {
         color: "#ffffff",
         display: "block",
         justify: "center",
-        marginBottom: 10,
-        marginTop: 10,
-        fontSize: 30,
+        fontSize: 36,
         textAlign: "center",
         fontVariant: "small-caps",
     },
@@ -65,8 +63,7 @@ const useStyles = makeStyles(theme => ({
         fontSize: 36,
     },
     b2: {
-        fontSize: 16,
-        paddingTop: 20,
+        fontSize: 20,
         display: "block",
         justify: "center",
         textAlign: "center",
@@ -81,11 +78,20 @@ const useStyles = makeStyles(theme => ({
     },
     box: {
         background: "#3c56ba",
-        height: "max-content",
+        height: "220px",
         display: "block",
         alignContent: "center",
         paddingBottom: 20,
     },
+    buttons:{
+      marginTop:10,
+      width: 50,
+      fontVariant:"small-caps"
+    },    
+    p:{
+        marginTop:10,
+        width: 64,
+      },
 
 }))
 
@@ -93,6 +99,7 @@ export default function Step1() {
  
     const [programObject, setValue] = React.useState(undefined);
     const [semesterSet, setSemesterSet] = React.useState(undefined);
+    const [backButton1Clicked, setBackButton1Clicked] = useState(false);
     const classes = useStyles();
     const semesters = [
         {semester: 'WiSe 2018/19'},
@@ -106,6 +113,8 @@ export default function Step1() {
     const[nextButton1Clicked, setNextButton1Clicked] = useState(false);
     const [noObjectDefined, setNoObjectDefined] = useState(false);
     const [noSemesterDefined, setNoSemesterDefined] = useState(false);
+    const[sem,setSem] = useState(false);
+    const[prog,setProg] = useState(false);
 
     const handleNextButton1Clicked = () => {
         if(programObject && semesterSet){
@@ -118,6 +127,10 @@ export default function Step1() {
             setNoSemesterDefined(true);
         }
     };
+    const handleBackButton1Clicked = () => {
+        setBackButton1Clicked(true);
+    }
+
 
     const handleClose = (event, reason) => {
         if (reason === 'clickaway') {
@@ -128,60 +141,84 @@ export default function Step1() {
 
     };
 
+     const handleSemesterSet = (newValue) => {
+        setSemesterSet(newValue);
+        if(newValue){
+            setSem(true);
+        }
+        else{
+            setSem(false);
+        }
+    } 
 
-    if(!nextButton1Clicked ) {
+    const handleProgSet = (newValue) => {
+        setValue(newValue);
+        if(newValue){
+            setProg(true);
+        }
+        else{
+            setProg(false);
+        } 
+    }
+
+    if(!nextButton1Clicked && !backButton1Clicked ) {
         return (
-            <Grid container direction="column" justify="center" className={classes.site}>
-                <Grid item>
-                <Box color="#fff" bgcolor="#3f51b5" className={classes.box}>
-                    <Typography className={classes.courseinsights}>CourseInsights</Typography>
-                    <Typography style={{fontVariant: "small-caps"}} className={classes.step2}>
+            <ThemeProvider theme={theme}>
+          <Grid container direction="column" justify="flex-start">
+            <Grid item>
+                <Box color="#fff" bgcolor="#3f51b5" className={classes.box} style={{fontVariant:"small-caps"}}>
+                    <Grid container direction="column"alignItems="center" justify="space-evenly" style={{height:"100%"}}>
+                      <Grid item>
+                         <Typography className={classes.courseinsights}>CourseInsights</Typography>
+                      </Grid>
+                   
+                      <Grid item>
+                        <Typography className={classes.step2}>
                         Step 1: Your studyprogram
                     </Typography>
-                    <Typography style={{fontVariant: "small-caps"}} className={classes.b2}>
+                        </Grid>
+                        <Grid item>
+                         <Typography className={classes.b2}>
                         1.1 Select your studyprogram
                     </Typography>
-                    <Typography style={{fontVariant: "small-caps"}} className={classes.b2}>
+                      </Grid>
+                      <Grid item>
+                        <Typography className={classes.b2}>
                         1.2 Select your current semester
                     </Typography>
-                    <Typography style={{fontVariant: "small-caps"}} className={classes.b2}>
-                        1.3 Get an Overview about the amount of subjects!
-                    </Typography>
+                        </Grid>
+
+                </Grid>
                 </Box>
                 </Grid>
 
-
-                <Grid xs={12} container direction="column" justify="center" className={classes.card} >
-                    <Grid item>
-                    <Card >
+                <Grid item style={{width:"80%", marginTop:25, alignSelf:"center"}}>
+                    <Card  classes={{root: classes.card}}  variant="outlined">
                         <CardContent>
-
-                            <Grid item>
+                            <Grid container direction="column" alignItems="center" justify="center" style={{margin:50}}>
+                              <Grid item style={{width:"75%", marginBottom:25}}>
                                 <Autocomplete
                                     value={programObject}
                                     onChange={(event, newValue) => {
-                                        setValue(newValue);
+                                        handleProgSet(newValue);
                                     }}
-                                    style={{fontVariant: "small-caps", width: "75%"}}
+                                    style={{fontVariant: "small-caps", width: "100%"}}
                                     id="search-box"
-
                                     options={studyprogram}
                                     getOptionLabel={(option) => option.name}
                                     renderInput={(params) => <TextField {...params}
                                                                         label="Search for your studyprogram here"
                                                                         variant="outlined" color="secondary"/>}
                                 />
+                                </Grid>
+  
 
-                            </Grid>
-
-
-                                <Grid item style={{paddingTop: 25}}>
-
+                                <Grid item style={{width:"75%", marginBottom:25}}>
                                     <Autocomplete
                                         onChange={(event, newValue) => {
-                                            setSemesterSet(newValue);
+                                            handleSemesterSet(newValue);
                                         }}
-                                        style={{fontVariant: "small-caps", width: "75%"}}
+                                        style={{fontVariant: "small-caps", width: "100%"}}
                                         id="semester-selection"
                                         options={semesters}
                                         getOptionLabel={(option) => option.semester}
@@ -190,53 +227,43 @@ export default function Step1() {
                                     />
 
                                 </Grid>
+                           <Grid item>
+                            <BarChartApex studyprogram={programObject}/>
+                            </Grid>
+                            <Grid item style={{marginTop:25, width:"100%"}}>
+                                <Grid container justify="space-evenly">
+                                    <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    className={classes.buttons}
+                                    onClick={handleBackButton1Clicked}>
+                                    back
+                                  </Button>
+                                    {prog===true && sem===true ?
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            className={classes.buttons}
+                                            onClick={handleNextButton1Clicked}>
+                                            next
+                                        </Button>
+                                    :  <div className={classes.p}>
+                                        </div>}
+                                </Grid> 
 
-                    <Grid item style={{paddingTop:25, color:'#f50057', fontVariant:"small-caps"}}>
-
-                        {/*{programObject ? <BarChart studyprogram={programObject}/> :<></>}*/}
-                        <BarChartApex studyprogram={programObject}/>
-                    </Grid>
-                            <Grid item style={{ paddingBottom:25, paddingRight:60}} >
-                            <Grid container direction="row-reverse" alignItems="flex-start">
-                                <Grid item className={classes.button}>
-                                <Button
-                                    variant="contained"
-                                    style={{backgroundColor: "#3f51b5", color: "#fff"}}
-                                    onClick={handleNextButton1Clicked}>
-                                    next
-                                </Button>
-                                <Snackbar anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                                          open={noObjectDefined}
-                                          autoHideDuration={6000}
-                                          onClose={handleClose}>
-                                    <Alert variant="filled" onClose={handleClose} severity="error">
-                                        You have to select your studyprogram
-                                    </Alert>
-                                </Snackbar>
-                                <Snackbar anchorOrigin={{vertical: 'top', horizontal: 'center'}}
-                                          open={noSemesterDefined}
-                                          autoHideDuration={6000}
-                                          onClose={handleClose}>
-                                    <Alert variant="filled" onClose={handleClose} severity="error">
-                                        You have to select your semester
-                                    </Alert>
-                                </Snackbar>
-                            </Grid>
-                            </Grid>
-                            </Grid>
+                                </Grid>
+                              </Grid>
                         </CardContent>
                     </Card>
-                </Grid>
-
-
-            </Grid>
-            </Grid>
+                  </Grid>
+                </Grid>     
+                </ThemeProvider>                   
                 );
     };
-
-
-    if(nextButton1Clicked) {
-        // return (<SelectPage studyprogram={programObject} semester={semesterSet}/>);
+    if (nextButton1Clicked && !backButton1Clicked) {
         return (<NewSelectPage studyprogram={programObject} semester={semesterSet}/>);
+    }
+    if(backButton1Clicked) {
+        return (<CourseInsights/>)
     }
 }

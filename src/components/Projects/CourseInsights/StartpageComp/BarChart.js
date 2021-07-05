@@ -12,10 +12,11 @@ function BarChart(props) {
     test.push({[key]:value});
   }
 
-
+  console.log(test);
   test.map((value, index)=>console.log(Object.keys(value)[0]));
 
   console.log(test.map((value, index) => Object.keys(value)[0]));
+  
 
   useEffect(() => {
 

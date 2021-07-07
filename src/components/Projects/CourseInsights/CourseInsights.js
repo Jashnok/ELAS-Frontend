@@ -53,6 +53,7 @@ const useStyles = makeStyles(theme => ({
     b4: {
         fontSize: 18,
         paddingTop: 8,
+        fontWeight: 'normal',
     },
     buttons2: {
         paddingTop: 20,
@@ -128,9 +129,9 @@ export default function CourseInsights(props) {
                                 <Grid item className={classes.leftA}style={{width:"60%"}}>
                                 <Box >
                                     <Typography color="secondary"
-                                                style={{fontVariant: "small-caps", textDecorationLine: "underline"}}
+                                                style={{fontVariant: "small-caps"}}
                                                 className={classes.b1}>
-                                        About CourseInsights
+                                        About CourseInsights:
                                     </Typography>
                                     <Typography style={{
                                         textAlign: "justify",
@@ -151,7 +152,6 @@ export default function CourseInsights(props) {
                                     <Typography color="secondary"
                                         style={{
                                         fontVariant: "small-caps",
-                                        textDecorationLine: "underline",
                                         textAlign: "justify",
                                         paddingLeft: 10
                                     }} className={classes.b4}>
@@ -192,9 +192,9 @@ export default function CourseInsights(props) {
                                         <Grid item style={{height:"15%"}}>
                                         <Typography 
                                                     color="secondary"
-                                                    style={{fontVariant: "small-caps", textDecorationLine: "underline"}}
+                                                    style={{fontVariant: "small-caps"}}
                                                     className={classes.b1}>
-                                            Useful Links
+                                            Useful Links:
                                         </Typography>
                                         </Grid>
                                         <Grid item className={classes.buttons2}style={{height:"15%"}}>

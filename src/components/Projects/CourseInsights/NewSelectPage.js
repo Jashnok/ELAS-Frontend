@@ -2,32 +2,17 @@ import React, {useState} from 'react';
 import {Button, Card, makeStyles,Typography,TableBody,TableCell,TableContainer,
   createMuiTheme, ThemeProvider, lighten,Table,TableHead, TablePagination,
   TableRow,TableSortLabel,Toolbar,Paper,Checkbox,IconButton,Tooltip,FormControlLabel,
-  FormControl,FormGroup, FormLabel,Switch} from "@material-ui/core"; 
-import Box from "@material-ui/core/Box";
-import Grid from "@material-ui/core/Grid";
-import CardContent from "@material-ui/core/CardContent";
+  FormControl,FormGroup, FormLabel,Switch, Box, Grid, CardContent, Collapse, CardActionArea} from "@material-ui/core"; 
 import ApexColumnChart from "./ApexColumnChart";
-/* import {Delete} from "@material-ui/icons"; */
 import DeleteIcon from "@material-ui/icons/Delete";
-/* import {setsEqual} from "chart.js/helpers"; */
 import ComparePage from "./ComparePage";
 import Step1 from "./Step1";
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import FilterListIcon from '@material-ui/icons/FilterList';
-import PurpleSwitch from './SelectPageComp/PurpleSwitch';
-import IndigoSwitch from './SelectPageComp/IndigoSwitch';
-import LightBlueSwitch from './SelectPageComp/LightBlueSwitch';
-import TealSwitch from './SelectPageComp/TealSwitch';
-import GreenASwitch from './SelectPageComp/GreenASwitch';
-import GreenSwitch from './SelectPageComp/GreenASwitch';
-import LightGreenSwitch from './SelectPageComp/LightGreenSwitch';
-import LimeSwitch from './SelectPageComp/LimeSwitch';
-import YellowSwitch from './SelectPageComp/YellowSwitch';
-import OrangeSwitch from './SelectPageComp/OrangeSwitch';
-import DeepOrangeSwitch from './SelectPageComp/DeepOrangeSwitch';
-import BrownSwitch from './SelectPageComp/BrownSwitch';
-import GreySwitch from './SelectPageComp/GreySwitch';
+import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
+import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
+
  
 const theme = createMuiTheme({   
     palette: {      
@@ -55,12 +40,17 @@ const useStyles = makeStyles({
       },
       card: {
         borderRadius: 15,
-/*         backgroundColor: theme.palette.primary.light,
-        color: theme.palette.primary.contrastText,
-        boxShadow: "none" */
        },
       table: {
         minWidth: 400,
+      },
+      border: {
+        // border: "1px solid grey"
+        width:"45%",
+        
+      },
+      gutter: {
+        margin:20,
       },
       visuallyHidden: {
         border: 0,
@@ -103,18 +93,17 @@ const useStyles = makeStyles({
         textAlign: "justify",
         marginTop: 10,
         marginBottom: 10,
-        fontSize: 20,
+        fontSize: 22,
         fontVariant: "small-caps",
-        textDecoration: "underline",
     },
     caption: {
         display: "block",
         justify: "center",
         textAlign: "center",
         marginBottom: 10,
-        fontSize: 25,
-        fontVariant: "small-caps",
-        textDecoration: "underline",
+        fontSize: 28,
+        fontVariant: "small-caps",      
+        fontWeight:"bold",
     },
     content: {
         color: "#000",
@@ -122,7 +111,7 @@ const useStyles = makeStyles({
         justify: "center",
         textAlign: "justify",
         marginTop: 10,
-        fontSize: 20,
+        fontSize: 18,
         fontVariant: "small-caps",
     },
     box: {
@@ -387,14 +376,13 @@ export default function NewSelectPage(props) {
     const [nextButton2Clicked, setNextButton2Clicked] = useState(false);
     const [backButton1Clicked, setBackButton1Clicked] = useState(false);
 
+    /* generateSubjects function to create data for the all subjectstable from given props */
+
     const generateSubjects = (studyprogram) => {
       const subjectslist = [];
       const subjectnames = [];
       for (let subject of studyprogram.categories) {
-          console.log(subject);
           for (let sub of subject.subjects) {
-              console.log(sub);
-              console.log(props.semester.semester);
               if (sub.semesters.includes(props.semester.semester)) {
                   if(!subjectnames.includes(sub.name)) {
                       subjectslist.push(sub);
@@ -403,9 +391,7 @@ export default function NewSelectPage(props) {
               }
           }
           for (let cat of subject.categories) {
-              console.log(cat);
               for (let sub2 of cat.subjects) {
-                  console.log(sub2);
                   if (sub2.semesters.includes(props.semester.semester)) {
                       if(!subjectnames.includes(sub2.name)){
                           subjectslist.push(sub2);
@@ -427,22 +413,6 @@ export default function NewSelectPage(props) {
       return subjectslist;
   }
     const[subjects,setSubjects] = React.useState(generateSubjects(props.studyprogram));
-    console.log(subjects.filter( el => el.subject_type ==="Übung"));
-    const [counts,setCounts] = React.useState({
-        vorlesungCount: subjects.filter( el => el.subject_type ==="Vorlesung").length,
-        anleitungCount: subjects.filter( el => el.subject_type ==="Anleitung zum selbständigen Arbeiten").length,
-        uebungCount : subjects.filter( el => el.subject_type ==="Übung").length,
-        praktikumCount : subjects.filter( el => el.subject_type ==="Praktikum").length,
-        vorlesungÜbungCount : subjects.filter( el => el.subject_type ==="Vorlesung/Übung").length,
-        uebungPraktikumCount : subjects.filter( el => el.subject_type ==="Übung/Praktikum").length,
-        seminarCount : subjects.filter( el => el.subject_type ==="Seminar").length,
-        blockseminarCount : subjects.filter( el => el.subject_type ==="Blockseminar").length,
-        seminarUebungCount : subjects.filter( el => el.subject_type ==="Seminar/Übung").length,
-        tutoriumCount : subjects.filter( el => el.subject_type ==="Tutorium").length,
-        vorlesungSeminarCount : subjects.filter( el => el.subject_type ==="Vorlesung/Seminar").length,
-        praxisprojektCount : subjects.filter( el => el.subject_type ==="Praxisprojekt").length,
-        keineAngabeCount : subjects.filter( el => el.subject_type ==="Keine Angabe").length,
-    })
 
     /* All functions for the Subject Table with all possible subjects */
 
@@ -550,22 +520,40 @@ export default function NewSelectPage(props) {
 
     /* FilterFunctions and SwitchStates */
 
+    const [open, setOpen] = useState(false);
+    
     const [state, setState] = React.useState({
+        einzelveranstaltung: true,
+        kolloquium: true,
+        kurs: true,
+        labor: true,
         vorlesung: true,
         uebung: true,
+        uebungMitTutorien: true,
+        pflichtveranstaltung: true,
         praktikum: true,
+        projekt: true,
         vorlesung_uebung:true,
         uebung_praktikum: true,
         seminar: true,
+        seminarOberseminar: true,
         blockseminar: true,
         seminar_uebung: true,
         tutorium: true,
         vorlesung_seminar: true,
+        propädeutikum: true,
         praxisprojekt: true,
         selbstaendigesarbeiten: true,
+        wahlpflichtVeranstaltung: true,
         keineAngabe: true,
       });
-    
+
+    const findCount = (subtype) => {
+         const count =  subjects.filter( el => el.subject_type ===subtype).length
+         return count;
+    }
+
+    console.log(findCount("Praxisprojekt"));
       const filterSubjects = (event,cond,comp) => {
         setState({ ...state, [event.target.name]: event.target.checked });
         if(cond === true){
@@ -579,7 +567,6 @@ export default function NewSelectPage(props) {
         }     
       };      
 
-
     if (!nextButton2Clicked && !backButton1Clicked) {
     return (
         <ThemeProvider theme={theme}>
@@ -591,12 +578,6 @@ export default function NewSelectPage(props) {
                             <Grid item>
                                 <Typography className={classes.courseinsights}>CourseInsights</Typography>
                             </Grid>
-                            <Grid item>
-
-                                <Typography className={classes.step2}> Step 2: Mark subjects of interest </Typography>
-
-                            </Grid>
-
                         </Grid>
 
                     </Box>
@@ -611,14 +592,14 @@ export default function NewSelectPage(props) {
                                 <Grid container justify="space-between">
                                     <Grid item  style={{width:"45%"}}>
                                         <Card variant="outlined"classes={{root: classes.card}}>
-                                            <CardContent >
+                                            <CardContent  style={{margin:10}}>
                                                 <Typography color="secondary" className={classes.caption}> Your
                                                     selection:</Typography>
-                                                <Typography color="secondary" className={classes.lilcaptions}> Your
+                                                <Typography className={classes.lilcaptions}> Your
                                                     selected studyprogram: </Typography>
                                                 <Typography
                                                     className={classes.content}>{props.studyprogram.name}</Typography>
-                                                <Typography color="secondary" className={classes.lilcaptions}> Your selected
+                                                <Typography  className={classes.lilcaptions}> Your selected
                                                     semester: </Typography>
                                                 <Typography
                                                     className={classes.content}>{props.semester.semester}</Typography>
@@ -631,108 +612,263 @@ export default function NewSelectPage(props) {
                                 </Grid>
 
 
-                            <Grid container justify="space-between" style={{marginTop: 25}}>
-                                <div style={{marginTop:25}}>
-                                <FormControl id="filter" component="fieldset" style={{alignItems: "flex-start"}}>
-                                    <FormLabel className={classes.legend} component="legend" style={{textAlign: "center", marginBottom:15}}> Filter:</FormLabel>
-                                        <FormGroup row >
 
-                                            {counts.anleitungCount > 0 ? <FormControlLabel control={<PurpleSwitch 
+
+                                <Card className={classes.border} elevation={1} >
+                                  <CardActionArea onClick={() => setOpen(!open)}>
+                                    <Grid container style={{marginTop:20, marginLeft:20, marginRight:20, width:"92.5%", marginBottom:20}}  justify="space-between" alignContent="center">
+                                      <Grid item >
+                                        <Typography variant="body2"> Filters </Typography>
+                                      </Grid>
+                                      <Grid item >
+                                        {open ? (
+                                        <KeyboardArrowUpIcon color="inherit" />
+                                      ) : (
+                                        <KeyboardArrowDownIcon color="inherit" />
+                                      )}
+                                      </Grid>
+                                      
+                                    </Grid>
+                                  </CardActionArea>
+                                  <Collapse in={open}>
+                                    <Grid container style={{marginBottom:15, marginLeft:15, marginRight:15,  width:"95%",}} justify="flex-start" alignContent="baseline" spacing={2}>
+                                      
+                                      {findCount("Anleitung zum selbständigen Arbeiten") > 0 || state.selbstaendigesarbeiten===false ? <Grid item xs={6} >
+                                      <FormControlLabel control={
+                                              <Switch 
                                                 checked={state.selbstaendigesarbeiten}
                                                 onChange={(event) => filterSubjects(event,state.selbstaendigesarbeiten,"Anleitung zum selbständigen Arbeiten")} 
-                                                name="selbstaendigesarbeiten"/>}
+                                                name="selbstaendigesarbeiten"
+                                                color="secondary"/>}
                                                 label="Anleitung zum selbständigen Arbeiten"
-                                            />: <></>}
-
-                                            {counts.blockseminarCount > 0 ? <FormControlLabel control={<IndigoSwitch
+                                                
+                                            /></Grid>
+                                            : <></>}
+                                      
+                                      {findCount("Blockseminar") > 0 || state.blockseminar===false ? <Grid item xs={3} >
+                                      <FormControlLabel control={<Switch
                                                 checked={state.blockseminar}
                                                 onChange={(event) => filterSubjects(event,state.blockseminar,"Blockseminar")} 
-                                                name="blockseminar"/>}
+                                                name="blockseminar"
+                                                color="secondary"/>}
                                                 label="Blockseminar"
-                                            />: <></>}
-
-                                            {counts.praktikumCount > 0 ? <FormControlLabel control={<LightBlueSwitch
+                                            /></Grid>: <></>}
+                                      
+                                      
+                                      {findCount("Einzelveranstaltung") > 0 || state.einzelveranstaltung===false ?<Grid item xs={6}>
+                                       <FormControlLabel control={<Switch
+                                                checked={state.einzelveranstaltung}
+                                                onChange={(event) => filterSubjects(event,state.einzelveranstaltung,"Einzelveranstaltung")} 
+                                                name="einzelveranstaltung"
+                                                color="secondary"/>}
+                                                label="Einzelveranstaltung"
+                                            /></Grid> : <></>}
+                                      
+                                      
+                                      {findCount("Kolloquium") > 0 || state.kolloquium===false ? <Grid item xs={3}>
+                                       <FormControlLabel control={<Switch
+                                              checked={state.kolloquium}
+                                              onChange={(event) => filterSubjects(event,state.kolloquium,"Kolloquium")} 
+                                              name="kolloquium"
+                                              color="secondary"/>}
+                                              label="Kolloquium"
+                                            /></Grid> : <></>}
+                                      
+                                      
+                                      {findCount("Kurs") > 0 || state.kurs===false ? <Grid item xs={3} >
+                                      <FormControlLabel control={<Switch
+                                              checked={state.kurs}
+                                              onChange={(event) => filterSubjects(event,state.kurs,"Kurs")} 
+                                              name="kurs"
+                                              color="secondary"/>}
+                                              label="Kurs"
+                                          /></Grid>: <></>}
+                                      
+                                      
+                                      {findCount("Labor") > 0 || state.labor===false ? <Grid item xs={3}>
+                                        <FormControlLabel control={<Switch
+                                                checked={state.labor}
+                                                onChange={(event) => filterSubjects(event,state.labor,"Labor")} 
+                                                name="labor"
+                                                color="secondary"/>}
+                                                label="Labor"
+                                            /></Grid>: <></>}
+                                      
+                                      
+                                      {findCount("Pflichtveranstaltung") > 0 || state.pflichtveranstaltung===false ? <Grid item xs={6} > 
+                                        <FormControlLabel control={<Switch
+                                                checked={state.pflichtveranstaltung}
+                                                onChange={(event) => filterSubjects(event,state.pflichtveranstaltung,"Pflichtveranstaltung")} 
+                                                name="pflichtveranstaltung"
+                                                color="secondary"/>}
+                                                label="Pflichtveranstaltung"
+                                            /></Grid>: <></>}
+                                      
+                                      
+                                      {findCount("Praktikum") > 0 || state.praktikum===false ? <Grid item xs={3}> 
+                                        <FormControlLabel control={<Switch
                                                 checked={state.praktikum}
                                                 onChange={(event) => filterSubjects(event,state.praktikum,"Praktikum")} 
-                                                name="praktikum"/>}
+                                                name="praktikum"
+                                                color="secondary"/>}
                                                 label="Praktikum"
-                                            />: <></>}
-
-                                            {counts.praxisprojektCount > 0 ? <FormControlLabel control={<TealSwitch
+                                            /></Grid>: <></>}
+                                      
+                                      
+                                      {findCount("Praxisprojekt") > 0 || state.praxisprojekt===false ? <Grid item xs={3} > 
+                                        <FormControlLabel control={<Switch
                                                 checked={state.praxisprojekt}
                                                 onChange={(event) => filterSubjects(event,state.praxisprojekt,"Praxisprojekt")} 
-                                                name="praxisprojekt"/>}
+                                                name="praxisprojekt"
+                                                color="secondary"/>}
                                                 label="Praxisprojekt"
-                                            />: <></>}
-
-                                            {counts.seminarCount > 0 ? <FormControlLabel control={<GreenASwitch
+                                            /> </Grid>: <></>}
+                                      
+                                      
+                                      {findCount("Projekt") > 0 || state.projekt===false ?  <Grid item xs={3} >
+                                        <FormControlLabel control={<Switch
+                                                checked={state.projekt}
+                                                onChange={(event) => filterSubjects(event,state.projekt,"Projekt")} 
+                                                name="projekt"
+                                                color="secondary"/>}
+                                                label="Projekt"
+                                            /></Grid>: <></>}
+                                      
+                                      
+                                      {findCount("Propädeutikum") > 0 || state.propädeutikum===false ? <Grid item xs={3} >
+                                         <FormControlLabel control={<Switch
+                                              checked={state.propädeutikum}
+                                              onChange={(event) => filterSubjects(event,state.propädeutikum,"Propädeutikum")} 
+                                              name="propädeutikum"
+                                              color="secondary"/>}
+                                              label="Propädeutikum"
+                                            /> </Grid>: <></>}
+                                      
+                                      
+                                      {findCount("Seminar") > 0 || state.seminar===false ? <Grid item xs={3} > 
+                                      <FormControlLabel control={<Switch
                                                 checked={state.seminar}
                                                 onChange={(event) => filterSubjects(event,state.seminar,"Seminar")} 
-                                                name="seminar"/>}
+                                                name="seminar"
+                                                color="secondary"/>}
                                                 label="Seminar"
-                                            />: <></>}
-
-                                            {counts.seminarUebungCount > 0 ? <FormControlLabel control={<GreenSwitch
+                                            /> </Grid>: <></>}
+                                     
+                                      
+                                      {findCount("Seminar/Oberseminar") > 0 || state.seminarOberseminar===false ? <Grid item xs={6}>
+                                        <FormControlLabel control={<Switch
+                                              checked={state.seminarOberseminar}
+                                              onChange={(event) => filterSubjects(event,state.seminarOberseminar,"Seminar/Oberseminar")} 
+                                              name="seminarOberseminar"
+                                              color="secondary"/>}
+                                              label="Seminar/Oberseminar"
+                                            /> </Grid>: <></>}
+                                     
+                                      
+                                      {findCount("Seminar/Übung") > 0 || state.seminar_uebung===false ? <Grid item xs={6}>
+                                        <FormControlLabel control={<Switch
                                                 checked={state.seminar_uebung}
                                                 onChange={(event) => filterSubjects(event,state.seminar_uebung,"Seminar/Übung")} 
-                                                name="seminarUebung"/>}
+                                                name="seminarUebung"
+                                                color="secondary"/>}
                                                 label="Seminar/Übung"
-                                            />: <></>}
-
-                                            {counts.tutoriumCount > 0 ? <FormControlLabel control={<LightGreenSwitch
+                                            /> </Grid>: <></>}
+                                      
+                                      
+                                      {findCount("Tutorium") > 0 || state.tutorium===false ? <Grid item xs={3} >
+                                       <FormControlLabel control={<Switch
                                                 checked={state.tutorium}
                                                 onChange={(event) => filterSubjects(event,state.tutorium,"Tutorium")} 
-                                                name="tutorium"/>}
+                                                name="tutorium"
+                                                color="secondary"/>}
                                                 label="Tutorium"
-                                            />: <></>}
-                                              
-                                            {counts.uebungCount > 0 ? <FormControlLabel control={<LimeSwitch 
+                                            /> </Grid>: <></>}
+                                     
+                                      
+                                      {findCount("Übung") > 0 || state.uebung===false ? <Grid item xs={3} >
+                                       <FormControlLabel control={<Switch 
                                                     checked={state.uebung} 
                                                     onChange={(event) => filterSubjects(event,state.uebung,"Übung")}
-                                                    name="uebung"/>}
+                                                    name="uebung"
+                                                    color="secondary"/>}
                                                     label="Übung"
-                                            />: <></>} 
-
-                                            {counts.uebungPraktikumCount > 0 ? <FormControlLabel control={<YellowSwitch
+                                            /> </Grid>: <></>} 
+                                     
+                                     
+                                      {findCount("Übung/mit Tutorien") > 0 || state.uebungMitTutorien===false ? <Grid item xs={6}>
+                                      <FormControlLabel control={<Switch 
+                                              checked={state.uebungMitTutorien} 
+                                              onChange={(event) => filterSubjects(event,state.uebungMitTutorien,"Übung/mit Tutorien")}
+                                              name="uebungMitTutorien"
+                                              color="secondary"/>}
+                                              label="Übung/mit Tutorien"
+                                            /> </Grid>: <></>}
+                                     
+                                      
+                                      {findCount("Übung/Praktikum") > 0 || state.uebung_praktikum===false ? <Grid item xs={3}> 
+                                        <FormControlLabel control={<Switch
                                                 checked={state.uebung_praktikum}
                                                 onChange={(event) => filterSubjects(event,state.uebung_praktikum,"Übung/Praktikum")} 
-                                                name="uebung_praktikum"/>}
+                                                name="uebung_praktikum"
+                                                color="secondary"/>}
                                                 label="Übung/Praktikum"
-                                            />: <></>}
-
-                                            {counts.vorlesungCount > 0 ?<FormControlLabel control={<OrangeSwitch 
+                                            /> </Grid>: <></>}
+                                      
+                                      
+                                      {findCount("Vorlesung") > 0 || state.vorlesung===false ?<Grid item xs={3}>
+                                        <FormControlLabel control={<Switch 
                                                     checked={state.vorlesung} 
                                                     onChange={(event) => filterSubjects(event,state.vorlesung,"Vorlesung")}
-                                                    name="vorlesung"/>}
+                                                    name="vorlesung"
+                                                    color="secondary"/>}
                                                 label="Vorlesung"
-                                                />: <></>} 
-
-                                            {counts.vorlesungSeminarCount > 0 ? <FormControlLabel control={<DeepOrangeSwitch
+                                                /> </Grid>: <></>}
+                                     
+                                      
+                                      {findCount("Vorlesung/Seminar") > 0 || state.vorlesung_seminar===false ? <Grid item xs={6} >
+                                       <FormControlLabel control={<Switch
                                                 checked={state.vorlesung_seminar}
                                                 onChange={(event) => filterSubjects(event,state.vorlesung_seminar,"Vorlesung/Seminar")} 
-                                                name="vorlesungSeminar"/>}
+                                                name="vorlesungSeminar"
+                                                color="secondary"/>}
                                                 label="Vorlesung/Seminar"
-                                            />: <></>}
-
-                                            {counts.vorlesungÜbungCount > 0 ? <FormControlLabel control={<BrownSwitch
+                                            /> </Grid>: <></>}
+                                     
+                                      
+                                      {findCount("Vorlesung/Übung") > 0 || state.vorlesung_uebung===false ? <Grid item xs={6}>
+                                       <FormControlLabel control={<Switch
                                                 checked={state.vorlesung_uebung}
                                                 onChange={(event) => filterSubjects(event,state.vorlesung_uebung,"Vorlesung/Übung")} 
-                                                name="vorlesung_uebung"/>}
+                                                name="vorlesung_uebung"
+                                                color="secondary"/>}
                                                 label="Vorlesung/Übung"
-                                            />: <></>} 
-
-                                            {counts.keineAngabeCount > 0 ? <FormControlLabel control={<GreySwitch
+                                            /> </Grid>: <></>}
+                                     
+                                      
+                                      {findCount("Wahlpflichtveranstaltung") > 0 || state.wahlpflichtVeranstaltung===false ? <Grid item xs={6}>
+                                       <FormControlLabel control={<Switch
+                                                checked={state.wahlpflichtVeranstaltung}
+                                                onChange={(event) => filterSubjects(event,state.wahlpflichtVeranstaltung,"Wahlpflichtveranstaltung")} 
+                                                name="wahlpflichtveranstaltung"
+                                                color="secondary"/>}
+                                                label="Wahlpflichtveranstaltung"
+                                            /> </Grid>: <></>}
+                                      
+                                      
+                                      {findCount("Keine Angabe") > 0 || state.keineAngabe===false ? <Grid item xs={3}>
+                                       <FormControlLabel control={<Switch
                                                 checked={state.keineAngabe}
                                                 onChange={(event) => filterSubjects(event,state.keineAngabe,"Keine Angabe")} 
-                                                name="keineAngabe"/>}
+                                                name="keineAngabe"
+                                                color="secondary"/>}
                                                 label="Keine Angabe"
-                                            />: <></>}
- 
-                                        </FormGroup>
-                                    </FormControl>    
-                                </div>
-                                                            
+                                            /> </Grid> : <></>}
+                                     
                                     
+                                    </Grid>
+                                  </Collapse>
+                                </Card>  
+
                                 <Grid container justify="space-between" style={{marginTop:25}}>
 
                                     <Grid item style={{width:"45%"}}>
@@ -897,7 +1033,6 @@ export default function NewSelectPage(props) {
 
                                     </Grid>
                                 </Grid>
-                            </Grid>
 
 
                             <Grid container justify="space-evenly">
@@ -918,8 +1053,14 @@ export default function NewSelectPage(props) {
                                             className={classes.buttons}
                                             onClick={handleNextButton2Clicked}>
                                         next
-                                    </Button> :<div className={classes.p}>
-                                        </div>}
+                                    </Button> :
+                                     <Button variant="contained"
+                                     color="primary"
+                                     className={classes.buttons}
+                                     onClick={handleNextButton2Clicked}
+                                     disabled>
+                                 next
+                             </Button> }
 
                                 </Grid>
                             </Grid>

@@ -37,9 +37,6 @@ const useStyles = makeStyles(theme => ({
     },
     card: {
         borderRadius: 15,
-/*      backgroundColor: theme.palette.primary.light,
-        color: theme.palette.primary.contrastText,
-        boxShadow: "none" */
     },
     courseinsights: {
         color: "#ffffff",
@@ -173,22 +170,6 @@ export default function Step1() {
                       <Grid item>
                          <Typography className={classes.courseinsights}>CourseInsights</Typography>
                       </Grid>
-                   
-                      <Grid item>
-                        <Typography className={classes.step2}>
-                        Step 1: Your studyprogram
-                    </Typography>
-                        </Grid>
-                        <Grid item>
-                         <Typography className={classes.b2}>
-                        1.1 Select your studyprogram
-                    </Typography>
-                      </Grid>
-                      <Grid item>
-                        <Typography className={classes.b2}>
-                        1.2 Select your current semester
-                    </Typography>
-                        </Grid>
 
                 </Grid>
                 </Box>
@@ -249,8 +230,14 @@ export default function Step1() {
                                             onClick={handleNextButton1Clicked}>
                                             next
                                         </Button>
-                                    :  <div className={classes.p}>
-                                        </div>}
+                                    :  <Button
+                                    variant="contained"
+                                    color="primary"
+                                    className={classes.buttons}
+                                    onClick={handleNextButton1Clicked}
+                                    disabled>
+                                    next
+                                </Button>}
                                 </Grid> 
 
                                 </Grid>

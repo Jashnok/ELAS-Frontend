@@ -5,7 +5,6 @@ function generateHeatMapData(subjectsAndOverlapping) {
     let data = [];
     let subjectX = "";
     for (let subject of subjectsAndOverlapping) {
-        console.log(subject);
         if (subjectX !== subject.subjectA.name) {
             subjectX = subject.subjectA.name;
             data.push({
@@ -19,7 +18,6 @@ function generateHeatMapData(subjectsAndOverlapping) {
 
 function generateData(subject, subjectsAndOverlapping) {
     let xydata = [];
-    console.log(subjectsAndOverlapping);
     for (let sub of subjectsAndOverlapping) {
         console.log(sub);
         if (subject === sub.subjectA.name) {
@@ -40,7 +38,6 @@ function generateData(subject, subjectsAndOverlapping) {
                 for(let overlapseverity of sub.overlaps){
                     severities.push(overlapseverity.severity);
                 }
-                console.log(severities);
                 if(severities.includes("critical")){
                     for(let overlap of sub.overlaps){
                         if(overlap.severity === "critical"){
@@ -56,7 +53,6 @@ function generateData(subject, subjectsAndOverlapping) {
                             x: sub.subjectB.name,
                             y: 50
                         })
-
                     }
             }
         }
@@ -66,8 +62,6 @@ function generateData(subject, subjectsAndOverlapping) {
 
 export default function HeatMap(props) {
     const heatMapData = generateHeatMapData(props.data);
-    console.log(props.data);
-    console.log(heatMapData);
 
     const state = {
         series: heatMapData,
@@ -185,7 +179,7 @@ export default function HeatMap(props) {
         },
     };
     return (
-            <ReactApexChart options={state.options} series={state.series} type="heatmap"width={400} height={400}/>
+            <ReactApexChart options={state.options} series={state.series} type="heatmap" width={400} height={400}/>
     );
 }
 

@@ -6,15 +6,11 @@ export default function BarChartApex(props){
     const yValues = [];
     if(props.studyprogram) {
         const statistics = props.studyprogram.stats;
-
-
         for (const [key, value] of Object.entries(statistics)) {
             xAxis.push(key);
             yValues.push(value);
         }
-
     }
-
 
     const state = {
         series: [{

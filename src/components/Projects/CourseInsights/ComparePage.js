@@ -65,10 +65,16 @@ const useStyles = makeStyles({
         justify: "center",
         textAlign: "center",
         marginTop: 10,
-        fontSize: 15,
+        fontSize: 20,
     },
     all: {
         fontVariant: "small-caps",
+    },
+    card: {
+        borderRadius: 15,
+    },
+    border: {
+        width: '45%',
     },
     lilcaptions: {
         color: "#ef6c00",
@@ -77,7 +83,7 @@ const useStyles = makeStyles({
         textAlign: "justify",
         marginTop: 10,
         marginBottom: 10,
-        fontSize: 20,
+        fontSize: 22,
         fontVariant: "small-caps",
         fontWeight: 'bold',
     },
@@ -87,7 +93,7 @@ const useStyles = makeStyles({
         justify: "center",
         textAlign: "center",
         marginBottom: 10,
-        fontSize: 25,
+        fontSize: 28,
         fontVariant: "small-caps",
         fontWeight: 'bold',
     },
@@ -111,8 +117,8 @@ const useStyles = makeStyles({
         marginRight: 50,
     },
     back: {
-        marginTop: 50,
-        width: 100,
+        marginTop: 10,
+        width: 50,
     },
     root: {
         '& > *': {
@@ -121,7 +127,7 @@ const useStyles = makeStyles({
     },
     alldateswidth: {
         fontVariant: 'small-caps',
-        fontSize: 14,
+        fontSize: 13,
     },
     closeicons: {
         color: '#f50057'
@@ -314,7 +320,7 @@ function createAllDates(timetable) {
             <Typography style={{fontWeight: 'bold', fontSize: 18}}> All Dates:</Typography>
             {timetable.map((times) => {
                 return (
-                    <Grid container direction='column'>
+                    <Grid container direction='column' alignItems='center'>
                         <Typography> Day: {times.day} </Typography>
                         <Typography> From: {times.time.from} </Typography>
                         <Typography> To: {times.time.to}</Typography>
@@ -333,13 +339,13 @@ function createAllDates(timetable) {
 }
 
 /* Tooltip to show all dates of a subject */
-function AllDates(props) {
+function AllDatesTooltip(props) {
     const classes = useStyles();
     return (
-        <Grid container='column'>
-            <Tooltip classes={{tooltip: classes.alldateswidth}} title={createAllDates(props.timetable)} arrow>
-                <Button variant='outlined' color='primary' style={{maxWidth: 20}}>
-                    All dates
+        <Grid>
+            <Tooltip classes={{tooltip: classes.alldateswidth}} title={createAllDates(props.timetable)} placement='right' arrow>
+                <Button variant='outlined' color='primary'>
+                    All Dates
                 </Button>
             </Tooltip>
             {/*<Button variant='outlined' color='primary' href={props.url} style={{maxWidth: 20}}>
@@ -359,9 +365,9 @@ function Row(props) {
             <TableRow className={classes.root}>
                 <TableCell>
                     <IconButton aria-label="expand row" size="small" onClick={() => setOpen(!open)}>
-                        {open ? <KeyboardArrowUpIcon/> : row.overlapping.length !== 0 ?
-                            <Badge variant="dot" color='secondary'> <KeyboardArrowDownIcon/> </Badge> :
-                            <KeyboardArrowDownIcon/>}
+                        {open ? <KeyboardArrowUpIcon titleAccess={'Collapse'}/> : row.overlapping.length !== 0 ?
+                            <Badge variant="dot" color='secondary'> <KeyboardArrowDownIcon titleAccess={'Expand'}/> </Badge> :
+                            <KeyboardArrowDownIcon titleAccess={'Expand'}/>}
                     </IconButton>
                 </TableCell>
                 <TableCell component="th" scope="row">
@@ -382,8 +388,8 @@ function Row(props) {
                     <CloseIcon className={classes.closeicons}/>}</TableCell>
                 <TableCell align="center">{row.recommendation ? Math.round(row.recommendation) :
                     <CloseIcon className={classes.closeicons}/>}</TableCell>
-                <TableCell> <AllDates timetable={row.timetable} url={row.url}/> </TableCell>
-                <TableCell align="left"><DeleteIcon onClick={() => props.deleteRow(row)}/></TableCell>
+                <TableCell align="center"> <AllDatesTooltip timetable={row.timetable} url={row.url}/> </TableCell>
+                <TableCell align="left" title={'Delete'}><DeleteIcon onClick={() => props.deleteRow(row)}/></TableCell>
             </TableRow>
             <TableRow>
                 <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={12}>
@@ -455,8 +461,8 @@ function Row2(props) {
                     <CloseIcon className={classes.closeicons}/>}</TableCell>
                 <TableCell align="center">{row.recommendation ? Math.round(row.recommendation) :
                     <CloseIcon className={classes.closeicons}/>}</TableCell>
-                <TableCell> <AllDates timetable={row.timetable} url={row.url}/> </TableCell>
-                <TableCell align="left"><RestoreIcon onClick={() => props.recoverRow(row)}/></TableCell>
+                <TableCell align='center'> <AllDatesTooltip timetable={row.timetable} url={row.url}/> </TableCell>
+                <TableCell align="left" title={'Restore'}><RestoreIcon onClick={() => props.recoverRow(row)}/></TableCell>
             </TableRow>
             <TableCell style={{paddingBottom: 0, paddingTop: 0}} colSpan={13}/>
         </React.Fragment>
@@ -556,21 +562,20 @@ export default function ComparePage(props) {
                             <Grid item>
                                 <Typography className={classes.courseinsights}>CourseInsights</Typography>
                             </Grid>
-                            <Grid item>
+                            {/*<Grid item>
                                 <Typography className={classes.step3}> Step 3: Compare and decide which subjects you
                                     want to take </Typography>
-                            </Grid>
+                            </Grid>*/}
                         </Grid>
                     </Box>
                 </Grid>
-                <Grid item style={{paddingTop: 25, alignSelf: "center", width: "80%"}}>
-                    <Card style={{alignSelf: "center"}}>
-                        <CardContent style={{margin: 25}}>
-                            <Grid container direction="column">
-                                <Grid container alignItems="center" justify="space-evenly">
-                                    <Grid item xs={5} style={{paddingTop: 25}}>
-                                        <Card>
-                                            <CardContent>
+                <Grid item style={{marginTop: 25, alignSelf: "center", width: "80%"}}>
+                    <Card className={classes.card} style={{alignSelf: "center"}} variant='outlined'>
+                        <CardContent style={{margin: 50, padding:0}}>
+                                <Grid container justify="space-between">
+                                    <Grid style={{width:'45%'}}>
+                                        <Card variant='outlined' className={classes.card}>
+                                            <CardContent style={{margin:10}}>
                                                 <Typography className={classes.caption}> Your
                                                     selection:</Typography>
                                                 <Typography className={classes.lilcaptions}> Your
@@ -588,7 +593,7 @@ export default function ComparePage(props) {
                                             </CardContent>
                                         </Card>
                                     </Grid>
-                                    <Grid item style={{width: "25%", height: "25%"}}
+                                    <Grid item style={{width: "45%", height: "45%", paddingRight: 50}}
                                     >
                                         <HeatMap data={heatMapData}/>
                                     </Grid>
@@ -596,8 +601,8 @@ export default function ComparePage(props) {
                                 <Grid item style={{
                                     fontVariant: "small-caps",
                                     alignSelf: "center",
-                                    width: "90%",
-                                    paddingTop: 50,
+                                    width: "100%",
+                                    paddingTop: 10,
                                 }}>
                                     <TabContext value={value}>
                                         <ThemeProvider theme={theme}>
@@ -619,27 +624,27 @@ export default function ComparePage(props) {
                                                     </caption>
                                                     <TableHead>
                                                         <TableRow>
-                                                            <TableCell style={{width: 20}}/>
-                                                            <TableCell style={{width: 20}}>Subject name</TableCell>
+                                                            <TableCell style={{width: 5}}/>
+                                                            <TableCell style={{width: 15}}>Subject name</TableCell>
                                                             <TableCell align="center"
-                                                                       style={{width: 20}}>SWS</TableCell>
+                                                                       style={{width: 15}}>Sws</TableCell>
                                                             <TableCell align="center"
-                                                                       style={{width: 20}}>Fairness</TableCell>
+                                                                       style={{width: 15}} title={'Fairness'}> Fairn.</TableCell>
                                                             <TableCell align="center"
-                                                                       style={{width: 20}}>Support</TableCell>
+                                                                       style={{width: 15}} title={'Support'}>Supp.</TableCell>
                                                             <TableCell align="center"
-                                                                       style={{width: 20}}>Material</TableCell>
+                                                                       style={{width: 15}} title={'Material'}>Mat.</TableCell>
                                                             <TableCell align="center"
-                                                                       style={{width: 20}}>Fun</TableCell>
+                                                                       style={{width: 15}}>Fun</TableCell>
                                                             <TableCell align="center"
-                                                                       style={{width: 20}}>Understandability</TableCell>
+                                                                       style={{width: 15}} title={'Understandability'}>Underst.</TableCell>
                                                             <TableCell align="center"
-                                                                       style={{width: 20}}>Effort</TableCell>
+                                                                       style={{width: 15}} title={'Effort'}>Eff.</TableCell>
                                                             <TableCell align="center"
-                                                                       style={{width: 20}}>Recommendation</TableCell>
+                                                                       style={{width: 15}} title={'Recommendation'}>Reco.</TableCell>
                                                             <TableCell align="center"
-                                                                       style={{width: 20}}>Info</TableCell>
-                                                            <TableCell style={{width: 20}}/>
+                                                                       style={{width: 15}} title={'More information'} >Info</TableCell>
+                                                            <TableCell style={{width: 5}}/>
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
@@ -669,11 +674,11 @@ export default function ComparePage(props) {
                                                 <Table stickyHeader aria-label="collapsible table" cellSpacing="1">
                                                     <TableHead>
                                                         <TableRow>
-                                                            <TableCell>Subject name</TableCell>
+                                                            <TableCell style={{width: 20}}>Subject name</TableCell>
                                                             <TableCell align="center"
                                                                        style={{width: 20}}>SWS</TableCell>
                                                             <TableCell align="center"
-                                                                       style={{width: 20}}>Fairness</TableCell>
+                                                                       style={{width: 20}}>Fairn.</TableCell>
                                                             <TableCell align="center"
                                                                        style={{width: 20}}>Support</TableCell>
                                                             <TableCell align="center"
@@ -681,14 +686,14 @@ export default function ComparePage(props) {
                                                             <TableCell align="center"
                                                                        style={{width: 20}}>Fun</TableCell>
                                                             <TableCell align="center"
-                                                                       style={{width: 20}}>Understandability</TableCell>
+                                                                       style={{width: 20}}>Understa.</TableCell>
                                                             <TableCell align="center"
                                                                        style={{width: 20}}>Effort</TableCell>
                                                             <TableCell align="center"
-                                                                       style={{width: 20}}>Recommendation</TableCell>
+                                                                       style={{width: 20}}>Reco.</TableCell>
                                                             <TableCell align="center"
                                                                        style={{width: 20}}>Info</TableCell>
-                                                            <TableCell/>
+                                                            <TableCell style={{width: 20}}/>
                                                         </TableRow>
                                                     </TableHead>
                                                     <TableBody>
@@ -713,13 +718,14 @@ export default function ComparePage(props) {
                                             />
                                         </TabPanel>
                                     </TabContext>
-                                </Grid>
                             </Grid>
+                            <Grid container justify='space-evenly'>
                             <Grid item className={classes.back}>
                                 <Button variant="outlined"
                                         onClick={handleBackButton2Clicked} color='primary'>
                                     Back
                                 </Button>
+                            </Grid>
                             </Grid>
                         </CardContent>
                     </Card>

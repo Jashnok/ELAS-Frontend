@@ -179,7 +179,7 @@ export default function HeatMap(props) {
         },
     };
     return (
-            <ReactApexChart options={state.options} series={state.series} type="heatmap" width={400} height={400}/>
+            <ReactApexChart options={state.options} series={state.series} type="heatmap" width={390} height={390}/>
     );
 }
 

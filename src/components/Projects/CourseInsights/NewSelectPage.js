@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {Button, Card, makeStyles,Typography,TableBody,TableCell,TableContainer,
   createMuiTheme, ThemeProvider, lighten,Table,TableHead, TablePagination,
   TableRow,TableSortLabel,Toolbar,Paper,Checkbox,IconButton,Tooltip,FormControlLabel,
-  FormControl,FormGroup, FormLabel,Switch, Box, Grid, CardContent, Collapse, CardActionArea} from "@material-ui/core"; 
+  FormControl,FormGroup, FormLabel,Switch, Box, Grid, CardContent, Collapse, CardActionArea,TextField} from "@material-ui/core"; 
 import ApexColumnChart from "./ApexColumnChart";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ComparePage from "./ComparePage";
@@ -47,7 +47,10 @@ const useStyles = makeStyles({
       border: {
         // border: "1px solid grey"
         width:"45%",
-        
+        marginTop:25,
+      },
+      actionsContainer: {
+        marginBottom: theme.spacing(2),
       },
       gutter: {
         margin:20,
@@ -93,7 +96,7 @@ const useStyles = makeStyles({
         textAlign: "justify",
         marginTop: 10,
         marginBottom: 10,
-        fontSize: 22,
+        fontSize: 24,
         fontVariant: "small-caps",
     },
     caption: {
@@ -101,7 +104,7 @@ const useStyles = makeStyles({
         justify: "center",
         textAlign: "center",
         marginBottom: 10,
-        fontSize: 28,
+        fontSize: 26,
         fontVariant: "small-caps",      
         fontWeight:"bold",
     },
@@ -120,7 +123,11 @@ const useStyles = makeStyles({
         display: "block",
         alignContent: "center",
     },
-
+    button: {
+      marginTop: theme.spacing(1),
+      marginRight: theme.spacing(1),
+      height:35,
+    }, 
     buttons: {
         marginTop:10,
         width: 50,
@@ -258,23 +265,10 @@ function descendingComparator(a, b, orderBy) {
           </Typography>
         ) : (
           <Typography className={classes.title} variant="h6" id="tableTitle" component="div">
-            Select your Subjects
+            Available Subjects:
           </Typography>
         )}
-  
-        {numSelected > 0 ? (
-          <Tooltip title="Delete">
-            <IconButton aria-label="delete">
-              <DeleteIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Filter list">
-            <IconButton aria-label="filter list">
-              <FilterListIcon />
-            </IconButton>
-          </Tooltip>
-        )}
+
       </Toolbar>
     );
   };
@@ -426,9 +420,11 @@ export default function NewSelectPage(props) {
     if (event.target.checked) {
       const newSelecteds = subjects;
       setSelected(newSelecteds);
+      props.changeSubs(newSelecteds);
       return;
     }
     setSelected([]);
+    props.changeSubs([]);
   };
 
   const handleClick = (event, row) => {
@@ -448,6 +444,7 @@ export default function NewSelectPage(props) {
       );
     }
     setSelected(newSelected);
+    props.changeSubs(newSelected);
   };
 
   const handleChangePage = (event, newPage) => {
@@ -504,6 +501,7 @@ export default function NewSelectPage(props) {
         }
     
         setSelected(newSelected);
+        props.changeSubs(newSelected);
     }
 
     const emptyRowsSel = rowsPerPageSel - Math.min(rowsPerPageSel, selected.length - pageSel * rowsPerPageSel);
@@ -521,7 +519,9 @@ export default function NewSelectPage(props) {
     /* FilterFunctions and SwitchStates */
 
     const [open, setOpen] = useState(false);
-    
+    const[check,setCheck] = useState(0);
+    const [filterN, setFilterN] = useState(undefined);
+    const [errorS, setErrorS] = useState(false);
     const [state, setState] = React.useState({
         einzelveranstaltung: true,
         kolloquium: true,
@@ -533,14 +533,14 @@ export default function NewSelectPage(props) {
         pflichtveranstaltung: true,
         praktikum: true,
         projekt: true,
-        vorlesung_uebung:true,
-        uebung_praktikum: true,
+        vorlesungUebung:true,
+        uebungPraktikum: true,
         seminar: true,
         seminarOberseminar: true,
         blockseminar: true,
-        seminar_uebung: true,
+        seminarUebung: true,
         tutorium: true,
-        vorlesung_seminar: true,
+        vorlesungSeminar: true,
         propädeutikum: true,
         praxisprojekt: true,
         selbstaendigesarbeiten: true,
@@ -553,7 +553,6 @@ export default function NewSelectPage(props) {
          return count;
     }
 
-    console.log(findCount("Praxisprojekt"));
       const filterSubjects = (event,cond,comp) => {
         setState({ ...state, [event.target.name]: event.target.checked });
         if(cond === true){
@@ -562,16 +561,56 @@ export default function NewSelectPage(props) {
         }
         else{
             const old = generateSubjects(props.studyprogram).filter(el => el.subject_type ===comp);
-            const test = subjects.concat(old);
-            setSubjects(test);
+            if(filterN){
+              const test = subjects.concat(old.filter(el => el.name.toUpperCase().includes(filterN)));
+              setSubjects(test);
+              
+            }
+            else{
+              const test2 = subjects.concat(old);
+            setSubjects(test2);
+            }
         }     
       };      
+      
+      const filterSName = (event) => {
+        const input= event.target.value.toUpperCase();
+        if(input.length>0){
+          setFilterN(input);
+        }
+        else{
+          setFilterN(undefined);
+        }
+        setFilterN(input);
+        if(input.length>check){
+          const filtered = subjects.filter(el => el.name.toUpperCase().includes(input));
+          setSubjects(filtered);
+          if(filtered<1){
+            setErrorS(true);
+          }
+          else{
+            setErrorS(false);
+          }
+        }
+        else{
+          const old = generateSubjects(props.studyprogram).filter(el => el.name.toUpperCase().includes(input));
+          setSubjects(old);
+          if(old<1){
+            setErrorS(true);
+          }
+          else{
+            setErrorS(false);
+          }
+      }
+      setCheck(input.length);
+
+    }
 
     if (!nextButton2Clicked && !backButton1Clicked) {
     return (
         <ThemeProvider theme={theme}>
             <Grid container direction="column" className={classes.all}>
-                <Grid item>
+                {/* <Grid item>
                     <Box className={classes.box}>
                         <Grid container direction="column" alignItems="center" justify="space-evenly"
                               style={{height: "100%"}}>
@@ -581,32 +620,28 @@ export default function NewSelectPage(props) {
                         </Grid>
 
                     </Box>
-                </Grid>
+                </Grid> */}
 
-                <Grid item style={{marginTop: 25, alignSelf: "center", width:"80%"}}>
-
-                    <Card classes={{root: classes.card}} style={{alignSelf: "center"}} variant="outlined" >
-                        <CardContent style={{margin:50, padding:0}}>
-                            
-                               
+                <Grid item style={{margin: 20, alignSelf: "center", width:"100%"}}>
+      
                                 <Grid container justify="space-between">
                                     <Grid item  style={{width:"45%"}}>
                                         <Card variant="outlined"classes={{root: classes.card}}>
                                             <CardContent  style={{margin:10}}>
                                                 <Typography color="secondary" className={classes.caption}> Your
                                                     selection:</Typography>
-                                                <Typography className={classes.lilcaptions}> Your
+                                                <Typography color="secondary" className={classes.lilcaptions}> Your
                                                     selected studyprogram: </Typography>
                                                 <Typography
                                                     className={classes.content}>{props.studyprogram.name}</Typography>
-                                                <Typography  className={classes.lilcaptions}> Your selected
+                                                <Typography color="secondary" className={classes.lilcaptions}> Your selected
                                                     semester: </Typography>
                                                 <Typography
                                                     className={classes.content}>{props.semester.semester}</Typography>
                                             </CardContent>
                                         </Card>
                                     </Grid>
-                                    <Grid item style={{width:"45%", marginTop:20}}>
+                                    <Grid item style={{width:"47.5%"}}>
                                          <ApexColumnChart selected={selected}/> 
                                     </Grid>
                                 </Grid>
@@ -645,7 +680,7 @@ export default function NewSelectPage(props) {
                                             /></Grid>
                                             : <></>}
                                       
-                                      {findCount("Blockseminar") > 0 || state.blockseminar===false ? <Grid item xs={3} >
+                                      {findCount("Blockseminar") > 0 || state.blockseminar===false ? <Grid item xs={6} >
                                       <FormControlLabel control={<Switch
                                                 checked={state.blockseminar}
                                                 onChange={(event) => filterSubjects(event,state.blockseminar,"Blockseminar")} 
@@ -665,7 +700,7 @@ export default function NewSelectPage(props) {
                                             /></Grid> : <></>}
                                       
                                       
-                                      {findCount("Kolloquium") > 0 || state.kolloquium===false ? <Grid item xs={3}>
+                                      {findCount("Kolloquium") > 0 || state.kolloquium===false ? <Grid item xs={6}>
                                        <FormControlLabel control={<Switch
                                               checked={state.kolloquium}
                                               onChange={(event) => filterSubjects(event,state.kolloquium,"Kolloquium")} 
@@ -675,7 +710,7 @@ export default function NewSelectPage(props) {
                                             /></Grid> : <></>}
                                       
                                       
-                                      {findCount("Kurs") > 0 || state.kurs===false ? <Grid item xs={3} >
+                                      {findCount("Kurs") > 0 || state.kurs===false ? <Grid item xs={6} >
                                       <FormControlLabel control={<Switch
                                               checked={state.kurs}
                                               onChange={(event) => filterSubjects(event,state.kurs,"Kurs")} 
@@ -685,7 +720,7 @@ export default function NewSelectPage(props) {
                                           /></Grid>: <></>}
                                       
                                       
-                                      {findCount("Labor") > 0 || state.labor===false ? <Grid item xs={3}>
+                                      {findCount("Labor") > 0 || state.labor===false ? <Grid item xs={6}>
                                         <FormControlLabel control={<Switch
                                                 checked={state.labor}
                                                 onChange={(event) => filterSubjects(event,state.labor,"Labor")} 
@@ -705,7 +740,7 @@ export default function NewSelectPage(props) {
                                             /></Grid>: <></>}
                                       
                                       
-                                      {findCount("Praktikum") > 0 || state.praktikum===false ? <Grid item xs={3}> 
+                                      {findCount("Praktikum") > 0 || state.praktikum===false ? <Grid item xs={6}> 
                                         <FormControlLabel control={<Switch
                                                 checked={state.praktikum}
                                                 onChange={(event) => filterSubjects(event,state.praktikum,"Praktikum")} 
@@ -715,7 +750,7 @@ export default function NewSelectPage(props) {
                                             /></Grid>: <></>}
                                       
                                       
-                                      {findCount("Praxisprojekt") > 0 || state.praxisprojekt===false ? <Grid item xs={3} > 
+                                      {findCount("Praxisprojekt") > 0 || state.praxisprojekt===false ? <Grid item xs={6} > 
                                         <FormControlLabel control={<Switch
                                                 checked={state.praxisprojekt}
                                                 onChange={(event) => filterSubjects(event,state.praxisprojekt,"Praxisprojekt")} 
@@ -725,7 +760,7 @@ export default function NewSelectPage(props) {
                                             /> </Grid>: <></>}
                                       
                                       
-                                      {findCount("Projekt") > 0 || state.projekt===false ?  <Grid item xs={3} >
+                                      {findCount("Projekt") > 0 || state.projekt===false ?  <Grid item xs={6} >
                                         <FormControlLabel control={<Switch
                                                 checked={state.projekt}
                                                 onChange={(event) => filterSubjects(event,state.projekt,"Projekt")} 
@@ -735,7 +770,7 @@ export default function NewSelectPage(props) {
                                             /></Grid>: <></>}
                                       
                                       
-                                      {findCount("Propädeutikum") > 0 || state.propädeutikum===false ? <Grid item xs={3} >
+                                      {findCount("Propädeutikum") > 0 || state.propädeutikum===false ? <Grid item xs={6} >
                                          <FormControlLabel control={<Switch
                                               checked={state.propädeutikum}
                                               onChange={(event) => filterSubjects(event,state.propädeutikum,"Propädeutikum")} 
@@ -745,7 +780,7 @@ export default function NewSelectPage(props) {
                                             /> </Grid>: <></>}
                                       
                                       
-                                      {findCount("Seminar") > 0 || state.seminar===false ? <Grid item xs={3} > 
+                                      {findCount("Seminar") > 0 || state.seminar===false ? <Grid item xs={6} > 
                                       <FormControlLabel control={<Switch
                                                 checked={state.seminar}
                                                 onChange={(event) => filterSubjects(event,state.seminar,"Seminar")} 
@@ -765,17 +800,17 @@ export default function NewSelectPage(props) {
                                             /> </Grid>: <></>}
                                      
                                       
-                                      {findCount("Seminar/Übung") > 0 || state.seminar_uebung===false ? <Grid item xs={6}>
+                                      {findCount("Seminar/Übung") > 0 || state.seminarUebung===false ? <Grid item xs={6}>
                                         <FormControlLabel control={<Switch
-                                                checked={state.seminar_uebung}
-                                                onChange={(event) => filterSubjects(event,state.seminar_uebung,"Seminar/Übung")} 
+                                                checked={state.seminarUebung}
+                                                onChange={(event) => filterSubjects(event,state.seminarUebung,"Seminar/Übung")} 
                                                 name="seminarUebung"
                                                 color="secondary"/>}
                                                 label="Seminar/Übung"
                                             /> </Grid>: <></>}
                                       
                                       
-                                      {findCount("Tutorium") > 0 || state.tutorium===false ? <Grid item xs={3} >
+                                      {findCount("Tutorium") > 0 || state.tutorium===false ? <Grid item xs={6} >
                                        <FormControlLabel control={<Switch
                                                 checked={state.tutorium}
                                                 onChange={(event) => filterSubjects(event,state.tutorium,"Tutorium")} 
@@ -785,7 +820,7 @@ export default function NewSelectPage(props) {
                                             /> </Grid>: <></>}
                                      
                                       
-                                      {findCount("Übung") > 0 || state.uebung===false ? <Grid item xs={3} >
+                                      {findCount("Übung") > 0 || state.uebung===false ? <Grid item xs={6} >
                                        <FormControlLabel control={<Switch 
                                                     checked={state.uebung} 
                                                     onChange={(event) => filterSubjects(event,state.uebung,"Übung")}
@@ -805,17 +840,17 @@ export default function NewSelectPage(props) {
                                             /> </Grid>: <></>}
                                      
                                       
-                                      {findCount("Übung/Praktikum") > 0 || state.uebung_praktikum===false ? <Grid item xs={3}> 
+                                      {findCount("Übung/Praktikum") > 0 || state.uebungPraktikum===false ? <Grid item xs={6}> 
                                         <FormControlLabel control={<Switch
-                                                checked={state.uebung_praktikum}
-                                                onChange={(event) => filterSubjects(event,state.uebung_praktikum,"Übung/Praktikum")} 
-                                                name="uebung_praktikum"
+                                                checked={state.uebungPraktikum}
+                                                onChange={(event) => filterSubjects(event,state.uebungPraktikum,"Übung/Praktikum")} 
+                                                name="uebungPraktikum"
                                                 color="secondary"/>}
                                                 label="Übung/Praktikum"
                                             /> </Grid>: <></>}
                                       
                                       
-                                      {findCount("Vorlesung") > 0 || state.vorlesung===false ?<Grid item xs={3}>
+                                      {findCount("Vorlesung") > 0 || state.vorlesung===false ?<Grid item xs={6}>
                                         <FormControlLabel control={<Switch 
                                                     checked={state.vorlesung} 
                                                     onChange={(event) => filterSubjects(event,state.vorlesung,"Vorlesung")}
@@ -825,21 +860,21 @@ export default function NewSelectPage(props) {
                                                 /> </Grid>: <></>}
                                      
                                       
-                                      {findCount("Vorlesung/Seminar") > 0 || state.vorlesung_seminar===false ? <Grid item xs={6} >
+                                      {findCount("Vorlesung/Seminar") > 0 || state.vorlesungSeminar===false ? <Grid item xs={6} >
                                        <FormControlLabel control={<Switch
-                                                checked={state.vorlesung_seminar}
-                                                onChange={(event) => filterSubjects(event,state.vorlesung_seminar,"Vorlesung/Seminar")} 
+                                                checked={state.vorlesungSeminar}
+                                                onChange={(event) => filterSubjects(event,state.vorlesungSeminar,"Vorlesung/Seminar")} 
                                                 name="vorlesungSeminar"
                                                 color="secondary"/>}
                                                 label="Vorlesung/Seminar"
                                             /> </Grid>: <></>}
                                      
                                       
-                                      {findCount("Vorlesung/Übung") > 0 || state.vorlesung_uebung===false ? <Grid item xs={6}>
+                                      {findCount("Vorlesung/Übung") > 0 || state.vorlesungUebung===false ? <Grid item xs={6}>
                                        <FormControlLabel control={<Switch
-                                                checked={state.vorlesung_uebung}
-                                                onChange={(event) => filterSubjects(event,state.vorlesung_uebung,"Vorlesung/Übung")} 
-                                                name="vorlesung_uebung"
+                                                checked={state.vorlesungUebung}
+                                                onChange={(event) => filterSubjects(event,state.vorlesungUebung,"Vorlesung/Übung")} 
+                                                name="vorlesungUebung"
                                                 color="secondary"/>}
                                                 label="Vorlesung/Übung"
                                             /> </Grid>: <></>}
@@ -855,7 +890,7 @@ export default function NewSelectPage(props) {
                                             /> </Grid>: <></>}
                                       
                                       
-                                      {findCount("Keine Angabe") > 0 || state.keineAngabe===false ? <Grid item xs={3}>
+                                      {findCount("Keine Angabe") > 0 || state.keineAngabe===false ? <Grid item xs={6}>
                                        <FormControlLabel control={<Switch
                                                 checked={state.keineAngabe}
                                                 onChange={(event) => filterSubjects(event,state.keineAngabe,"Keine Angabe")} 
@@ -866,6 +901,15 @@ export default function NewSelectPage(props) {
                                      
                                     
                                     </Grid>
+
+                                          <Grid container style={{width:"95%", margin:20}}justify="center">
+                                            <Grid item xs={6}>
+                                              <TextField id="outlined-basic" error={errorS} label="subject-name" size="small" variant="outlined" color="secondary" autoComplete onChange={(event => filterSName(event))}/>
+                                            </Grid>
+                                            
+                                          </Grid>
+                                            
+
                                   </Collapse>
                                 </Card>  
 
@@ -1032,42 +1076,33 @@ export default function NewSelectPage(props) {
                                         </div> 
 
                                     </Grid>
+                                </Grid>               
+                              </Grid>
+                <Grid item style={{width:"100%",marginTop:40}}>
+                        <Grid container spacing={2}>
+                            <Grid item>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={props.handleBack()}
+                                    className={classes.button}
+                                    >
+                                    Back
+                                </Button>
                                 </Grid>
-
-
-                            <Grid container justify="space-evenly">
                                 <Grid item>
-                                    <Button variant="outlined"
-                                            className={classes.buttons}
-                                            color="primary"
-                                            onClick={handleBackButton1Clicked}>
-                                        back
-                                    </Button>
-
-                                </Grid>
-
-                                <Grid item>
-                                  {selected.length > 0 ?
-                                    <Button variant="contained"
-                                            color="primary"
-                                            className={classes.buttons}
-                                            onClick={handleNextButton2Clicked}>
-                                        next
-                                    </Button> :
-                                     <Button variant="contained"
-                                     color="primary"
-                                     className={classes.buttons}
-                                     onClick={handleNextButton2Clicked}
-                                     disabled>
-                                 next
-                             </Button> }
-
-                                </Grid>
+                                <Button
+                                    disabled={selected.length===0}
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={props.handleNext()}
+                                    className={classes.button}
+                                >
+                                Next
+                                </Button>
                             </Grid>
-
-                        </CardContent>
-                    </Card>
-                </Grid>
+                        </Grid>
+                  </Grid> 
             </Grid>
         </ThemeProvider>
     );

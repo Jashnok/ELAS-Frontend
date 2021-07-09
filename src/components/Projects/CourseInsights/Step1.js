@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Autocomplete} from "@material-ui/lab";
 import studyprogram from "./data";
-import {Button, Box, Grid, makeStyles, Typography, Snackbar, CardContent, Card, createMuiTheme, ThemeProvider} from "@material-ui/core";
+import {Button, Box, Grid, makeStyles, Typography,CardContent, Card, createMuiTheme, ThemeProvider} from "@material-ui/core";
 import BarChartApex from "./StartpageComp/BarChartApex";
 import NewSelectPage from "./NewSelectPage";
 import CourseInsights from "./CourseInsights";
@@ -27,6 +27,9 @@ const useStyles = makeStyles(theme => ({
         textAlign: "center",
         fontVariant: "small-caps",
     },
+    actionsContainer: {
+        marginBottom: theme.spacing(2),
+      },
     all: {
         fontVariant:"small-caps",
     },
@@ -70,11 +73,6 @@ const useStyles = makeStyles(theme => ({
     sbCon: {
         paddingTop: 25,
     },
-    button: {
-        paddingTop: 10,
-        width: 10,
-        height: 30,
-    },
     box: {
         background: "#3c56ba",
         height: "220px",
@@ -82,11 +80,11 @@ const useStyles = makeStyles(theme => ({
         alignContent: "center",
         paddingBottom: 20,
     },
-    buttons:{
-      marginTop:10,
-      width: 50,
-      fontVariant:"small-caps"
-    },    
+    button: {
+        marginTop: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        height:35,
+      },   
     p:{
         marginTop:10,
         width: 64,
@@ -94,7 +92,7 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-export default function Step1() {
+export default function Step1(props) {
  
     const [programObject, setValue] = React.useState(undefined);
     const [semesterSet, setSemesterSet] = React.useState(undefined);
@@ -142,6 +140,7 @@ export default function Step1() {
 
      const handleSemesterSet = (newValue) => {
         setSemesterSet(newValue);
+        props.changeSem(newValue);
         if(newValue){
             setSem(true);
         }
@@ -152,6 +151,7 @@ export default function Step1() {
 
     const handleProgSet = (newValue) => {
         setValue(newValue);
+        props.changeProgram(newValue);
         if(newValue){
             setProg(true);
         }
@@ -164,7 +164,7 @@ export default function Step1() {
         return (
             <ThemeProvider theme={theme}>
           <Grid container direction="column" justify="flex-start" className={classes.all}>
-            <Grid item>
+            {/* <Grid item>
                 <Box color="#fff" bgcolor="#3f51b5" className={classes.box} style={{fontVariant:"small-caps"}}>
                     <Grid container direction="column"alignItems="center" justify="space-evenly" style={{height:"100%"}}>
                       <Grid item>
@@ -173,12 +173,11 @@ export default function Step1() {
 
                 </Grid>
                 </Box>
-                </Grid>
+                </Grid> */}
 
-                <Grid item style={{width:"80%", marginTop:25, alignSelf:"center"}}>
-                    <Card  classes={{root: classes.card}}  variant="outlined">
-                        <CardContent>
-                            <Grid container direction="column" alignItems="center" justify="center" style={{margin:50}}>
+                <Grid item style={{width:"80%",alignSelf:"center"}}>
+
+                            <Grid container direction="column" alignItems="center" justify="center" style={{margin:15}}>
                               <Grid item style={{width:"75%", marginBottom:25}}>
                                 <Autocomplete
                                     value={programObject}
@@ -187,7 +186,7 @@ export default function Step1() {
                                     }}
                                     style={{fontVariant: "small-caps", width: "100%"}}
                                     id="search-box"
-                                    options={studyprogram}
+                                    options={props.studyprograms}
                                     getOptionLabel={(option) => option.name}
                                     renderInput={(params) => <TextField {...params}
                                                                         label="Search for your studyprogram here"
@@ -213,37 +212,44 @@ export default function Step1() {
                            <Grid item>
                             <BarChartApex studyprogram={programObject}/>
                             </Grid>
-                            <Grid item style={{marginTop:25, width:"100%"}}>
-                                <Grid container justify="space-evenly">
-                                    <Button
+                                                
+                        </Grid>
+                    
+                  </Grid>
+                  <Grid item style={{width:"100%",marginTop:20}}>
+                        <Grid container spacing={2}>
+                            <Grid item>
+                                
+                                <Button
                                     variant="outlined"
                                     color="primary"
-                                    className={classes.buttons}
-                                    onClick={handleBackButton1Clicked}>
-                                    back
-                                  </Button>
-                                    {prog===true && sem===true ?
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            className={classes.buttons}
-                                            onClick={handleNextButton1Clicked}>
-                                            next
-                                        </Button>
-                                    :  <Button
+                                    onClick={props.handleBack()}
+                                    className={classes.button}
+                                    >
+                                    Back
+                                </Button>
+                                </Grid>
+                                <Grid item>
+                                {prog===true && sem===true ?
+                                <Button
                                     variant="contained"
                                     color="primary"
-                                    className={classes.buttons}
-                                    onClick={handleNextButton1Clicked}
-                                    disabled>
-                                    next
-                                </Button>}
-                                </Grid> 
-
-                                </Grid>
-                              </Grid>
-                        </CardContent>
-                    </Card>
+                                    onClick={props.handleNext()}
+                                    className={classes.button}
+                                >
+                                Next
+                                </Button> :
+                                <Button
+                                disabled
+                                variant="contained"
+                                color="primary"
+                                onClick={props.handleNext()}
+                                className={classes.button}
+                            >
+                            Next
+                            </Button>}
+                            </Grid>
+                        </Grid>
                   </Grid>
                 </Grid>     
                 </ThemeProvider>                   

@@ -33,6 +33,17 @@ import subjectsrating from './subjectsrating.js';
 import NewSelectPage from "./NewSelectPage";
 import {ThemeProvider} from "styled-components";
 
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: "#3f51b5",
+        },
+        secondary: {
+            main: "#ef6c00",
+        }
+    },
+});
+
 const useStyles = makeStyles({
     step2: {
         color: "#ffffff",
@@ -65,6 +76,9 @@ const useStyles = makeStyles({
     all: {
         fontVariant:"small-caps",
     },
+    actionsContainer: {
+        marginBottom: theme.spacing(2),
+      },
     lilcaptions: {
         color: "#ef6c00",
         display: "block",
@@ -102,6 +116,11 @@ const useStyles = makeStyles({
         alignContent: "center",
         paddingBottom: 20,
     },
+    button: {
+        marginTop: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        height:35,
+      },  
     next: {
         width: 10,
         marginRight: 50,
@@ -117,16 +136,6 @@ const useStyles = makeStyles({
     },
 });
 
-const theme = createMuiTheme({
-    palette: {
-        primary: {
-            main: "#3f51b5",
-        },
-        secondary: {
-            main: "#ef6c00",
-        }
-    },
-});
 
 
 function createData(name, sws, fairness, support, material, fun, understandability, node_effort, recommendation, overlapping) {
@@ -356,7 +365,6 @@ function calculateOverlapping(subject, markedSubjects) {
     const data = [];
     for (let subjects of markedSubjects) {
         if (subjects.name !== subject.name) {
-            console.log(checkForOverlapping(subject.timetable[0], subjects.timetable[0]))
             for(let timetableA of subject.timetable){
                 for(let timetableB of subjects.timetable){
                     if (checkForOverlapping(timetableA, timetableB) === "edge") {
@@ -602,17 +610,15 @@ export default function ComparePage(props) {
         return (
             <ThemeProvider theme={theme}>
                 <Grid container direction="column" className={classes.all}>
-                    <Grid item>
+                    {/* <Grid item>
                         <Box className={classes.box}>
                             <Typography className={classes.courseinsights}>CourseInsights</Typography>
 
                             <Typography className={classes.step2}> Step 3: Compare and decide which subjects you want to
                                 take </Typography>
                         </Box>
-                    </Grid>
+                    </Grid> */}
                     <Grid item style={{paddingTop: 25, alignSelf: "center", width:"80%"}}>
-                        <Card style={{alignSelf: "center"}}>
-                            <CardContent style={{margin:25}}>
                                 <Grid container direction="column">
                                     <Grid container alignItems="center" justify="space-evenly">
                                         <Grid item xs={5} style={{paddingTop: 25}}>
@@ -754,16 +760,31 @@ export default function ComparePage(props) {
                                         </TabContext>
                                     </Grid>
                                 </Grid>
-                                <Grid item className={classes.back}>
-                                    <Button variant="outlined"
-                                            // style={{backgroundColor: "#3c56ba", color: "#fff", width: 70}}
-                                            onClick={handleBackButton2Clicked} color='primary'>
-                                        back
-                                    </Button>
-                                </Grid>
-                            </CardContent>
-                        </Card>
                     </Grid>
+                    <Grid item style={{width:"100%",marginTop:20}}>
+                        <Grid container spacing={2}>
+                            <Grid item>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={props.handleBack()}
+                                    className={classes.button}
+                                    >
+                                    Back
+                                </Button>
+                                </Grid>
+                                <Grid item>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={props.handleReset()}
+                                    className={classes.button}
+                                >
+                                Reset
+                                </Button>
+                            </Grid>
+                        </Grid>
+                  </Grid>
                 </Grid>
                 {/*<NewSelectPage studyprogram={props.studyprogram} semester={props.semester}/>*/}
             </ThemeProvider>

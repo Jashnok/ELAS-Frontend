@@ -884,7 +884,7 @@ export default function NewSelectPage(props) {
                                        <FormControlLabel control={<Switch
                                                 checked={state.wahlpflichtVeranstaltung}
                                                 onChange={(event) => filterSubjects(event,state.wahlpflichtVeranstaltung,"Wahlpflichtveranstaltung")} 
-                                                name="wahlpflichtveranstaltung"
+                                                name="wahlpflichtVeranstaltung"
                                                 color="secondary"/>}
                                                 label="Wahlpflichtveranstaltung"
                                             /> </Grid>: <></>}

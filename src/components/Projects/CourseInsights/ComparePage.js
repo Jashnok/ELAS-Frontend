@@ -42,6 +42,17 @@ const theme = createMuiTheme({
     },
 });
 
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: "#3f51b5",
+        },
+        secondary: {
+            main: "#ef6c00",
+        }
+    },
+});
+
 const useStyles = makeStyles({
     step3: {
         color: "#ffffff",
@@ -76,6 +87,9 @@ const useStyles = makeStyles({
     border: {
         width: '45%',
     },
+    actionsContainer: {
+        marginBottom: theme.spacing(2),
+      },
     lilcaptions: {
         color: "#ef6c00",
         display: "block",
@@ -112,6 +126,11 @@ const useStyles = makeStyles({
         display: "block",
         alignContent: "center",
     },
+    button: {
+        marginTop: theme.spacing(1),
+        marginRight: theme.spacing(1),
+        height:35,
+      },  
     next: {
         width: 10,
         marginRight: 50,
@@ -133,6 +152,7 @@ const useStyles = makeStyles({
         color: '#f50057'
     }
 });
+
 
 /* Create data for the table */
 function createData(name, sws, fairness, support, material, fun, understandability, node_effort, recommendation, overlapping, timetable, url) {
@@ -555,20 +575,6 @@ export default function ComparePage(props) {
     if (!backButton2Clicked) {
         return (
             <Grid container direction="column" className={classes.all}>
-                <Grid item>
-                    <Box className={classes.box}>
-                        <Grid container direction='column' alignItems='center' justify='space-evenly'
-                              style={{height: '100%'}}>
-                            <Grid item>
-                                <Typography className={classes.courseinsights}>CourseInsights</Typography>
-                            </Grid>
-                            {/*<Grid item>
-                                <Typography className={classes.step3}> Step 3: Compare and decide which subjects you
-                                    want to take </Typography>
-                            </Grid>*/}
-                        </Grid>
-                    </Box>
-                </Grid>
                 <Grid item style={{marginTop: 25, alignSelf: "center", width: "80%"}}>
                     <Card className={classes.card} style={{alignSelf: "center"}} variant='outlined'>
                         <CardContent style={{margin: 50, padding:0}}>
@@ -719,14 +725,29 @@ export default function ComparePage(props) {
                                         </TabPanel>
                                     </TabContext>
                             </Grid>
-                            <Grid container justify='space-evenly'>
-                            <Grid item className={classes.back}>
-                                <Button variant="outlined"
-                                        onClick={handleBackButton2Clicked} color='primary'>
+                            <Grid item style={{width:"100%",marginTop:20}}>
+                        <Grid container spacing={2}>
+                            <Grid item>
+                                <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={props.handleBack()}
+                                    className={classes.button}
+                                    >
                                     Back
                                 </Button>
+                                </Grid>
+                                <Grid item>
+                                <Button
+                                    variant="contained"
+                                    color="secondary"
+                                    onClick={props.handleReset()}
+                                    className={classes.button}
+                                >
+                                Reset
+                                </Button>
                             </Grid>
-                            </Grid>
+                        </Grid>
                         </CardContent>
                     </Card>
                 </Grid>

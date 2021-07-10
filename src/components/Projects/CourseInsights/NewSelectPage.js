@@ -593,6 +593,31 @@ export default function NewSelectPage(props) {
           }
         }
         else{
+          setState({
+            einzelveranstaltung: true,
+            kolloquium: true,
+            kurs: true,
+            labor: true,
+            vorlesung: true,
+            uebung: true,
+            uebungMitTutorien: true,
+            pflichtveranstaltung: true,
+            praktikum: true,
+            projekt: true,
+            vorlesungUebung:true,
+            uebungPraktikum: true,
+            seminar: true,
+            seminarOberseminar: true,
+            blockseminar: true,
+            seminarUebung: true,
+            tutorium: true,
+            vorlesungSeminar: true,
+            propädeutikum: true,
+            praxisprojekt: true,
+            selbstaendigesarbeiten: true,
+            wahlpflichtVeranstaltung: true,
+            keineAngabe: true,
+          });
           const old = generateSubjects(props.studyprogram).filter(el => el.name.toUpperCase().includes(input));
           setSubjects(old);
           if(old<1){

@@ -127,7 +127,7 @@ export default function ApexColumnChart(props) {
                 title: {
                     text: 'SWS',
                     rotate: -0,
-                    offsetY: -130,
+                    offsetY: -115,
                     style: {
                         fontFamily: "small-caps"
                     }

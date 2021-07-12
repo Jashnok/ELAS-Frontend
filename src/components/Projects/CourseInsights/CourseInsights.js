@@ -95,6 +95,9 @@ export default function VerticalLinearStepper() {
 
   const handleReset = () => {
     setActiveStep(0);
+    if(activeStep=== 3){
+      setSubs([]);
+    }
   };
 
 

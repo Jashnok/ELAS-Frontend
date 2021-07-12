@@ -132,7 +132,7 @@ export default function Startpage(props) {
                                     <Typography color="secondary"
                                                 style={{fontVariant: "small-caps"}}
                                                 className={classes.b1}>
-                                        About CourseInsights:
+                                        About StudyCompass:
                                     </Typography>
                                     <Typography style={{
                                         textAlign: "justify",

@@ -71,7 +71,7 @@ courseinsights: {
 }));
 
 function getSteps() {
-  return ['Welcome to CourseInsights!', 'Select your studyprogram!', 'Select your subjects!', 'Compare your selected subjects!'];
+  return ['Welcome to StudyCompass!', 'Select your studyprogram!', 'Select your subjects!', 'Compare your selected subjects!'];
 }
 
 export default function VerticalLinearStepper() {
@@ -103,7 +103,7 @@ console.log(subs);
                         <Grid container direction="column" alignItems="center" justify="space-evenly"
                               style={{height: "100%"}}>
                             <Grid item>
-                                <Typography className={classes.courseinsights}>CourseInsights</Typography>
+                                <Typography className={classes.courseinsights}>StudyCompass</Typography>
                         </Grid>
                     </Grid>
                 </Box>

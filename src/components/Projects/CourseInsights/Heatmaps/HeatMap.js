@@ -131,7 +131,7 @@ export default function HeatMap(props) {
                     maxHeight: 80,
                     style: {
                         colors: '#000',
-                        fontSize: '11px',
+                        fontSize: '14px',
                         fontFamily: "small-caps"
                     },
                     offsetX: 5,
@@ -146,7 +146,7 @@ export default function HeatMap(props) {
                     maxWidth: 80,
                     align: 'left',
                     style: {
-                        fontSize: '11px',
+                        fontSize: '14px',
                         colors: '#000',
                         fontFamily: 'small-caps'
                     },

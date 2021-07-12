@@ -94,7 +94,8 @@ export default function ApexColumnChart(props) {
                 categories: xAxis,
                 labels: {
                     style: {
-                        fontFamily: 'small-caps'
+                        fontFamily: 'small-caps',
+                        fontSize: '14px',
                     }
                 }
             },
@@ -121,7 +122,8 @@ export default function ApexColumnChart(props) {
                 labels: {
                     show: true,
                     style: {
-                        fontFamily: 'small-caps'
+                        fontFamily: 'small-caps',
+                        fontSize: '14px',
                     }
                 },
                 title: {
@@ -129,7 +131,8 @@ export default function ApexColumnChart(props) {
                     rotate: -0,
                     offsetY: -115,
                     style: {
-                        fontFamily: "small-caps"
+                        fontFamily: "small-caps",
+                        fontSize: '14px',
                     }
                 }
             },
@@ -142,6 +145,7 @@ export default function ApexColumnChart(props) {
                 text: 'You have to select at least one subject',
                 style: {
                     fontFamily: 'small-caps',
+                    fontSize: '14px',
                 }
             }
         }

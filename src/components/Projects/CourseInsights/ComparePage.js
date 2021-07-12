@@ -78,9 +78,8 @@ const useStyles = makeStyles({
     textAlign: "justify",
     marginTop: 10,
     marginBottom: 10,
-    fontSize: 22,
+    fontSize: 24,
     fontVariant: "small-caps",
-    fontWeight: "bold",
   },
   caption: {
     color: "#ef6c00",
@@ -88,7 +87,7 @@ const useStyles = makeStyles({
     justify: "center",
     textAlign: "center",
     marginBottom: 10,
-    fontSize: 28,
+    fontSize: 26,
     fontVariant: "small-caps",
     fontWeight: "bold",
   },
@@ -299,7 +298,7 @@ function createSubjectAndRating(markedSubjects, subjectsrating) {
   for (const [key, value] of Object.entries(markedSubjects)) {
     for (const [key2, value2] of Object.entries(subjectsrating)) {
       if (value.name === value2.name && !subjectnames.includes(value.name)) {
-        subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, calculateOverlapping(value, markedSubjects)));
+        subjectAndRating.push(createData(value.name, value.sws, value2.fairness, value2.support, value2.material, value2.fun, value2.understandability, value2.node_effort, value2.recommendation, calculateOverlapping(value, markedSubjects), value.timetable, value.url));
         subjectnames.push(value.name);
       }
     }
@@ -342,15 +341,19 @@ function createAllDates(timetable) {
 function AllDatesTooltip(props) {
   const classes = useStyles();
   return (
-    <Grid>
+    <Grid container direction='column'>
+      <Grid item>
       <Tooltip classes={{ tooltip: classes.alldateswidth }} title={createAllDates(props.timetable)} placement="right" arrow>
-        <Button variant="outlined" color="primary" style={{cursor: "help"}}>
+        <Button variant="outlined" color="primary" style={{cursor: "help", width:15}}>
           All Dates
         </Button>
       </Tooltip>
-      <Button variant='outlined' color='primary' target={"_blank"} href={props.url} style={{maxWidth: 20, marginLeft: 10}}>
+      </Grid>
+      <Grid item style={{marginTop:5}}>
+      <Button variant='outlined' color='primary' target={"_blank"} href={props.url} style={{maxWidth: 15}}>
                 LSF
             </Button>
+      </Grid>
     </Grid>
   );
 }
@@ -380,7 +383,7 @@ function Row(props) {
         <TableCell component="th" scope="row">
           {row.name}
         </TableCell>
-        <TableCell align="center">{row.sws ? row.sws : <CloseIcon color="secondary" />}</TableCell>
+        <TableCell align="center" style={{ width: 5 }}>{row.sws ? row.sws : <CloseIcon color="secondary" />}</TableCell>
         <TableCell align="center">{row.fairness ? Math.round(row.fairness) : <CloseIcon className={classes.closeicons} />}</TableCell>
         <TableCell align="center">{row.support ? Math.round(row.fairness) : <CloseIcon className={classes.closeicons} />}</TableCell>
         <TableCell align="center">{row.material ? Math.round(row.material) : <CloseIcon className={classes.closeicons} />}</TableCell>
@@ -464,8 +467,7 @@ function Row2(props) {
         <TableCell align="center">{row.node_effort ? Math.round(row.node_effort) : <CloseIcon className={classes.closeicons} />}</TableCell>
         <TableCell align="center">{row.recommendation ? Math.round(row.recommendation) : <CloseIcon className={classes.closeicons} />}</TableCell>
         <TableCell align="center">
-          {" "}
-          <AllDatesTooltip timetable={row.timetable} url={row.url} />{" "}
+          <AllDatesTooltip timetable={row.timetable} url={row.url} />
         </TableCell>
         <TableCell align="left" title={"Restore"}>
           <IconButton aria-label="restore" style={{padding:0}} onClick={() => props.recoverRow(row)} >
@@ -575,9 +577,9 @@ export default function ComparePage(props) {
                 </CardContent>
               </Card>
             </Grid>
-            <Grid item style={{ width: "45%", height: "45%", paddingRight: 50 }}>
+            {markedSubjects.length > 1 ? <Grid item style={{ width: "45%", height: "45%", paddingRight: 50 }}>
               <HeatMap data={heatMapData} />
-            </Grid>
+            </Grid>: <></> }
           </Grid>
           <Grid
             item
@@ -598,7 +600,7 @@ export default function ComparePage(props) {
               {/* Table of all selected subjects*/}
               <TabPanel value="1">
                 <TableContainer component={Paper}>
-                  <Table stickyHeader aria-label="collapsible table" cellSpacing="2">
+                  <Table stickyHeader aria-label="collapsible table">
                     <caption style={{ paddingTop: 10 }}>
                       {" "}
                       Ratings: 0-100% <CloseIcon className={classes.closeicons} style={{ paddingTop: 10 }} />
@@ -606,13 +608,58 @@ export default function ComparePage(props) {
                     </caption>
                     <TableHead>
                       <TableRow>
-                        <TableCell style={{ width: 5 }} />
+                        <TableCell style={{width: 3}}/>
                         <TableCell style={{ width: 15 }}>Subject name</TableCell>
+                        <TableCell align="center" style={{ width: 5 }}>
+                          Sws
+                        </TableCell>
+                        <TableCell align="center" style={{ width: 10 }} title={"Fairness"}>
+                          Fairn.
+                        </TableCell>
+                        <TableCell align="center" style={{ width: 10 }} title={"Support"}>
+                          Supp.
+                        </TableCell>
+                        <TableCell align="center" style={{ width: 10 }} title={"Material"}>
+                          Mat.
+                        </TableCell>
+                        <TableCell align="center" style={{ width: 10 }}>
+                          Fun
+                        </TableCell>
+                        <TableCell align="center" style={{ width: 10 }} title={"Understandability"}>
+                          Underst.
+                        </TableCell>
+                        <TableCell align="center" style={{ width: 10 }} title={"Effort"}>
+                          Eff.
+                        </TableCell>
+                        <TableCell align="center" style={{ width: 10 }} title={"Recommendation"}>
+                          Reco.
+                        </TableCell>
+                        <TableCell align="center" style={{ width: 10 }} title={"More information"}>
+                          Info
+                        </TableCell>
+                        <TableCell style={{ width:3 }} />
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {subjectAndRating.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                        return <Row key={row.name} row={row} deleteRow={handleDelete} />;
+                      })}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+                <TablePagination rowsPerPageOptions={[5, 10, 20, 30]} component="div" count={subjectAndRating.length} rowsPerPage={rowsPerPage} page={page} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} />
+              </TabPanel>
+              {/* Table of all removed subjects*/}
+              <TabPanel value="2">
+                <TableContainer component={Paper}>
+                  <Table stickyHeader aria-label="collapsible table" cellSpacing="1">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell style={{ maxWidth: 15 }}>Subject name</TableCell>
                         <TableCell align="center" style={{ width: 15 }}>
                           Sws
                         </TableCell>
                         <TableCell align="center" style={{ width: 15 }} title={"Fairness"}>
-                          {" "}
                           Fairn.
                         </TableCell>
                         <TableCell align="center" style={{ width: 15 }} title={"Support"}>
@@ -637,52 +684,6 @@ export default function ComparePage(props) {
                           Info
                         </TableCell>
                         <TableCell style={{ width: 5 }} />
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {subjectAndRating.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                        return <Row key={row.name} row={row} deleteRow={handleDelete} />;
-                      })}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-                <TablePagination rowsPerPageOptions={[5, 10, 20, 30]} component="div" count={subjectAndRating.length} rowsPerPage={rowsPerPage} page={page} onChangePage={handleChangePage} onChangeRowsPerPage={handleChangeRowsPerPage} />
-              </TabPanel>
-              {/* Table of all removed subjects*/}
-              <TabPanel value="2">
-                <TableContainer component={Paper}>
-                  <Table stickyHeader aria-label="collapsible table" cellSpacing="1">
-                    <TableHead>
-                      <TableRow>
-                        <TableCell style={{ width: 20 }}>Subject name</TableCell>
-                        <TableCell align="center" style={{ width: 20 }}>
-                          SWS
-                        </TableCell>
-                        <TableCell align="center" style={{ width: 20 }}>
-                          Fairn.
-                        </TableCell>
-                        <TableCell align="center" style={{ width: 20 }}>
-                          Support
-                        </TableCell>
-                        <TableCell align="center" style={{ width: 20 }}>
-                          Material
-                        </TableCell>
-                        <TableCell align="center" style={{ width: 20 }}>
-                          Fun
-                        </TableCell>
-                        <TableCell align="center" style={{ width: 20 }}>
-                          Understa.
-                        </TableCell>
-                        <TableCell align="center" style={{ width: 20 }}>
-                          Effort
-                        </TableCell>
-                        <TableCell align="center" style={{ width: 20 }}>
-                          Reco.
-                        </TableCell>
-                        <TableCell align="center" style={{ width: 20 }}>
-                          Info
-                        </TableCell>
-                        <TableCell style={{ width: 20 }} />
                       </TableRow>
                     </TableHead>
                     <TableBody>

@@ -503,6 +503,7 @@ export default function ComparePage(props) {
     for (let subject of removedMarkedSubjects) {
       if (subject.name === row.name) {
         setMarkedSubjects(markedSubjects.concat(subject));
+        props.changeSubs(markedSubjects.concat(subject));
         setHeatMapData(generateTimeoverlapChartData(markedSubjects.concat(subject)));
         setSubjectAndRating(createSubjectAndRating(markedSubjects.concat(subject), subjectsrating));
       }
@@ -532,6 +533,7 @@ export default function ComparePage(props) {
 
     const newMarkedSubjects = markedSubjects.filter(filterTable);
     setMarkedSubjects(newMarkedSubjects);
+    props.changeSubs(newMarkedSubjects);
 
     let filteredSubjectAndRating = createSubjectAndRating(newMarkedSubjects, subjectsrating);
     setSubjectAndRating(filteredSubjectAndRating);
@@ -558,7 +560,8 @@ export default function ComparePage(props) {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  console.log(markedSubjects);
+  console.log(removedMarkedSubjects);
   if (!backButton2Clicked) {
     return (
       <Grid container direction="column" className={classes.all}>

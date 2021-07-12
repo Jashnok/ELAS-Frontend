@@ -80,7 +80,7 @@ export default function VerticalLinearStepper() {
   const steps = getSteps();
   const [program,setProgram] = React.useState(undefined);
   const [sem,setSem] = React.useState(undefined);
-  const [subs,setSubs] = React.useState(undefined);
+  const [subs,setSubs] = React.useState([]);
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -88,13 +88,17 @@ export default function VerticalLinearStepper() {
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
+    if(activeStep=== 2){
+      setSubs([]);
+    }
   };
 
   const handleReset = () => {
     setActiveStep(0);
   };
 
-console.log(subs);
+
+console.log(activeStep);
 
   return (
     <ThemeProvider theme={theme}>
@@ -128,7 +132,8 @@ console.log(subs);
                                                             handleBack={() => handleBack}/> : <></>} 
 
                                         {index===2 ? <NewSelectPage studyprogram={program}
-                                                                    semester={sem} 
+                                                                    semester={sem}
+                                                                    selected={subs} 
                                                                     changeSubs={elem => setSubs(elem)}
                                                                     handleNext={() => handleNext}
                                                                     handleBack={() => handleBack}/> : <></>}
@@ -136,6 +141,7 @@ console.log(subs);
                                         {index===3 ? <ComparePage studyprogram={program}
                                                                   semester={sem} 
                                                                   selected={subs}
+                                                                  changeSubs={elem => setSubs(elem)}
                                                                   handleNext={() => handleNext}
                                                                   handleBack={() => handleBack}
                                                                   handleReset={() => handleReset}/> : <></>}

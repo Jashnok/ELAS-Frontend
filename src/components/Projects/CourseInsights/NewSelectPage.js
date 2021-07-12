@@ -351,7 +351,7 @@ export default function NewSelectPage(props) {
     const classes = useStyles();
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('name');
-    const [selected, setSelected] = React.useState([]);
+    const [selected, setSelected] = React.useState(props.selected);
     const [page, setPage] = React.useState(0);
     const [dense, setDense] = React.useState(false);
     const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -462,7 +462,7 @@ export default function NewSelectPage(props) {
 
   const isSelected = (row) => selected.indexOf(row) !== -1;
 
-   const emptyRows = rowsPerPage - Math.min(rowsPerPage, subjects.length - page * rowsPerPage); 
+  const emptyRows = rowsPerPage - Math.min(rowsPerPage, subjects.length - page * rowsPerPage); 
 
    /* All functions for the Subject Table with all selected subjects from the other table */
 
@@ -570,7 +570,8 @@ export default function NewSelectPage(props) {
               const test2 = subjects.concat(old);
             setSubjects(test2);
             }
-        }     
+        }
+        setPage(0);
       };      
       
       const filterSName = (event) => {
@@ -628,7 +629,7 @@ export default function NewSelectPage(props) {
           }
       }
       setCheck(input.length);
-
+      setPage(0);
     }
 
     if (!nextButton2Clicked && !backButton1Clicked) {

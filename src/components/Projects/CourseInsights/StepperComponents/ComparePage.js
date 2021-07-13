@@ -658,7 +658,7 @@ export default function ComparePage(props) {
                   <Table stickyHeader aria-label="collapsible table" cellSpacing="1">
                     <TableHead>
                       <TableRow>
-                        <TableCell style={{ maxWidth: 15 }}>Subject name</TableCell>
+                        <TableCell style={{ width: 15 }}>Subject name</TableCell>
                         <TableCell align="center" style={{ width: 15 }}>
                           Sws
                         </TableCell>

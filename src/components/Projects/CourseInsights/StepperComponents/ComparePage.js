@@ -15,13 +15,13 @@ import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 import CloseIcon from "@material-ui/icons/Close";
 import Grid from "@material-ui/core/Grid";
-import HeatMap from "./Heatmaps/HeatMap";
+import HeatMap from "../Charts/HeatMap";
 import TablePagination from "@material-ui/core/TablePagination";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { TabContext, TabPanel } from "@material-ui/lab";
 import RestoreIcon from "@material-ui/icons/Restore";
-import subjectsrating from "./subjectsrating.js";
-import NewSelectPage from "./NewSelectPage";
+import subjectsrating from "../data/subjectsrating.js";
+import NewSelectPage from "./CourseSelector";
 
 const theme = createMuiTheme({
   palette: {

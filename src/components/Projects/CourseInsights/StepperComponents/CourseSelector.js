@@ -3,10 +3,10 @@ import {Button, Card, makeStyles,Typography,TableBody,TableCell,TableContainer,
   createMuiTheme, ThemeProvider, lighten,Table,TableHead, TablePagination,
   TableRow,TableSortLabel,Toolbar,Paper,Checkbox,IconButton,Tooltip,FormControlLabel,
   FormControl,FormGroup, FormLabel,Switch, Box, Grid, CardContent, Collapse, CardActionArea,TextField} from "@material-ui/core"; 
-import ApexColumnChart from "./ApexColumnChart";
+import ApexColumnChart from "../Charts/ApexColumnChart";
 import DeleteIcon from "@material-ui/icons/Delete";
 import ComparePage from "./ComparePage";
-import Step1 from "./Step1";
+import Step1 from "./ProgramSelector";
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
 import FilterListIcon from '@material-ui/icons/FilterList';
@@ -342,7 +342,7 @@ function descendingComparator(a, b, orderBy) {
   };
   
 
-export default function NewSelectPage(props) {
+export default function CourseSelector(props) {
 
 
     

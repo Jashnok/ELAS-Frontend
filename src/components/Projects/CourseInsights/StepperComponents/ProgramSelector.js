@@ -1,11 +1,8 @@
 import React, { useState } from "react";
 import TextField from "@material-ui/core/TextField";
 import { Autocomplete} from "@material-ui/lab";
-import studyprogram from "./data";
-import {Button, Box, Grid, makeStyles, Typography,CardContent, Card, createMuiTheme, ThemeProvider} from "@material-ui/core";
-import BarChartApex from "./StartpageComp/BarChartApex";
-import NewSelectPage from "./NewSelectPage";
-import CourseInsights from "./CourseInsights";
+import {Button,Grid, makeStyles,createMuiTheme, ThemeProvider} from "@material-ui/core";
+import BarChartApex from "../Charts/BarChartApex";
 
 const theme = createMuiTheme({   
     palette: {      
@@ -92,7 +89,7 @@ const useStyles = makeStyles(theme => ({
 
 }))
 
-export default function Step1(props) {
+export default function ProgramSelector(props) {
  
     const [programObject, setValue] = React.useState(undefined);
     const [semesterSet, setSemesterSet] = React.useState(undefined);
@@ -159,8 +156,6 @@ export default function Step1(props) {
             setProg(false);
         } 
     }
-
-    if(!nextButton1Clicked && !backButton1Clicked ) {
         return (
             <ThemeProvider theme={theme}>
           <Grid container direction="column" justify="flex-start" className={classes.all}>
@@ -256,10 +251,3 @@ export default function Step1(props) {
                 );
 
     }
-    if (nextButton1Clicked && !backButton1Clicked) {
-        return (<NewSelectPage studyprogram={programObject} semester={semesterSet}/>);
-    }
-    if(backButton1Clicked) {
-        return (<CourseInsights/>)
-    }
-}

@@ -4,15 +4,13 @@ import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
 import StepContent from '@material-ui/core/StepContent';
-import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import {Grid, Box, Card,CardContent, createMuiTheme, ThemeProvider} from '@material-ui/core';
-import Startpage from './Startpage';
-import Step1 from './Step1';
-import NewSelectPage from './NewSelectPage';
-import ComparePage from './ComparePage';
-import studyprogram from "./data";
+import Startpage from './StepperComponents/Startpage';
+import ProgramSelector from './StepperComponents/ProgramSelector';
+import CourseSelector from './StepperComponents/CourseSelector';
+import ComparePage from './StepperComponents/ComparePage';
+import studyprogram from "./data/studyprograms";
 
 const theme = createMuiTheme({   
     palette: {      
@@ -74,7 +72,7 @@ function getSteps() {
   return ['Welcome to StudyCompass!', 'Select your studyprogram!', 'Select your subjects!', 'Compare your selected subjects!'];
 }
 
-export default function VerticalLinearStepper() {
+export default function CourseInsights() {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
@@ -128,13 +126,13 @@ console.log(activeStep);
                                                             handleNext={() => handleNext}
                                                             handleBack={() => handleBack}/> : <></>}
 
-                                        {index===1 ? <Step1 studyprograms={studyprogram} 
+                                        {index===1 ? <ProgramSelector studyprograms={studyprogram} 
                                                             changeProgram={elem => setProgram(elem)}
                                                             changeSem={elem => setSem(elem)}
                                                             handleNext={() => handleNext}
                                                             handleBack={() => handleBack}/> : <></>} 
 
-                                        {index===2 ? <NewSelectPage studyprogram={program}
+                                        {index===2 ? <CourseSelector studyprogram={program}
                                                                     semester={sem}
                                                                     selected={subs} 
                                                                     changeSubs={elem => setSubs(elem)}

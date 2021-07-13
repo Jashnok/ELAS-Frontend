@@ -1,6 +1,6 @@
 import React, { useState} from 'react';
 import {Button, Box, Grid, makeStyles, Card, Typography, CardContent, createMuiTheme, ThemeProvider} from "@material-ui/core";
-import Step1 from "./Step1";
+import Step1 from "./ProgramSelector";
 
 const theme = createMuiTheme({   
     palette: {      

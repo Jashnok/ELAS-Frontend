@@ -425,7 +425,7 @@ function Row(props) {
                   {row.overlapping.map((overlappingRow) => (
                     <TableRow key={overlappingRow.overlapping}>
                       <TableCell component="th" scope="row">
-                        {overlappingRow.overlappingsubject ? <Typography color="secondary"> {overlappingRow.overlappingsubject} </Typography> : <> </>}
+                      {overlappingRow.time === 'OVERLAPPING' ? <Typography style={{color: '#f50057'}}>{overlappingRow.overlappingsubject} </Typography> : <Typography color="secondary">{overlappingRow.overlappingsubject} </Typography>}
                       </TableCell>
                       <TableCell>{overlappingRow.overlappingday ? overlappingRow.overlappingday : <> </>}</TableCell>
                       <TableCell>{overlappingRow.subjectstimefrom ? overlappingRow.subjectstimefrom : <> </>}</TableCell>
@@ -434,7 +434,7 @@ function Row(props) {
                       <TableCell>{overlappingRow.overlappingto ? overlappingRow.overlappingto : <> </>}</TableCell>
                       <TableCell>
                         {" "}
-                        <Typography color="secondary">{overlappingRow.time !== "no overlapping" ? overlappingRow.time : <> </>} </Typography>
+                        {overlappingRow.time === 'OVERLAPPING' ? <Typography style={{color: '#f50057'}}>{overlappingRow.time !== "no overlapping" ? overlappingRow.time : <> </>} </Typography> : <Typography color="secondary">{overlappingRow.time !== "no overlapping" ? overlappingRow.time : <> </>} </Typography>}
                       </TableCell>
                     </TableRow>
                   ))}

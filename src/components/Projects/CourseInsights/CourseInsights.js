@@ -1,18 +1,4 @@
-<<<<<<< Updated upstream
-import React, {Component} from 'react';
 
-class CourseInsights extends Component {
-  render() {
-    return (
-      <div>
-        <h1>CourseInsights</h1>
-      </div>
-    );
-  }
-}
-
-export default CourseInsights;
-=======
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
@@ -166,4 +152,3 @@ export default function CourseInsights() {
     </ThemeProvider>   
   );
 }
->>>>>>> Stashed changes

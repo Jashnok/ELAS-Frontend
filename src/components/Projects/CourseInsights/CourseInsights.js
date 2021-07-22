@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
@@ -25,15 +24,20 @@ const theme = createMuiTheme({
 });
 
 const useStyles = makeStyles((theme) => ({
-  all: {
-    fontVariant:"small-caps",
-},
+  root: {
+    width: '100%',
+    fontVariant:'small-caps',
+    alignContent:'center',
+  },
   card: {
     borderRadius: 15,
    },
   button: {
     marginTop: theme.spacing(1),
     marginRight: theme.spacing(1),
+  },
+  label:{
+    fontSize:18,
   },
   box: {
     background: "#3c56ba",
@@ -48,6 +52,7 @@ courseinsights: {
     justify: "center",
     fontSize: 50,
     textAlign: "center",
+    fontVariant: "small-caps",
 },
   actionsContainer: {
     marginBottom: theme.spacing(2),
@@ -59,6 +64,7 @@ courseinsights: {
   buttons:{
     marginTop:10,
     width: 50,
+    fontVariant:"small-caps"
   },  
 }));
 

@@ -16,6 +16,7 @@ import Spoa from "./Projects/Spoa/Spoa";
 import StudySoon from "./Projects/StudySoon/StudySoon";
 import Footer from "./Website/Footer/Footer";
 
+
 const useStyles = makeStyles(theme => ({
   gridHeader: {
     marginTop: theme.spacing(4),
@@ -32,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 export default function App() {
   const classes = useStyles();
   const isLoggedIn = !!sessionStorage.getItem('elas_userLoggedIn');
-
+  
   return (
     <>
       <NavigationBar/>
@@ -58,8 +59,8 @@ export default function App() {
             </>
           )}
           <Route render={() => <Redirect to={{pathname: "/"}}/>}/>
-
-
+        
+        
         </Grid>
       </Switch>
       <Footer />

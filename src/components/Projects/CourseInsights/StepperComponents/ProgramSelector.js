@@ -104,6 +104,7 @@ export default function ProgramSelector(props) {
         {semester: 'Sommersemester 2021'},*/
     ];
 
+    /* Get the possible semesters to select dynamically from the data file*/
     const createSemesters = () => {
         const testsemester = [];
         for (let study of props.studyprograms) {

@@ -13,10 +13,11 @@ export default function BarChartApex(props){
     }
 
     const state = {
+        //the data of the chart
         series: [{
-            name: 'Inflation',
             data: yValues
         }],
+        // defines the properties of the chart
         options: {
             chart: {
                 height: 350,
@@ -61,6 +62,7 @@ export default function BarChartApex(props){
                     }
                 }
             },
+            //defines the data labels
             dataLabels: {
                 enabled: true,
                 formatter: function (val) {
@@ -73,7 +75,7 @@ export default function BarChartApex(props){
                     colors: ["#000"]
                 }
             },
-
+            //defines the x axis
             xaxis: {
                 categories: xAxis,
                 position: 'border',
@@ -94,22 +96,11 @@ export default function BarChartApex(props){
                         fontSize: '14px',
                     }
                 },
-                crosshairs: {
-                    fill: {
-                        type: 'gradient',
-                        gradient: {
-                            colorFrom: '#D8E3F0',
-                            colorTo: '#BED1E6',
-                            stops: [0, 100],
-                            opacityFrom: 0.4,
-                            opacityTo: 0.5,
-                        }
-                    }
-                },
                 tooltip: {
                     enabled: false,
                 }
             },
+            //defines the y axis
             yaxis: {
                 axisBorder: {
                     show: false
@@ -130,6 +121,7 @@ export default function BarChartApex(props){
             grid: {
                 show: true,
             },
+            //what is shown when there is no data
             noData: {
                 text: 'Please select your studyprogram',
                 style: {

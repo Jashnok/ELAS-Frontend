@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactApexChart from "react-apexcharts";
 
+//combines the name of the subject with its data
 function generateHeatMapData(subjectsAndOverlapping) {
     let data = [];
     let subjectX = "";
@@ -16,6 +17,7 @@ function generateHeatMapData(subjectsAndOverlapping) {
     return data;
 }
 
+//creates the oy values for a subject
 function generateData(subject, subjectsAndOverlapping) {
     let xydata = [];
     for (let sub of subjectsAndOverlapping) {
@@ -64,7 +66,9 @@ export default function HeatMap(props) {
     const heatMapData = generateHeatMapData(props.data);
 
     const state = {
+        //the data of the heatmap
         series: heatMapData,
+        //defines the properties of the heatmap
         options: {
             chart: {
                 type: 'heatmap',
@@ -120,6 +124,7 @@ export default function HeatMap(props) {
                     }
                 }
             },
+            //defines the x axis
             xaxis: {
                 type: 'category',
                 labels: {
@@ -137,6 +142,7 @@ export default function HeatMap(props) {
                     offsetX: 5,
                 },
             },
+            //defines the y axis
             yaxis: {
                 show: true,
                 opposite: true,
@@ -173,14 +179,13 @@ export default function HeatMap(props) {
             title: {
                 text: 'Your Overlappings'
             },
+            // what is shown when there is no data
             noData:{
                 text: 'You have no selected subjects'
             }
         },
     };
-    return (
-            <ReactApexChart options={state.options} series={state.series} type="heatmap" width={390} height={390}/>
-    );
+    return (<ReactApexChart options={state.options} series={state.series} type="heatmap" width={390} height={390}/>);
 }
 
 

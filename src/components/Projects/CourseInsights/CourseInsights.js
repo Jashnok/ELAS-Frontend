@@ -99,8 +99,6 @@ export default function CourseInsights() {
   };
 
 
-console.log(activeStep);
-
   return (
     <ThemeProvider theme={theme}>
         <Grid container direction="column" justify="center" alignItems="center" className={classes.all}>
@@ -118,7 +116,7 @@ console.log(activeStep);
                             <Stepper activeStep={activeStep} orientation="vertical">
                                 {steps.map((label, index) => (
                                 <Step key={label}>
-                                    <StepLabel> <Typography className={classes.label}>{label}</Typography>  </StepLabel>
+                                    <StepLabel> <Typography style={{fontSize:18}}>{label}</Typography>  </StepLabel>
                                     <StepContent>
                                      <Grid container direction="column">
                                          <Grid item style={{marginTop:25, marginBottom:25, width:"100%"}}>

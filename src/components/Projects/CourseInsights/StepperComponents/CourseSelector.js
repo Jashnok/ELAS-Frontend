@@ -1,15 +1,12 @@
 import React, {useState} from 'react';
 import {Button, Card, makeStyles,Typography,TableBody,TableCell,TableContainer,
   createMuiTheme, ThemeProvider, lighten,Table,TableHead, TablePagination,
-  TableRow,TableSortLabel,Toolbar,Paper,Checkbox,IconButton,Tooltip,FormControlLabel,
-  FormControl,FormGroup, FormLabel,Switch, Box, Grid, CardContent, Collapse, CardActionArea,TextField} from "@material-ui/core"; 
+  TableRow,TableSortLabel,Toolbar,Paper,Checkbox,IconButton,Tooltip,FormControlLabel,Switch,
+  Grid, CardContent, Collapse, CardActionArea,TextField} from "@material-ui/core"; 
 import ApexColumnChart from "../Charts/ApexColumnChart";
 import DeleteIcon from "@material-ui/icons/Delete";
-import ComparePage from "./ComparePage";
-import Step1 from "./ProgramSelector";
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import FilterListIcon from '@material-ui/icons/FilterList';
 import KeyboardArrowDownIcon from "@material-ui/icons/KeyboardArrowDown";
 import KeyboardArrowUpIcon from "@material-ui/icons/KeyboardArrowUp";
 
@@ -27,122 +24,65 @@ const theme = createMuiTheme({
 
 
 const useStyles = makeStyles({
-    all: {
-        fontVariant:"small-caps",
+  all: {
+    fontVariant:"small-caps",
+  },
+  paper: {
+      width: '100%',
+      marginBottom: theme.spacing(2),
+      borderRadius:15,
     },
-    root: {
-        width: '100%',
+    card: {
+      borderRadius: 15,
       },
-      paper: {
-        width: '100%',
-        marginBottom: theme.spacing(2),
-        borderRadius:15,
-      },
-      card: {
-        borderRadius: 15,
-       },
-      table: {
-        minWidth: 400,
-      },
-      border: {
-        // border: "1px solid grey"
-        width:"45%",
-        marginTop:25,
-      },
-      actionsContainer: {
-        marginBottom: theme.spacing(2),
-      },
-      gutter: {
-        margin:20,
-      },
-      visuallyHidden: {
-        border: 0,
-        clip: 'rect(0 0 0 0)',
-        height: 1,
-        margin: -1,
-        overflow: 'hidden',
-        padding: 0,
-        position: 'absolute',
-        top: 20,
-        width: 1,
-      },
-    step2: {
-        color: "#ffffff",
-        display: "block",
-        justify: "center",
-        fontSize: 30,
-        textAlign: "center",
-        fontVariant: "small-caps",
+    border: {
+      width:"45%",
+      marginTop:25,
     },
-    courseinsights: {
-        color: "#ffffff",
-        display: "block",
-        justify: "center",
-        fontSize: 36,
-        textAlign: "center",
-        fontVariant: "small-caps",
+  visuallyHidden: {
+      border: 0,
+      clip: 'rect(0 0 0 0)',
+      height: 1,
+      margin: -1,
+      overflow: 'hidden',
+      padding: 0,
+      position: 'absolute',
+      top: 20,
+      width: 1,
     },
-    selection: {
-        color: "#ffffff",
-        display: "block",
-        justify: "center",
-        textAlign: "center",
-        marginTop: 10,
-        fontSize: 20,
-    },
-    lilcaptions: {
-        display: "block",
-        justify: "center",
-        textAlign: "justify",
-        marginTop: 10,
-        marginBottom: 10,
-        fontSize: 24,
-        fontVariant: "small-caps",
-    },
-    caption: {
-        display: "block",
-        justify: "center",
-        textAlign: "center",
-        marginBottom: 10,
-        fontSize: 26,
-        fontVariant: "small-caps",      
-        fontWeight:"bold",
-    },
-    content: {
-        color: "#000",
-        display: "block",
-        justify: "center",
-        textAlign: "justify",
-        marginTop: 10,
-        fontSize: 18,
-        fontVariant: "small-caps",
-    },
-    box: {
-        background: "#3c56ba",
-        height: "220px",
-        display: "block",
-        alignContent: "center",
-    },
-    button: {
-      marginTop: theme.spacing(1),
-      marginRight: theme.spacing(1),
-      height:35,
-    }, 
-    buttons: {
-        marginTop:10,
-        width: 50,
-        fontVariant:"small-caps"
-    },
-    legend:{
-        paddingTop: 5,
-        color: "black",
-    },
-    p:{
-      marginTop:10,
-      width: 64,
-    },
+  lilcaptions: {
+      display: "block",
+      justify: "center",
+      textAlign: "justify",
+      marginTop: 10,
+      marginBottom: 10,
+      fontSize: 24,
+  },
+  caption: {
+      display: "block",
+      justify: "center",
+      textAlign: "center",
+      marginBottom: 10,
+      fontSize: 26,      
+      fontWeight:"bold",
+  },
+  content: {
+      color: "#000",
+      display: "block",
+      justify: "center",
+      textAlign: "justify",
+      marginTop: 10,
+      fontSize: 18,
+  },
+  button: {
+    marginTop: theme.spacing(1),
+    marginRight: theme.spacing(1),
+    height:35,
+  },
 });
 
+
+/* Sort functions for both tables. Switch mode between asc and desc */
 function descendingComparator(a, b, orderBy) {
 
     if (b[orderBy] < a[orderBy]) {
@@ -170,12 +110,15 @@ function descendingComparator(a, b, orderBy) {
     return stabilizedThis.map((el) => el[0]);
   }
   
+
+/* Column head infos (id,padding,label)  */
   const headCellsSub = [
     { id: 'name', numeric: true, disablePadding: true, label: 'Subject-name' },
     { id: 'subject_type', numeric: false, disablePadding: true, label: 'Subject-type' },
   ];
 
-  /* TableHead and TableToolbar for all subjects Table */
+  /* TableHead, TableToolbar and Toolbar Styles for All-Subjects-Table */
+
   function EnhancedTableHead(props) {
     const { classes, onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {        
@@ -276,7 +219,7 @@ function descendingComparator(a, b, orderBy) {
   EnhancedTableToolbar.propTypes = {
     numSelected: PropTypes.number.isRequired,
   };
-   /* TableHead and TableToolbar für selected Table */
+   /* TableHead, TableToolbar and Toolbar Styles for Selected-Table */
   function EnhancedTableHeadSel(props) {
     const { classes, order, orderBy, onRequestSort } = props;
     const createSortHandler = (property) => (event) => {
@@ -360,17 +303,15 @@ export default function CourseSelector(props) {
     
     const [orderSel, setOrderSel] = React.useState('asc');
     const [orderBySel, setOrderBySel] = React.useState('name');
-    const [selectedSel, setSelectedSel] = React.useState([]);
     const [pageSel, setPageSel] = React.useState(0);
     const [denseSel, setDenseSel] = React.useState(false);
     const [rowsPerPageSel, setRowsPerPageSel] = React.useState(5);
 
-    /* Pagination Vars Step1/Compare-Page */
-
-    const [nextButton2Clicked, setNextButton2Clicked] = useState(false);
-    const [backButton1Clicked, setBackButton1Clicked] = useState(false);
-
-    /* generateSubjects function to create data for the all subjectstable from given props */
+    /* generateSubjects function to generate all available subjecs according to given props
+        (studyprogram and semester)
+        @param studyprogram:an arbitrary studyprogram given from prop
+        @return subjectlist: all available courses for the given studyprogram and the according semester from prop 
+        */
 
     const generateSubjects = (studyprogram) => {
       const subjectslist = [];
@@ -406,17 +347,21 @@ export default function CourseSelector(props) {
       }
       return subjectslist;
   }
+  /* subjects contains all subjects matching the current criteria, i.e. filters and studyprogram + semester from props  */
     const[subjects,setSubjects] = React.useState(generateSubjects(props.studyprogram));
 
-    /* All functions for the Subject Table with all possible subjects */
+  /* All functions for the All-Subjects-Table */
+
+     /* sorting function for Table-Head (when clicking on label)  */
 
     const handleRequestSort = (event, property) => {
         const isAsc = orderBy === property && order === 'asc';
         setOrder(isAsc ? 'desc' : 'asc');
         setOrderBy(property);
     };
+    /* function for select-all-button in Table-Head */
 
-  const handleSelectAllClick = (event) => {
+    const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = subjects;
       setSelected(newSelecteds);
@@ -425,65 +370,86 @@ export default function CourseSelector(props) {
     }
     setSelected([]);
     props.changeSubs([]);
-  };
+    };
 
-  const handleClick = (event, row) => {
-    const selectedIndex = selected.indexOf(row);
-    let newSelected = [];
+    /* function for handling a click on row 
+      1. when row is already selected delete from selected var, where
+      all current selected subjects are in
+      2. when not already selected concat row to selected var */
 
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, row);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1),
-      );
-    }
-    setSelected(newSelected);
-    props.changeSubs(newSelected);
-  };
+    const handleClick = (event, row) => {
+      const selectedIndex = selected.indexOf(row);
+      let newSelected = [];
 
-  const handleChangePage = (event, newPage) => {
+      if (selectedIndex === -1) {
+        newSelected = newSelected.concat(selected, row);
+      } else if (selectedIndex === 0) {
+        newSelected = newSelected.concat(selected.slice(1));
+      } else if (selectedIndex === selected.length - 1) {
+        newSelected = newSelected.concat(selected.slice(0, -1));
+      } else if (selectedIndex > 0) {
+        newSelected = newSelected.concat(
+          selected.slice(0, selectedIndex),
+          selected.slice(selectedIndex + 1),
+        );
+      }
+      setSelected(newSelected);
+      props.changeSubs(newSelected);
+    };
+
+    const handleChangePage = (event, newPage) => {
     setPage(newPage);
-  };
+    };
 
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    /* changes the amount of rows displayed per page */
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
+    const handleChangeRowsPerPage = (event) => {
+      setRowsPerPage(parseInt(event.target.value, 10));
+      setPage(0);
+    };
 
-  const isSelected = (row) => selected.indexOf(row) !== -1;
+    /* function for switching between dense padding on/off */
 
-  const emptyRows = rowsPerPage - Math.min(rowsPerPage, subjects.length - page * rowsPerPage); 
+    const handleChangeDense = (event) => {
+      setDense(event.target.checked);
+    };
+
+    const isSelected = (row) => selected.indexOf(row) !== -1;
+
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, subjects.length - page * rowsPerPage); 
 
    /* All functions for the Subject Table with all selected subjects from the other table */
 
-   const handleRequestSortSel = (event, property) => {
-    console.log(property);
-    const isAsc = orderBy === property && order === 'asc';
-    setOrderSel(isAsc ? 'desc' : 'asc');
-    setOrderBySel(property);
+    /* sorting function for Table-Head (when clicking on label)  */
+
+    const handleRequestSortSel = (event, property) => {
+      const isAsc = orderBy === property && order === 'asc';
+      setOrderSel(isAsc ? 'desc' : 'asc');
+      setOrderBySel(property);
     };
 
+    
     const handleChangePageSel = (event, newPage) => {
     setPageSel(newPage);
     };
+
+    /* changes the amount of rows displayed per page */
 
     const handleChangeRowsPerPageSel = (event) => {
         setRowsPerPageSel(parseInt(event.target.value, 10));
         setPageSel(0);
       };
+
+    /* function for switching between dense padding on/off */
+
     const handleChangeDenseSel = (event) => {
     setDenseSel(event.target.checked);
     };
+
+    /* handling the event when delete button in a row is clicked
+       -> deleting the row from the selected var from All-Subjects-Table
+       -> will no longer be displayed in Selected-Table
+       -> will no longer be marked as selected in All-Subjects-Table */
 
     const handleDelete = (event, row) => {
         const selectedIndex = selected.indexOf(row);
@@ -506,22 +472,25 @@ export default function CourseSelector(props) {
 
     const emptyRowsSel = rowsPerPageSel - Math.min(rowsPerPageSel, selected.length - pageSel * rowsPerPageSel);
 
-    /* Pagination Functions Step1/Compare-Page */
-
-    const handleNextButton2Clicked = () => {
-        setNextButton2Clicked(true);
-    }
-
-    const handleBackButton1Clicked = () => {
-        setBackButton1Clicked(true);
-    }
-
-    /* FilterFunctions and SwitchStates */
+    /* Open State (true/false) for filter card true when opened false when closed  */
 
     const [open, setOpen] = useState(false);
+
+    /* Check State for checking whether the last input in the search filter was longer or shorter
+        -> contains the length of the last input of the search filter*/
+
     const[check,setCheck] = useState(0);
+
+    /* filterN contains the string with the current input of the search filter */
+
     const [filterN, setFilterN] = useState(undefined);
+
+    /* errorS is true when theres no match for current input in the search filter*/
+
     const [errorS, setErrorS] = useState(false);
+
+    /*Switch-States for all possible subject-types*/
+
     const [state, setState] = React.useState({
         einzelveranstaltung: true,
         kolloquium: true,
@@ -548,10 +517,21 @@ export default function CourseSelector(props) {
         keineAngabe: true,
       });
 
+    /*@params subtype: an arbitrary subject-type
+      @return count: the amount of courses to the given subject type */
+
     const findCount = (subtype) => {
          const count =  subjects.filter( el => el.subject_type ===subtype).length
          return count;
     }
+
+    /*
+      filter function for the switches
+      @param event: an onClick-event from one of the switches
+      @param  cond: the switchState of the asssociated switch
+      @param  comp: the String containing the subject type asssociated to the switch
+                    to filter the subjects array
+    */
 
       const filterSubjects = (event,cond,comp) => {
         setState({ ...state, [event.target.name]: event.target.checked });
@@ -572,8 +552,13 @@ export default function CourseSelector(props) {
             }
         }
         setPage(0);
-      };      
-      
+      }; 
+
+      /* 
+        filter function for the search filter (textfield)
+        when deleting input -> resetting all filter switches to return to all available subjects 
+      */
+
       const filterSName = (event) => {
         const input= event.target.value.toUpperCase();
         if(input.length>0){
@@ -632,511 +617,468 @@ export default function CourseSelector(props) {
       setPage(0);
     }
 
-    if (!nextButton2Clicked && !backButton1Clicked) {
     return (
         <ThemeProvider theme={theme}>
-            <Grid container direction="column" className={classes.all}>
-                {/* <Grid item>
-                    <Box className={classes.box}>
-                        <Grid container direction="column" alignItems="center" justify="space-evenly"
-                              style={{height: "100%"}}>
-                            <Grid item>
-                                <Typography className={classes.courseinsights}>CourseInsights</Typography>
-                            </Grid>
-                        </Grid>
+          <Grid container direction="column" className={classes.all}>
+            <Grid item style={{margin: 20, alignSelf: "center", width:"100%"}}>
+              <Grid container justify="space-between">
+                <Grid item  style={{width:"45%"}}>
+                  <Card variant="outlined"classes={{root: classes.card}}>
+                      <CardContent  style={{margin:10}}>
+                          <Typography color="secondary" className={classes.caption}> Your
+                              selection:</Typography>
+                          <Typography color="secondary" className={classes.lilcaptions}> Your
+                              selected studyprogram: </Typography>
+                          <Typography
+                              className={classes.content}>{props.studyprogram.name}</Typography>
+                          <Typography color="secondary" className={classes.lilcaptions}> Your selected
+                              semester: </Typography>
+                          <Typography
+                              className={classes.content}>{props.semester.semester}</Typography>
+                      </CardContent>
+                  </Card>
+                </Grid>
+                <Grid item style={{width:"47.5%"}}>
+                    <ApexColumnChart selected={selected}/> 
+                </Grid>
+              </Grid>
+            <Card className={classes.border} elevation={1} >
+              <CardActionArea onClick={() => setOpen(!open)}>
+                <Grid container style={{marginTop:20, marginLeft:20, marginRight:20, width:"92.5%", marginBottom:20}}  justify="space-between" alignContent="center">
+                  <Grid item >
+                    <Typography variant="body2"> Filters </Typography>
+                  </Grid>
+                  <Grid item >
+                    {open ? (
+                    <KeyboardArrowUpIcon color="inherit" />
+                  ) : (
+                    <KeyboardArrowDownIcon color="inherit" />
+                  )}
+                  </Grid>
+                  
+                </Grid>
+              </CardActionArea>
+              <Collapse in={open}>
+                <Grid container style={{marginBottom:15, marginLeft:15, marginRight:15,  width:"95%",}} justify="flex-start" alignContent="baseline" spacing={2}>
+                  
+                  {findCount("Anleitung zum selbständigen Arbeiten") > 0 || state.selbstaendigesarbeiten===false ? <Grid item xs={6} >
+                    <FormControlLabel control={
+                          <Switch 
+                            checked={state.selbstaendigesarbeiten}
+                            onChange={(event) => filterSubjects(event,state.selbstaendigesarbeiten,"Anleitung zum selbständigen Arbeiten")} 
+                            name="selbstaendigesarbeiten"
+                            color="secondary"/>}
+                            label="Anleitung zum selbständigen Arbeiten"
+                            
+                        /></Grid>
+                        : <></>}
+                  
+                  {findCount("Blockseminar") > 0 || state.blockseminar===false ? <Grid item xs={6} >
+                    <FormControlLabel control={<Switch
+                            checked={state.blockseminar}
+                            onChange={(event) => filterSubjects(event,state.blockseminar,"Blockseminar")} 
+                            name="blockseminar"
+                            color="secondary"/>}
+                            label="Blockseminar"
+                        /></Grid>: <></>}
+                  
+                  
+                  {findCount("Einzelveranstaltung") > 0 || state.einzelveranstaltung===false ?<Grid item xs={6}>
+                    <FormControlLabel control={<Switch
+                            checked={state.einzelveranstaltung}
+                            onChange={(event) => filterSubjects(event,state.einzelveranstaltung,"Einzelveranstaltung")} 
+                            name="einzelveranstaltung"
+                            color="secondary"/>}
+                            label="Einzelveranstaltung"
+                        /></Grid> : <></>}
+                  
+                  
+                  {findCount("Kolloquium") > 0 || state.kolloquium===false ? <Grid item xs={6}>
+                    <FormControlLabel control={<Switch
+                          checked={state.kolloquium}
+                          onChange={(event) => filterSubjects(event,state.kolloquium,"Kolloquium")} 
+                          name="kolloquium"
+                          color="secondary"/>}
+                          label="Kolloquium"
+                        /></Grid> : <></>}
+                  
+                  
+                  {findCount("Kurs") > 0 || state.kurs===false ? <Grid item xs={6} >
+                    <FormControlLabel control={<Switch
+                          checked={state.kurs}
+                          onChange={(event) => filterSubjects(event,state.kurs,"Kurs")} 
+                          name="kurs"
+                          color="secondary"/>}
+                          label="Kurs"
+                      /></Grid>: <></>}
+                  
+                  
+                  {findCount("Labor") > 0 || state.labor===false ? <Grid item xs={6}>
+                    <FormControlLabel control={<Switch
+                            checked={state.labor}
+                            onChange={(event) => filterSubjects(event,state.labor,"Labor")} 
+                            name="labor"
+                            color="secondary"/>}
+                            label="Labor"
+                        /></Grid>: <></>}
+                  
+                  
+                  {findCount("Pflichtveranstaltung") > 0 || state.pflichtveranstaltung===false ? <Grid item xs={6} > 
+                    <FormControlLabel control={<Switch
+                            checked={state.pflichtveranstaltung}
+                            onChange={(event) => filterSubjects(event,state.pflichtveranstaltung,"Pflichtveranstaltung")} 
+                            name="pflichtveranstaltung"
+                            color="secondary"/>}
+                            label="Pflichtveranstaltung"
+                        /></Grid>: <></>}
+                  
+                  
+                  {findCount("Praktikum") > 0 || state.praktikum===false ? <Grid item xs={6}> 
+                    <FormControlLabel control={<Switch
+                            checked={state.praktikum}
+                            onChange={(event) => filterSubjects(event,state.praktikum,"Praktikum")} 
+                            name="praktikum"
+                            color="secondary"/>}
+                            label="Praktikum"
+                        /></Grid>: <></>}
+                  
+                  
+                  {findCount("Praxisprojekt") > 0 || state.praxisprojekt===false ? <Grid item xs={6} > 
+                    <FormControlLabel control={<Switch
+                            checked={state.praxisprojekt}
+                            onChange={(event) => filterSubjects(event,state.praxisprojekt,"Praxisprojekt")} 
+                            name="praxisprojekt"
+                            color="secondary"/>}
+                            label="Praxisprojekt"
+                        /> </Grid>: <></>}
+                  
+                  
+                  {findCount("Projekt") > 0 || state.projekt===false ?  <Grid item xs={6} >
+                    <FormControlLabel control={<Switch
+                            checked={state.projekt}
+                            onChange={(event) => filterSubjects(event,state.projekt,"Projekt")} 
+                            name="projekt"
+                            color="secondary"/>}
+                            label="Projekt"
+                        /></Grid>: <></>}
+                  
+                  
+                  {findCount("Propädeutikum") > 0 || state.propädeutikum===false ? <Grid item xs={6} >
+                    <FormControlLabel control={<Switch
+                          checked={state.propädeutikum}
+                          onChange={(event) => filterSubjects(event,state.propädeutikum,"Propädeutikum")} 
+                          name="propädeutikum"
+                          color="secondary"/>}
+                          label="Propädeutikum"
+                        /> </Grid>: <></>}
+                  
+                  
+                  {findCount("Seminar") > 0 || state.seminar===false ? <Grid item xs={6} > 
+                    <FormControlLabel control={<Switch
+                            checked={state.seminar}
+                            onChange={(event) => filterSubjects(event,state.seminar,"Seminar")} 
+                            name="seminar"
+                            color="secondary"/>}
+                            label="Seminar"
+                        /> </Grid>: <></>}
+                  
+                  
+                  {findCount("Seminar/Oberseminar") > 0 || state.seminarOberseminar===false ? <Grid item xs={6}>
+                    <FormControlLabel control={<Switch
+                          checked={state.seminarOberseminar}
+                          onChange={(event) => filterSubjects(event,state.seminarOberseminar,"Seminar/Oberseminar")} 
+                          name="seminarOberseminar"
+                          color="secondary"/>}
+                          label="Seminar/Oberseminar"
+                        /> </Grid>: <></>}
+                  
+                  
+                  {findCount("Seminar/Übung") > 0 || state.seminarUebung===false ? <Grid item xs={6}>
+                    <FormControlLabel control={<Switch
+                            checked={state.seminarUebung}
+                            onChange={(event) => filterSubjects(event,state.seminarUebung,"Seminar/Übung")} 
+                            name="seminarUebung"
+                            color="secondary"/>}
+                            label="Seminar/Übung"
+                        /> </Grid>: <></>}
+                  
+                  
+                  {findCount("Tutorium") > 0 || state.tutorium===false ? <Grid item xs={6} >
+                    <FormControlLabel control={<Switch
+                            checked={state.tutorium}
+                            onChange={(event) => filterSubjects(event,state.tutorium,"Tutorium")} 
+                            name="tutorium"
+                            color="secondary"/>}
+                            label="Tutorium"
+                        /> </Grid>: <></>}
+                  
+                  
+                  {findCount("Übung") > 0 || state.uebung===false ? <Grid item xs={6} >
+                    <FormControlLabel control={<Switch 
+                                checked={state.uebung} 
+                                onChange={(event) => filterSubjects(event,state.uebung,"Übung")}
+                                name="uebung"
+                                color="secondary"/>}
+                                label="Übung"
+                        /> </Grid>: <></>} 
+                  
+                  
+                  {findCount("Übung/mit Tutorien") > 0 || state.uebungMitTutorien===false ? <Grid item xs={6}>
+                    <FormControlLabel control={<Switch 
+                          checked={state.uebungMitTutorien} 
+                          onChange={(event) => filterSubjects(event,state.uebungMitTutorien,"Übung/mit Tutorien")}
+                          name="uebungMitTutorien"
+                          color="secondary"/>}
+                          label="Übung/mit Tutorien"
+                        /> </Grid>: <></>}
+                  
+                  
+                  {findCount("Übung/Praktikum") > 0 || state.uebungPraktikum===false ? <Grid item xs={6}> 
+                    <FormControlLabel control={<Switch
+                            checked={state.uebungPraktikum}
+                            onChange={(event) => filterSubjects(event,state.uebungPraktikum,"Übung/Praktikum")} 
+                            name="uebungPraktikum"
+                            color="secondary"/>}
+                            label="Übung/Praktikum"
+                        /> </Grid>: <></>}
+                  
+                  
+                  {findCount("Vorlesung") > 0 || state.vorlesung===false ?<Grid item xs={6}>
+                    <FormControlLabel control={<Switch 
+                                checked={state.vorlesung} 
+                                onChange={(event) => filterSubjects(event,state.vorlesung,"Vorlesung")}
+                                name="vorlesung"
+                                color="secondary"/>}
+                            label="Vorlesung"
+                            /> </Grid>: <></>}
+                  
+                  
+                  {findCount("Vorlesung/Seminar") > 0 || state.vorlesungSeminar===false ? <Grid item xs={6} >
+                    <FormControlLabel control={<Switch
+                            checked={state.vorlesungSeminar}
+                            onChange={(event) => filterSubjects(event,state.vorlesungSeminar,"Vorlesung/Seminar")} 
+                            name="vorlesungSeminar"
+                            color="secondary"/>}
+                            label="Vorlesung/Seminar"
+                        /> </Grid>: <></>}
+                  
+                  
+                  {findCount("Vorlesung/Übung") > 0 || state.vorlesungUebung===false ? <Grid item xs={6}>
+                    <FormControlLabel control={<Switch
+                            checked={state.vorlesungUebung}
+                            onChange={(event) => filterSubjects(event,state.vorlesungUebung,"Vorlesung/Übung")} 
+                            name="vorlesungUebung"
+                            color="secondary"/>}
+                            label="Vorlesung/Übung"
+                        /> </Grid>: <></>}
+                  
+                  
+                  {findCount("Wahlpflichtveranstaltung") > 0 || state.wahlpflichtVeranstaltung===false ? <Grid item xs={6}>
+                    <FormControlLabel control={<Switch
+                            checked={state.wahlpflichtVeranstaltung}
+                            onChange={(event) => filterSubjects(event,state.wahlpflichtVeranstaltung,"Wahlpflichtveranstaltung")} 
+                            name="wahlpflichtVeranstaltung"
+                            color="secondary"/>}
+                            label="Wahlpflichtveranstaltung"
+                        /> </Grid>: <></>}
+                  
+                  
+                  {findCount("Keine Angabe") > 0 || state.keineAngabe===false ? <Grid item xs={6}>
+                    <FormControlLabel control={<Switch
+                            checked={state.keineAngabe}
+                            onChange={(event) => filterSubjects(event,state.keineAngabe,"Keine Angabe")} 
+                            name="keineAngabe"
+                            color="secondary"/>}
+                            label="Keine Angabe"
+                        /> </Grid> : <></>}
+                
+                </Grid>
+                  <Grid container style={{width:"95%", margin:20}}justify="center">
+                      <Grid item xs={6}>
+                          <TextField id="outlined-basic" error={errorS} label="subject-name" size="small" variant="outlined" color="secondary" autoComplete onChange={(event => filterSName(event))}/>
+                      </Grid>
+                  </Grid>
+              </Collapse>
+            </Card>  
+            <Grid container justify="space-between" style={{marginTop:25}}>
+              <Grid item style={{width:"45%"}}>
+                <Paper className={classes.paper}>
+                    <EnhancedTableToolbar numSelected={selected.length} />
+                    <TableContainer>
+                    <Table
+                        /* style={{minWidth:400}} */
+                        aria-labelledby="tableTitle"
+                        size={dense ? "small" : "medium"}
+                        aria-label="enhanced table"
+                    >
+                        <EnhancedTableHead
+                        classes={classes}
+                        numSelected={selected.length}
+                        order={order}
+                        orderBy={orderBy}
+                        onSelectAllClick={handleSelectAllClick}
+                        onRequestSort={handleRequestSort}
+                        rowCount={subjects.length}
+                        />
+                        <TableBody>
+                        {stableSort(subjects, getComparator(order, orderBy))
+                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                            .map((row, index) => {
+                            const isItemSelected = isSelected(row);
+                            const labelId = `enhanced-table-checkbox-${index}`;
 
-                    </Box>
-                </Grid> */}
-
-                <Grid item style={{margin: 20, alignSelf: "center", width:"100%"}}>
-      
-                                <Grid container justify="space-between">
-                                    <Grid item  style={{width:"45%"}}>
-                                        <Card variant="outlined"classes={{root: classes.card}}>
-                                            <CardContent  style={{margin:10}}>
-                                                <Typography color="secondary" className={classes.caption}> Your
-                                                    selection:</Typography>
-                                                <Typography color="secondary" className={classes.lilcaptions}> Your
-                                                    selected studyprogram: </Typography>
-                                                <Typography
-                                                    className={classes.content}>{props.studyprogram.name}</Typography>
-                                                <Typography color="secondary" className={classes.lilcaptions}> Your selected
-                                                    semester: </Typography>
-                                                <Typography
-                                                    className={classes.content}>{props.semester.semester}</Typography>
-                                            </CardContent>
-                                        </Card>
-                                    </Grid>
-                                    <Grid item style={{width:"47.5%"}}>
-                                         <ApexColumnChart selected={selected}/> 
-                                    </Grid>
-                                </Grid>
-
-
-
-
-                                <Card className={classes.border} elevation={1} >
-                                  <CardActionArea onClick={() => setOpen(!open)}>
-                                    <Grid container style={{marginTop:20, marginLeft:20, marginRight:20, width:"92.5%", marginBottom:20}}  justify="space-between" alignContent="center">
-                                      <Grid item >
-                                        <Typography variant="body2"> Filters </Typography>
-                                      </Grid>
-                                      <Grid item >
-                                        {open ? (
-                                        <KeyboardArrowUpIcon color="inherit" />
-                                      ) : (
-                                        <KeyboardArrowDownIcon color="inherit" />
-                                      )}
-                                      </Grid>
-                                      
-                                    </Grid>
-                                  </CardActionArea>
-                                  <Collapse in={open}>
-                                    <Grid container style={{marginBottom:15, marginLeft:15, marginRight:15,  width:"95%",}} justify="flex-start" alignContent="baseline" spacing={2}>
-                                      
-                                      {findCount("Anleitung zum selbständigen Arbeiten") > 0 || state.selbstaendigesarbeiten===false ? <Grid item xs={6} >
-                                      <FormControlLabel control={
-                                              <Switch 
-                                                checked={state.selbstaendigesarbeiten}
-                                                onChange={(event) => filterSubjects(event,state.selbstaendigesarbeiten,"Anleitung zum selbständigen Arbeiten")} 
-                                                name="selbstaendigesarbeiten"
-                                                color="secondary"/>}
-                                                label="Anleitung zum selbständigen Arbeiten"
-                                                
-                                            /></Grid>
-                                            : <></>}
-                                      
-                                      {findCount("Blockseminar") > 0 || state.blockseminar===false ? <Grid item xs={6} >
-                                      <FormControlLabel control={<Switch
-                                                checked={state.blockseminar}
-                                                onChange={(event) => filterSubjects(event,state.blockseminar,"Blockseminar")} 
-                                                name="blockseminar"
-                                                color="secondary"/>}
-                                                label="Blockseminar"
-                                            /></Grid>: <></>}
-                                      
-                                      
-                                      {findCount("Einzelveranstaltung") > 0 || state.einzelveranstaltung===false ?<Grid item xs={6}>
-                                       <FormControlLabel control={<Switch
-                                                checked={state.einzelveranstaltung}
-                                                onChange={(event) => filterSubjects(event,state.einzelveranstaltung,"Einzelveranstaltung")} 
-                                                name="einzelveranstaltung"
-                                                color="secondary"/>}
-                                                label="Einzelveranstaltung"
-                                            /></Grid> : <></>}
-                                      
-                                      
-                                      {findCount("Kolloquium") > 0 || state.kolloquium===false ? <Grid item xs={6}>
-                                       <FormControlLabel control={<Switch
-                                              checked={state.kolloquium}
-                                              onChange={(event) => filterSubjects(event,state.kolloquium,"Kolloquium")} 
-                                              name="kolloquium"
-                                              color="secondary"/>}
-                                              label="Kolloquium"
-                                            /></Grid> : <></>}
-                                      
-                                      
-                                      {findCount("Kurs") > 0 || state.kurs===false ? <Grid item xs={6} >
-                                      <FormControlLabel control={<Switch
-                                              checked={state.kurs}
-                                              onChange={(event) => filterSubjects(event,state.kurs,"Kurs")} 
-                                              name="kurs"
-                                              color="secondary"/>}
-                                              label="Kurs"
-                                          /></Grid>: <></>}
-                                      
-                                      
-                                      {findCount("Labor") > 0 || state.labor===false ? <Grid item xs={6}>
-                                        <FormControlLabel control={<Switch
-                                                checked={state.labor}
-                                                onChange={(event) => filterSubjects(event,state.labor,"Labor")} 
-                                                name="labor"
-                                                color="secondary"/>}
-                                                label="Labor"
-                                            /></Grid>: <></>}
-                                      
-                                      
-                                      {findCount("Pflichtveranstaltung") > 0 || state.pflichtveranstaltung===false ? <Grid item xs={6} > 
-                                        <FormControlLabel control={<Switch
-                                                checked={state.pflichtveranstaltung}
-                                                onChange={(event) => filterSubjects(event,state.pflichtveranstaltung,"Pflichtveranstaltung")} 
-                                                name="pflichtveranstaltung"
-                                                color="secondary"/>}
-                                                label="Pflichtveranstaltung"
-                                            /></Grid>: <></>}
-                                      
-                                      
-                                      {findCount("Praktikum") > 0 || state.praktikum===false ? <Grid item xs={6}> 
-                                        <FormControlLabel control={<Switch
-                                                checked={state.praktikum}
-                                                onChange={(event) => filterSubjects(event,state.praktikum,"Praktikum")} 
-                                                name="praktikum"
-                                                color="secondary"/>}
-                                                label="Praktikum"
-                                            /></Grid>: <></>}
-                                      
-                                      
-                                      {findCount("Praxisprojekt") > 0 || state.praxisprojekt===false ? <Grid item xs={6} > 
-                                        <FormControlLabel control={<Switch
-                                                checked={state.praxisprojekt}
-                                                onChange={(event) => filterSubjects(event,state.praxisprojekt,"Praxisprojekt")} 
-                                                name="praxisprojekt"
-                                                color="secondary"/>}
-                                                label="Praxisprojekt"
-                                            /> </Grid>: <></>}
-                                      
-                                      
-                                      {findCount("Projekt") > 0 || state.projekt===false ?  <Grid item xs={6} >
-                                        <FormControlLabel control={<Switch
-                                                checked={state.projekt}
-                                                onChange={(event) => filterSubjects(event,state.projekt,"Projekt")} 
-                                                name="projekt"
-                                                color="secondary"/>}
-                                                label="Projekt"
-                                            /></Grid>: <></>}
-                                      
-                                      
-                                      {findCount("Propädeutikum") > 0 || state.propädeutikum===false ? <Grid item xs={6} >
-                                         <FormControlLabel control={<Switch
-                                              checked={state.propädeutikum}
-                                              onChange={(event) => filterSubjects(event,state.propädeutikum,"Propädeutikum")} 
-                                              name="propädeutikum"
-                                              color="secondary"/>}
-                                              label="Propädeutikum"
-                                            /> </Grid>: <></>}
-                                      
-                                      
-                                      {findCount("Seminar") > 0 || state.seminar===false ? <Grid item xs={6} > 
-                                      <FormControlLabel control={<Switch
-                                                checked={state.seminar}
-                                                onChange={(event) => filterSubjects(event,state.seminar,"Seminar")} 
-                                                name="seminar"
-                                                color="secondary"/>}
-                                                label="Seminar"
-                                            /> </Grid>: <></>}
-                                     
-                                      
-                                      {findCount("Seminar/Oberseminar") > 0 || state.seminarOberseminar===false ? <Grid item xs={6}>
-                                        <FormControlLabel control={<Switch
-                                              checked={state.seminarOberseminar}
-                                              onChange={(event) => filterSubjects(event,state.seminarOberseminar,"Seminar/Oberseminar")} 
-                                              name="seminarOberseminar"
-                                              color="secondary"/>}
-                                              label="Seminar/Oberseminar"
-                                            /> </Grid>: <></>}
-                                     
-                                      
-                                      {findCount("Seminar/Übung") > 0 || state.seminarUebung===false ? <Grid item xs={6}>
-                                        <FormControlLabel control={<Switch
-                                                checked={state.seminarUebung}
-                                                onChange={(event) => filterSubjects(event,state.seminarUebung,"Seminar/Übung")} 
-                                                name="seminarUebung"
-                                                color="secondary"/>}
-                                                label="Seminar/Übung"
-                                            /> </Grid>: <></>}
-                                      
-                                      
-                                      {findCount("Tutorium") > 0 || state.tutorium===false ? <Grid item xs={6} >
-                                       <FormControlLabel control={<Switch
-                                                checked={state.tutorium}
-                                                onChange={(event) => filterSubjects(event,state.tutorium,"Tutorium")} 
-                                                name="tutorium"
-                                                color="secondary"/>}
-                                                label="Tutorium"
-                                            /> </Grid>: <></>}
-                                     
-                                      
-                                      {findCount("Übung") > 0 || state.uebung===false ? <Grid item xs={6} >
-                                       <FormControlLabel control={<Switch 
-                                                    checked={state.uebung} 
-                                                    onChange={(event) => filterSubjects(event,state.uebung,"Übung")}
-                                                    name="uebung"
-                                                    color="secondary"/>}
-                                                    label="Übung"
-                                            /> </Grid>: <></>} 
-                                     
-                                     
-                                      {findCount("Übung/mit Tutorien") > 0 || state.uebungMitTutorien===false ? <Grid item xs={6}>
-                                      <FormControlLabel control={<Switch 
-                                              checked={state.uebungMitTutorien} 
-                                              onChange={(event) => filterSubjects(event,state.uebungMitTutorien,"Übung/mit Tutorien")}
-                                              name="uebungMitTutorien"
-                                              color="secondary"/>}
-                                              label="Übung/mit Tutorien"
-                                            /> </Grid>: <></>}
-                                     
-                                      
-                                      {findCount("Übung/Praktikum") > 0 || state.uebungPraktikum===false ? <Grid item xs={6}> 
-                                        <FormControlLabel control={<Switch
-                                                checked={state.uebungPraktikum}
-                                                onChange={(event) => filterSubjects(event,state.uebungPraktikum,"Übung/Praktikum")} 
-                                                name="uebungPraktikum"
-                                                color="secondary"/>}
-                                                label="Übung/Praktikum"
-                                            /> </Grid>: <></>}
-                                      
-                                      
-                                      {findCount("Vorlesung") > 0 || state.vorlesung===false ?<Grid item xs={6}>
-                                        <FormControlLabel control={<Switch 
-                                                    checked={state.vorlesung} 
-                                                    onChange={(event) => filterSubjects(event,state.vorlesung,"Vorlesung")}
-                                                    name="vorlesung"
-                                                    color="secondary"/>}
-                                                label="Vorlesung"
-                                                /> </Grid>: <></>}
-                                     
-                                      
-                                      {findCount("Vorlesung/Seminar") > 0 || state.vorlesungSeminar===false ? <Grid item xs={6} >
-                                       <FormControlLabel control={<Switch
-                                                checked={state.vorlesungSeminar}
-                                                onChange={(event) => filterSubjects(event,state.vorlesungSeminar,"Vorlesung/Seminar")} 
-                                                name="vorlesungSeminar"
-                                                color="secondary"/>}
-                                                label="Vorlesung/Seminar"
-                                            /> </Grid>: <></>}
-                                     
-                                      
-                                      {findCount("Vorlesung/Übung") > 0 || state.vorlesungUebung===false ? <Grid item xs={6}>
-                                       <FormControlLabel control={<Switch
-                                                checked={state.vorlesungUebung}
-                                                onChange={(event) => filterSubjects(event,state.vorlesungUebung,"Vorlesung/Übung")} 
-                                                name="vorlesungUebung"
-                                                color="secondary"/>}
-                                                label="Vorlesung/Übung"
-                                            /> </Grid>: <></>}
-                                     
-                                      
-                                      {findCount("Wahlpflichtveranstaltung") > 0 || state.wahlpflichtVeranstaltung===false ? <Grid item xs={6}>
-                                       <FormControlLabel control={<Switch
-                                                checked={state.wahlpflichtVeranstaltung}
-                                                onChange={(event) => filterSubjects(event,state.wahlpflichtVeranstaltung,"Wahlpflichtveranstaltung")} 
-                                                name="wahlpflichtVeranstaltung"
-                                                color="secondary"/>}
-                                                label="Wahlpflichtveranstaltung"
-                                            /> </Grid>: <></>}
-                                      
-                                      
-                                      {findCount("Keine Angabe") > 0 || state.keineAngabe===false ? <Grid item xs={6}>
-                                       <FormControlLabel control={<Switch
-                                                checked={state.keineAngabe}
-                                                onChange={(event) => filterSubjects(event,state.keineAngabe,"Keine Angabe")} 
-                                                name="keineAngabe"
-                                                color="secondary"/>}
-                                                label="Keine Angabe"
-                                            /> </Grid> : <></>}
-                                     
-                                    
-                                    </Grid>
-
-                                          <Grid container style={{width:"95%", margin:20}}justify="center">
-                                            <Grid item xs={6}>
-                                              <TextField id="outlined-basic" error={errorS} label="subject-name" size="small" variant="outlined" color="secondary" autoComplete onChange={(event => filterSName(event))}/>
-                                            </Grid>
-                                            
-                                          </Grid>
-                                            
-
-                                  </Collapse>
-                                </Card>  
-
-                                <Grid container justify="space-between" style={{marginTop:25}}>
-
-                                    <Grid item style={{width:"45%"}}>
-                                                 
-                                        <div className={classes.root}>
-                                            <Paper className={classes.paper}>
-                                                <EnhancedTableToolbar numSelected={selected.length} />
-                                                <TableContainer>
-                                                <Table
-                                                    className={classes.table}
-                                                    aria-labelledby="tableTitle"
-                                                    size={dense ? "small" : "medium"}
-                                                    aria-label="enhanced table"
-                                                >
-                                                    <EnhancedTableHead
-                                                    classes={classes}
-                                                    numSelected={selected.length}
-                                                    order={order}
-                                                    orderBy={orderBy}
-                                                    onSelectAllClick={handleSelectAllClick}
-                                                    onRequestSort={handleRequestSort}
-                                                    rowCount={subjects.length}
-                                                    />
-                                                    <TableBody>
-                                                    {stableSort(subjects, getComparator(order, orderBy))
-                                                        .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                                                        .map((row, index) => {
-                                                        const isItemSelected = isSelected(row);
-                                                        const labelId = `enhanced-table-checkbox-${index}`;
-
-                                                        return (
-                                                            <TableRow
-                                                            hover
-                                                            onClick={(event) => handleClick(event, row)}
-                                                            role="checkbox"
-                                                            aria-checked={isItemSelected}
-                                                            tabIndex={-1}
-                                                            key={row.name}
-                                                            selected={isItemSelected}
-                                                            >
-                                                            <TableCell padding="checkbox">
-                                                                <Checkbox
-                                                                checked={isItemSelected}
-                                                                inputProps={{ "aria-labelledby": labelId }}
-                                                                />
-                                                            </TableCell>
-                                                            <TableCell
-                                                                component="th"
-                                                                id={labelId}
-                                                                scope="row"
-                                                                padding="none"
-                                                            >
-                                                                {row.name}
-                                                            </TableCell>
-                                                            <TableCell align="left">{row.subject_type}</TableCell>
-                                                            </TableRow>
-                                                        );
-                                                        })}
-                                                    {emptyRows > 0 && (
-                                                        <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
-                                                        <TableCell colSpan={6} />
-                                                        </TableRow>
-                                                    )}
-                                                    </TableBody>
-                                                </Table>
-                                                </TableContainer>
-                                                <TablePagination
-                                                rowsPerPageOptions={[5, 10, 25]}
-                                                component="div"
-                                                count={subjects.length}
-                                                rowsPerPage={rowsPerPage}
-                                                page={page}
-                                                onChangePage={handleChangePage}
-                                                onChangeRowsPerPage={handleChangeRowsPerPage}
-                                                />
-                                            </Paper>
-                                            <FormControlLabel
-                                                control={<Switch checked={dense} onChange={handleChangeDense} />}
-                                                label="Dense padding"
-                                            />
-                                            </div> 
-                                            
-                                    </Grid>
-                                    <Grid item  style={{width:"45%"}}>
-
-                                        <div className={classes.root}>
-                                            <Paper className={classes.paper}>
-                                                <EnhancedTableToolbarSel/>
-                                                <TableContainer>
-                                                <Table
-                                                    className={classes.table}
-                                                    aria-labelledby="tableTitle"
-                                                    size={denseSel ? "small" : "medium"}
-                                                    aria-label="enhanced table"
-                                                >
-                                                    <EnhancedTableHeadSel
-                                                    classes={classes}
-                                                    order={orderSel}
-                                                    orderBy={orderBySel}
-                                                    onRequestSort={handleRequestSortSel}
-                                                    />
-                                                    <TableBody>
-                                                    {stableSort(selected, getComparator(orderSel, orderBySel))
-                                                        .slice(pageSel * rowsPerPageSel, pageSel * rowsPerPageSel + rowsPerPageSel)
-                                                        .map((row, index) => {
-                                                         const isItemSelected = isSelected(row); 
-                                                        const labelId = `enhanced-table-checkbox-${index}`; 
-
-                                                        return (
-                                                            <TableRow
-                                                            hover
-                                                            tabIndex={-1}
-                                                            key={row.name}
-                                                            >
-                                                            <TableCell padding="checkbox"></TableCell>
-                                                            <TableCell
-                                                                component="th"
-                                                                id={labelId}
-                                                                scope="row"
-                                                                padding="none"
-                                                            >
-                                                                {row.name}
-                                                            </TableCell>
-                                                            <TableCell align="center">
-                                                                {row.subject_type}
-                                                            
-                                                               
-                                                            </TableCell>
-                                                            <TableCell>
-                                                            <Tooltip title="Delete">
-                                                                    <IconButton aria-label="delete" style={{padding:0}} onClick={(event) => handleDelete(event, row)} >
-                                                                    < DeleteIcon />
-                                                                    </IconButton>
-                                                                </Tooltip>
-                                                            </TableCell>
-                                                            </TableRow>
-                                                        );
-                                                        })}
-                                                    {emptyRowsSel > 0 && (
-                                                        <TableRow style={{ height: (denseSel ? 33 : 53) * emptyRowsSel }}>
-                                                        <TableCell colSpan={6} />
-                                                        </TableRow>
-                                                    )}
-                                                    </TableBody>
-                                                </Table>
-                                                </TableContainer>
-                                                <TablePagination
-                                                rowsPerPageOptions={[5, 10, 25]}
-                                                component="div"
-                                                count={selected.length}
-                                                rowsPerPage={rowsPerPageSel}
-                                                page={pageSel}
-                                                onChangePage={handleChangePageSel}
-                                                onChangeRowsPerPage={handleChangeRowsPerPageSel}
-                                                />
-                                            </Paper>
-                                            <FormControlLabel
-                                                control={<Switch checked={denseSel} onChange={handleChangeDenseSel} />}
-                                                label="Dense padding"
-                                            />
-                                        </div> 
-
-                                    </Grid>
-                                </Grid>               
-                              </Grid>
-                <Grid item style={{width:"100%",marginTop:40}}>
-                        <Grid container spacing={2}>
-                            <Grid item>
-                                <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    onClick={props.handleBack()}
-                                    className={classes.button}
-                                    >
-                                    Back
-                                </Button>
-                                </Grid>
-                                <Grid item>
-                                <Button
-                                    disabled={selected.length===0}
-                                    variant="contained"
-                                    color="primary"
-                                    onClick={props.handleNext()}
-                                    className={classes.button}
+                            return (
+                                <TableRow
+                                hover
+                                onClick={(event) => handleClick(event, row)}
+                                role="checkbox"
+                                aria-checked={isItemSelected}
+                                tabIndex={-1}
+                                key={row.name}
+                                selected={isItemSelected}
                                 >
-                                Next
-                                </Button>
-                            </Grid>
-                        </Grid>
-                  </Grid> 
+                                <TableCell padding="checkbox">
+                                    <Checkbox
+                                    checked={isItemSelected}
+                                    inputProps={{ "aria-labelledby": labelId }}
+                                    />
+                                </TableCell>
+                                <TableCell
+                                    component="th"
+                                    id={labelId}
+                                    scope="row"
+                                    padding="none"
+                                >
+                                    {row.name}
+                                </TableCell>
+                                <TableCell align="left">{row.subject_type}</TableCell>
+                                </TableRow>
+                            );
+                            })}
+                        {emptyRows > 0 && (
+                            <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
+                            <TableCell colSpan={6} />
+                            </TableRow>
+                        )}
+                        </TableBody>
+                    </Table>
+                    </TableContainer>
+                    <TablePagination
+                    rowsPerPageOptions={[5, 10, 25]}
+                    component="div"
+                    count={subjects.length}
+                    rowsPerPage={rowsPerPage}
+                    page={page}
+                    onChangePage={handleChangePage}
+                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    />
+                </Paper>
+                <FormControlLabel
+                    control={<Switch checked={dense} onChange={handleChangeDense} />}
+                    label="Dense padding"
+                />        
+              </Grid>
+              <Grid item  style={{width:"45%"}}>
+                      <Paper className={classes.paper}>
+                          <EnhancedTableToolbarSel/>
+                          <TableContainer>
+                          <Table
+                              aria-labelledby="tableTitle"
+                              size={denseSel ? "small" : "medium"}
+                              aria-label="enhanced table"
+                          >
+                              <EnhancedTableHeadSel
+                              classes={classes}
+                              order={orderSel}
+                              orderBy={orderBySel}
+                              onRequestSort={handleRequestSortSel}
+                              />
+                              <TableBody>
+                              {stableSort(selected, getComparator(orderSel, orderBySel))
+                                  .slice(pageSel * rowsPerPageSel, pageSel * rowsPerPageSel + rowsPerPageSel)
+                                  .map((row, index) => {
+                                    const isItemSelected = isSelected(row); 
+                                  const labelId = `enhanced-table-checkbox-${index}`; 
+
+                                  return (
+                                      <TableRow
+                                      hover
+                                      tabIndex={-1}
+                                      key={row.name}
+                                      >
+                                      <TableCell padding="checkbox"></TableCell>
+                                      <TableCell
+                                          component="th"
+                                          id={labelId}
+                                          scope="row"
+                                          padding="none"
+                                      >
+                                          {row.name}
+                                      </TableCell>
+                                      <TableCell align="center">
+                                          {row.subject_type}
+                                      
+                                          
+                                      </TableCell>
+                                      <TableCell>
+                                      <Tooltip title="Delete">
+                                              <IconButton aria-label="delete" style={{padding:0}} onClick={(event) => handleDelete(event, row)} >
+                                              < DeleteIcon />
+                                              </IconButton>
+                                          </Tooltip>
+                                      </TableCell>
+                                      </TableRow>
+                                  );
+                                  })}
+                              {emptyRowsSel > 0 && (
+                                  <TableRow style={{ height: (denseSel ? 33 : 53) * emptyRowsSel }}>
+                                  <TableCell colSpan={6} />
+                                  </TableRow>
+                              )}
+                              </TableBody>
+                          </Table>
+                          </TableContainer>
+                          <TablePagination
+                          rowsPerPageOptions={[5, 10, 25]}
+                          component="div"
+                          count={selected.length}
+                          rowsPerPage={rowsPerPageSel}
+                          page={pageSel}
+                          onChangePage={handleChangePageSel}
+                          onChangeRowsPerPage={handleChangeRowsPerPageSel}
+                          />
+                      </Paper>
+                      <FormControlLabel
+                          control={<Switch checked={denseSel} onChange={handleChangeDenseSel} />}
+                          label="Dense padding"
+                      />
+              </Grid>
+            </Grid>               
+          </Grid>
+          <Grid item style={{width:"100%",marginTop:40}}>
+            <Grid container spacing={2}>
+              <Grid item>
+                <Button
+                  variant="outlined"
+                  color="primary"
+                  onClick={props.handleBack()}
+                  className={classes.button}>
+                  Back
+                </Button>
+              </Grid>
+              <Grid item>
+                <Button
+                    disabled={selected.length===0}
+                    variant="contained"
+                    color="primary"
+                    onClick={props.handleNext()}
+                    className={classes.button}>
+                Next
+                </Button>
+              </Grid>
             </Grid>
-        </ThemeProvider>
+          </Grid> 
+        </Grid>
+      </ThemeProvider>
     );
-}
-    if (nextButton2Clicked && !backButton1Clicked) {
-        return (<ComparePage studyprogram={props.studyprogram} semester={props.semester} selected={selected}/>);
-    }
-    if (backButton1Clicked) {
-        return (<Step1/>)
-    }
 }

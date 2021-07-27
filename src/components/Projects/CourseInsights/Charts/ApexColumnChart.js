@@ -3,6 +3,8 @@ import ReactApexChart from "react-apexcharts";
 
 export default function ApexColumnChart(props) {
     const markedSubjects = props.selected;
+
+    //creates the values of the labels of the x axis
     const generateXAxis = (markedsubjects) => {
         const xAxis = [];
         for (let marked of markedsubjects) {
@@ -15,6 +17,7 @@ export default function ApexColumnChart(props) {
 
     const xAxis = generateXAxis(markedSubjects);
 
+    //creates the data for x and y axis
     const generateXYData = (marked, xAxis) => {
         const data = [];
         for (let x of xAxis) {
@@ -55,6 +58,7 @@ export default function ApexColumnChart(props) {
         return data;
     }
 
+    // combines the labels of the x axis with the data for the x and y axis
     const generateData = (markedSubjects, xAxis) => {
         const data = [];
         for (let marked of markedSubjects) {
@@ -69,8 +73,10 @@ export default function ApexColumnChart(props) {
     const chartdata = generateData(markedSubjects, xAxis);
 
     const state = {
+        //the data of the chart
         series: chartdata,
         options: {
+            //defines the properties of the bar chart
             chart: {
                 type: 'bar',
                 height: 200,
@@ -90,6 +96,7 @@ export default function ApexColumnChart(props) {
             dataLabels: {
                 enabled: false,
             },
+            // defines the xaxis
             xaxis: {
                 categories: xAxis,
                 labels: {
@@ -117,6 +124,7 @@ export default function ApexColumnChart(props) {
                     }
                 }
             },
+            //defines the y axis
             yaxis: {
                 show: true,
                 labels: {
@@ -141,6 +149,7 @@ export default function ApexColumnChart(props) {
             grid: {
                 show: true,
             },
+            // what is shown when there is no data
             noData: {
                 text: 'You have to select at least one subject',
                 style: {
@@ -150,8 +159,5 @@ export default function ApexColumnChart(props) {
             }
         }
     }
-    return (
-            <ReactApexChart options={state.options} series={state.series} type='bar' height="100%"/>
-
-    );
+    return (<ReactApexChart options={state.options} series={state.series} type='bar' height="100%"/>);
 }

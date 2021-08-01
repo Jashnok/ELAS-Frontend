@@ -91,7 +91,7 @@ Project created with:
 
 ## Links
 - [Advertisment video](https://youtu.be/7DCxgKcqt2I)
-- [Demo video](https://youtu.be/hCVRObKLFzg)
+- [Demo video](https://youtu.be/007pnTNcOKk)
 
 ## Group members
 - [Sofie Kalthof](https://github.com/sofiekalthof)

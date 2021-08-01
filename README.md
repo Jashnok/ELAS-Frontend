@@ -1,112 +1,99 @@
-# Exploratory Learning Analytics Toolkit for Students (ELAS) - Frontend
+# StudyCompass
+<p align="center">
+<img height="250px" src="https://user-images.githubusercontent.com/42224338/127767915-46af828c-f15c-4367-a5bf-0620a8ad269c.png" alt="StudyCompass logo"> </br>
+</p>
 
 ## Table of Contents
 
-* [Project info](#project-info)
-* [Project structure](#project-structure)
-* [Technologies](#technologies)
-* [Additional applications](#Additional-applications)
-* [Setup](#setup)
+- [Project info](#project-info)
+- [Project structure](#project-structure)
+- [Demo](#demo)
+- [Scraper](#scraper)
+- [How to run](#how-to-run)
+- [Technologies](#technologies)
+- [Links](#links)
+- [Group Members](#group-members)
 
-## Project info
+## Project Info
 
-This repository consists of the web application made with ReactJS library for the ELAS Lab Project. Each group will
-receive access to a branch and should only work on the project inside ```Projects``` folder they are assigned to.
+StudyCompass gives you an overview of all available courses for a selectable study program and arbitrary semester.
+
+### Main Idea
+1. Select from a variety of study programs from the Faculty of Engineering
+2. Having an interactive interface to select and compare courses
+3. Decide which courses to choose based on ratings and time compatibility
 
 ## Project structure
+#### Components
+![image](https://user-images.githubusercontent.com/42224338/127767789-ae1bbb57-80af-481c-a3b1-0a3f3559b988.png)
 
-```
-│   .gitignore
-│   example.env                             # Rename the file to .env
-│   package-lock.json
-│   package.json                            # Necessary packages to run the project
-│   README.md
-│
-└───src
-    │   InteractiveTree.js
-    │   reportWebVitals.js
-    │   setupTests.js
-    │
-    ├───assets
-    │   ├───data
-    │   │       data.js                     # project details data
-    │   │
-    │   └───functions
-    │           AuthorizedRoute.js          # Authorized route function
-    │           Backend.js                  # Axios for making HTTP Requests
-    │
-    └───components
-        │   App.js
-        │
-        ├───Projects                        # Projects folder consists of all projects
-        │   ├───CourseInsights
-        │   │   │   CourseInsights.js       # CourseInsights project component
-        │   │   │
-        │   │   └───components              # Additional CourseInsight project components goes inside this folder
-        │   ├───E3Selector
-        │   │   │   E3Selector.js           # E3Selector project component
-        │   │   │
-        │   │   └───components              # Additional E3Selector project components goes inside this folder
-        │   ├───Spoa
-        │   │   │   Spoa.js                 # Spoa project component
-        │   │   │
-        │   │   └───components              # Additional Spoa project components goes inside this folder
-        │   └───Intogen
-        │       │   Intogen.js              # Intogen project component
-        │       │
-        │       └───components              # Additional Intogen project components inside goes this folder
-        ├───Reuseable
-        │   ├───ScrollToTop
-        │   │       ScrollToTop.js          # Reuseable scroll to top component
-        │   │
-        │   └───SnackbarMessage
-        │           SnackbarMessage.js      # Reuseable Snackbar message component
-        │
-        └───Website
-            ├───Footer
-            │       Footer.js               # Footer component
-            │
-            ├───Home
-            │       Home.js                 # Home component
-            │
-            ├───Login
-            │       Login.js                # Login component
-            │
-            ├───NavigationBar
-            │       NavigationBar.js        # Navigation bar component
-            │
-            ├───ProjectCards
-            │       ProjectCards.js         # Project card component
-            │
-            └───Registration
-                    Registration.js         # Registration component
-```
+## Demo
 
-## Technologies
+### Start Page
+- Gives additional information about the project
+- List of useful links
 
-Project is created with:
+![StartPage](https://user-images.githubusercontent.com/42224338/127767803-84ea5a6d-3084-4b32-8992-e77a9992750b.png)
 
-* [React](https://reactjs.org/docs/getting-started.html) (v17.0.2)
-* [Material Design](https://material-ui.com/getting-started/installation/) (v4.11.3)
-* [NodeJS](https://nodejs.org/dist/v14.15.3/) (v14.15.3)
 
-## Additional applications
+### Program Selector
+- Select a study program from the list
+- Select a semester
+- After your selection you will be provided with an overview of the subject types and their amount
 
-* [Visual Studio Code](https://code.visualstudio.com/download)
-  or [Intellij Ultimate](https://www.jetbrains.com/de-de/idea/download/#section=windows)
-* [Google Chrome Browser](https://www.google.com/intl/de_de/chrome/)
+![ProgramSelector](https://user-images.githubusercontent.com/42224338/127767806-1586a52b-3c2c-4153-9a05-d5e553f4a8a7.png)
 
-## Setup
 
-Step 1:- Download the latest LTS version of Node from [NodeJS official website](https://nodejs.org/de/download/).
+### Course Selector
+- Select courses from the list
+- Use the filter to narrow down the list of available courses (optional)
+- Selected courses will be shown in a separate table and can be removed from the selection again
+- An interactive bar chart shows you the amount of weekly hours of workload your selection has
 
-Step 2:- Rename the file ```example.env``` to ```.env```.
+![CourseSelector](https://user-images.githubusercontent.com/42224338/127767810-05df5ea5-5ee9-4cd4-9b9d-bf36eb3d127e.png)
 
-Step 3:- Run the project, install it locally using npm:
+### Compare Page
+- This pages provides a Heat map to visualize overlaps between courses
+- The course ratings will be shown in a table below
+- Also in the table you can get redirected to the course's LSF page as well as a list of all offered times of the course
+- You can remove unwanted courses from your selection
+- After removing a course you can restore it again in the "Removed Subject" tab
 
+![ComparePage](https://user-images.githubusercontent.com/42224338/127767814-c1e53fa0-2633-4fba-9f38-d99961ba3a48.png)
+![ComparePageRestore](https://user-images.githubusercontent.com/42224338/127767816-15570bae-01ea-4035-8a12-36c8add8e252.png)
+
+
+## Scraper
+
+In collaboration with the LivewareProblem-Group, the [Scraper from the original CourseInsights-Project](https://github.com/FloRich/uni-due-course-catalog-scraper) got adapted to the needs of both our groups' new projects.
+
+### How to run the Scraper
+
+You can scrape new information from the LSF by opening ```http://localhost:3000/scrape```, inserting the latest LSF link and clicking on the button "Start scraping".
+
+## How to run
+
+1. Download and install [NodeJS](https://nodejs.org/de/download/)
+2. Rename ```example.env``` to ```.env```
+3. Run the project and install it locally using npm:
 ```
 $ npm install
 $ npm start
 ```
+4. Open ```http://localhost:3000``` to view it in the browser.
+ 
+## Technologies
+Project created with:
+- [NodeJS](https://nodejs.org/de/download/)
+- [React](https://reactjs.org/docs/getting-started.html)
+- [Material Design](https://material-ui.com/getting-started/installation/)
+- [ApexCharts](https://apexcharts.com/docs/react-charts/)
 
-Open [localhost:3000](http://localhost:3000) to view it in the browser.
+## Links
+- [Advertisment video](https://youtu.be/7DCxgKcqt2I)
+- [Demo video](https://youtu.be/hCVRObKLFzg)
+
+## Group members
+- [Sofie Kalthof](https://github.com/sofiekalthof)
+- [Christoph Vorer](https://github.com/ChrizzieSFN)
+- [Joshua Redmann](https://github.com/Jashnok)
